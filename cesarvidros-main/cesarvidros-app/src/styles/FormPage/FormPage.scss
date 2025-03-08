@@ -1,0 +1,36 @@
+// FormPage.scss
+$dark-blue: #0D47A1; // Dark blue
+$light-blue: #BBDEFB; // Light blue
+$text-color: #ffffff; // White text for contrast
+$primary-color: #121212; // Fundo escuro
+
+.login-sign-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $light-blue;
+
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+ 
+  &__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: .5rem;
+    padding: 1rem;
+    background-color: $primary-color;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .login-sign-page {
+    &__container {
+      width: 90vw;
+    }
+  }
+}

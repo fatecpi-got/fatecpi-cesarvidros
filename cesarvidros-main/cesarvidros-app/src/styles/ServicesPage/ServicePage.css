@@ -1,0 +1,1 @@
+.list-categorias{display:grid !important;grid-template-columns:repeat(auto-fit, minmax(500px, 1fr)) !important;gap:20px !important;padding:40px !important;max-width:1200px !important;margin:15px !important;border-radius:8px !important}@media screen and (max-width: 768px){.list-categorias{grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)) !important}}

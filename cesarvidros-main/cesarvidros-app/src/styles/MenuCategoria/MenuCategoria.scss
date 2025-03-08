@@ -1,0 +1,65 @@
+.page-projects {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  background-color: #1e1e1e !important;
+  min-height: 100vh !important;
+  padding: 20px !important;
+
+  .menu-list {
+    width: 100% !important;
+    max-width: 800px !important;
+    background: #3f1717 !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
+    
+    .ant-menu {
+      background: #112240 !important;
+
+      color: white !important;
+      
+      .ant-menu-item {
+        &:hover {
+          background: #1013b8 !important;
+        }
+      }
+      
+      .ant-menu-item-selected {
+        background: #5a5a5a !important;
+      }
+    }
+  }
+
+  .clear-button {
+    background: #723334 !important;
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    font-size: 14px !important;
+    transition: background 0.3s !important;
+
+    &:hover {
+      background: darken(#ff4d4f, 10%) !important;
+    }
+  }
+
+  .servicos {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)) !important;
+    gap: 20px !important;
+    width: 100% !important;
+    max-width: 1200px !important;
+    margin-top: 20px !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .page-projects {
+    .servicos {
+       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    }
+  }
+}

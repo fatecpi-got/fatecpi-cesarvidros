@@ -1,0 +1,36 @@
+// General layout
+.layout {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  // Main content area
+  .content {
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  // Carousel title styling
+  .carousel-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 20px 0;
+    text-align: center;
+    color: #ccc;
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 512px) {
+    .content {
+      padding: 10px;
+    }
+  
+    .carousel-title {
+      font-size: 18px;
+    }
+  }
+  

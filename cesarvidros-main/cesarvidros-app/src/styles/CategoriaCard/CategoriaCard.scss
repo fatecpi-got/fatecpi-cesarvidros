@@ -1,0 +1,57 @@
+// Variables (nova paleta de cores)
+$primary-color: #0a0a27; // Fundo escuro
+$secondary-color: #1e1e1e; // Fundo secundário
+$text-color: #ffffff; // Cor do texto
+$accent-color: #0074d9; // Azul claro para destaque
+$light-text-color: #ccd6f6; // Cor do texto secundário
+$shadow-color: rgba(0, 0, 0, 0.4); // Sombra padrão
+
+// Categoria Card Solo
+.categoria-card-solo {
+  width: 100%;
+  margin: 10px auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px $shadow-color;
+  transition: transform 0.3s ease-in-out;
+  background: $primary-color ;
+  color: $text-color !important;
+
+  .ant-card {
+    border-radius: 8px;
+    background: $secondary-color; // Fundo secundário para o card interno
+    color: $text-color ;
+
+    .ant-card-meta-description {
+      font-size: 14px;
+      color: $light-text-color  ; // Texto secundário mais suave
+      margin-top: 8px;
+    }
+
+    .ant-card-head {
+      background: $primary-color; // Mesmo fundo escuro para consistência
+      font-weight: bold;
+      text-align: center;
+      border-bottom: 1px solid $accent-color; // Adiciona uma borda destacada
+    }
+  }
+}
+
+// Imagem do Card
+img {
+  width: 100% ;
+  height: 300px !important;
+  object-fit: cover ;
+  border-top-left-radius: 8px ;
+  border-top-right-radius: 8px ;
+  transition: transform 0.3s ease-in-out ;
+
+  &:hover {
+    transform: scale(1.1) ;
+  }
+}
+
+.ant-card-head-title {
+  color: $text-color !important;
+  text-transform: capitalize;
+}

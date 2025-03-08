@@ -1,0 +1,69 @@
+// About.scss
+
+$primary-color: #1890ff; // Ant Design primary color
+$secondary-color: #1e1e1e;
+$card-background: #112240;
+$border-radius: 8px;
+$padding: 20px;
+
+.about-page {
+  background-color: $secondary-color; // Light background for the about page
+  padding: $padding;
+
+  .loja-card,
+  .proprietario-card {
+    background-color: $card-background;
+    border-radius: $border-radius;
+    width: 80%;
+    margin: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .loja-card {
+    margin-bottom: 20px;
+    line-height: 1.7rem;
+
+    h4 {
+      color: $primary-color; // Change title color
+    }
+
+    img {
+      border-radius: $border-radius;
+      object-fit: cover; // Ensure images cover the area
+      // max-height: 00px; // Limit height for better layout
+    }
+  }
+
+  .proprietario-card {
+    line-height: 1.7rem;
+    
+    h4 {
+      color: $primary-color; // Change title color
+    }
+
+    img {
+      border-radius: $border-radius;
+      object-fit: cover; // Ensure images cover the area
+      max-height: 250px; // Limit height for better layout
+    }
+  }
+
+  // Responsive styles
+  @media (max-width: 768px) {
+    .loja-card,
+    .proprietario-card {
+        width: 100%;
+        font-size: 1rem !important;
+      margin-bottom: 15px; // Reduce margin on smaller screens
+    }
+
+    img {
+      height: 250px !important; // Adjust image height for smaller screens
+    }
+  }
+}
