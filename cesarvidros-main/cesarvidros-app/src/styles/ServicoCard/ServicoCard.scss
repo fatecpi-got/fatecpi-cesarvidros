@@ -18,19 +18,6 @@ $border-radius: 8px;
   transition: $property $duration $timing;
 }
 
-// Global Reset
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: Arial, sans-serif;
-  background-color: $secondary-color; // White background
-  color: $text-color; // Dark text color
-}
-
 // Card Styles
 .servico-card {
   position: relative;
@@ -38,17 +25,13 @@ body {
   max-width: 40vw;
   height: 435px;
   margin: 1rem auto;
+  color: #333333;
   cursor: pointer;
   border-radius: $border-radius;
   overflow: hidden;
   background-color: $card-background; // Light card background
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   @include transition();
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
 
   .ant-card-cover img {
     height: auto;
@@ -64,12 +47,17 @@ body {
     width: 100%;
     max-width: 60vw;
     height: auto;
+    max-height: 90vh;
     background-color: $expanded-card-background; // White expanded card background
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 
     .ant-card-cover img {
       height: auto;
-      max-height: 500px;
+      max-height: 400px;
+    }
+
+    .ant-card-meta-description {
+      padding: 1rem;
     }
   }
 
@@ -95,9 +83,9 @@ body {
     text-align: left;
 
     .ant-card-meta-description {
-      font-size: 0.9rem;
+      font-size: 1rem;
       color: #666666; // Lighter text for descriptions
-      line-height: 1.5;
+      line-height: 1.8;
     }
   }
 }
@@ -115,12 +103,61 @@ body {
   cursor: pointer;
 }
 
-// Motion Variants
-
-
 // Responsive Styles
 @media screen and (max-width: 768px) {
   .servico-card {
     max-width: 100%; // Full-width cards on smaller screens
+    height: auto;
+
+    &.expanded {
+      max-width: 90vw; // Slightly smaller expanded cards
+    }
+  }
+}
+
+// Media Query for 2560px Resolution
+@media screen and (min-width: 2560px) {
+  .servico-card {
+    max-width: 35vw; // Wider cards for ultra-wide screens
+    height: 500px; // Increased height for better proportions
+
+    .ant-card-cover img {
+      max-height: 250px; // Larger images for better visibility
+    }
+
+    .ant-card-head-title {
+      font-size: 1.5rem; // Larger title
+    }
+
+    .ant-card-body {
+      padding: 1.5rem; // Increased padding for more spacing
+
+      .ant-card-meta-description {
+        font-size: 1.2rem; // Larger description text
+      }
+    }
+
+    &:hover {
+      transform: translateY(-10px); // More pronounced hover effect
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    &.expanded {
+      max-width: 70vw; // Wider expanded cards
+      height: auto;
+
+      .ant-card-cover img {
+        max-height: 500px; // Larger image in expanded mode
+      }
+
+      .ant-card-meta-description {
+        font-size: 1.2rem; // Larger text in expanded mode
+        padding: 2rem; // Increased padding for better readability
+      }
+    }
+  }
+
+  .overlay {
+    background-color: rgba(0, 0, 0, 0.8); // Slightly darker overlay for contrast
   }
 }

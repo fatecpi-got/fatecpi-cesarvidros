@@ -23,10 +23,12 @@ export const useServico = () => {
                 const parsedData = await JSON.parse(cachedData);
                 setServicos(parsedData);
                 return;
+            } else {
+                console.log('No cache found');
             }
 
-            startLoading();
             try {
+                startLoading();
                 const response = await fetch('https://cesarvidros.onrender.com/api/servicos/get-all', {
                     method: 'GET',
                     headers: {
@@ -53,7 +55,7 @@ export const useServico = () => {
         if (servicos.length === 0) {
             fetchServicos();
         }
-    }, [])
+    }, [servicos.length, startLoading, stopLoading])
 
     return servicos;
 }

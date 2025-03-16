@@ -37,7 +37,7 @@ const AboutPage: React.FC = () => {
       <ResponsiveNav paths={paths}/>
       <Layout.Content
         style={{
-          backgroundColor: "#f5f5f5",
+          backgroundColor: "#d6d5d5",
         }}
       >
         <BannerComponent title="Sobre Nós" />

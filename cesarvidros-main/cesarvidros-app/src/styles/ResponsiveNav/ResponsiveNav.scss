@@ -14,14 +14,6 @@ $card-background: #112240;
   transition: $property $duration $timing;
 }
 
-// Global Styles
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: $secondary-color;
-  color: #fff;
-}
-
 // Responsive Navigation Styles
 .mobile-header {
   @include flex-center;

@@ -16,7 +16,7 @@ const paths = [
 
 const ServicesPage: React.FC = () => {
   return (
-    <Layout >
+    <Layout>
       <ResponsiveNav paths={paths} />
       <Layout.Content
         style={{

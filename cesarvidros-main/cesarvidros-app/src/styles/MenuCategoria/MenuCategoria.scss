@@ -58,10 +58,9 @@ $border-radius: 8px;
   // Servicos Grid
   .servicos {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
     gap: 20px;
     width: 100%;
-    max-width: 1200px;
     margin-top: 20px;
 
     .servico-card {
@@ -100,6 +99,37 @@ $border-radius: 8px;
   .page-projects {
     .servicos {
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+  }
+}
+
+// Media Query for 2560px Resolution
+@media screen and (min-width: 2560px) {
+  .page-projects {
+    padding: 40px; // Increase padding for larger screens
+
+    .menu-list {
+      max-width: 1200px; // Wider menu list for ultra-wide screens
+    }
+
+    .servicos {
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); // Larger cards
+      gap: 30px; // Increased gap between cards
+      margin-top: 40px; // More spacing above the grid
+
+      .servico-card {
+        .ant-card-body {
+          padding: 1.5rem; // Larger padding inside cards
+
+          h3 {
+            font-size: 1.5rem; // Larger title
+          }
+
+          p {
+            font-size: 1rem; // Larger description text
+          }
+        }
+      }
     }
   }
 }

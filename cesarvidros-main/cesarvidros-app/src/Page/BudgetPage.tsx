@@ -19,7 +19,7 @@ const BudgetPage: React.FC = () => {
   return (
     <Layout>
       <ResponsiveNav paths={paths} />
-      <Layout.Content style={{backgroundColor: "#f5f5f5 "}}>
+      <Layout.Content style={{backgroundColor: "#d6d5d5 "}}>
         <BannerComponent title="Orçamentos"/>
         <BudgetForm />
         <WhatsAppButton />
