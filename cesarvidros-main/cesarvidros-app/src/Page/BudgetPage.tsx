@@ -17,9 +17,9 @@ const paths = [
 
 const BudgetPage: React.FC = () => {
   return (
-    <Layout style={{ maxHeight: "100vh" }}>
+    <Layout>
       <ResponsiveNav paths={paths} />
-      <Layout.Content style={{overflow: 'auto', backgroundColor: "#1e1e1e ", padding: 20 }}>
+      <Layout.Content style={{backgroundColor: "#f5f5f5 "}}>
         <BannerComponent title="Orçamentos"/>
         <BudgetForm />
         <WhatsAppButton />

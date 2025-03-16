@@ -10,10 +10,19 @@ interface Categoria {
 
 export const useCategoria = () => {
     const [categorias, setCategorias] = useState<Categoria[]>([]);
-    const {startLoading, stopLoading} = useLoading();
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
         const fetchCategorias = async () => {
+            // Check if data is already cached in sessionStorage
+            const cachedData = sessionStorage.getItem("categorias");
+            if (cachedData) {
+                // Parse and use the cached data
+                const parsedData = JSON.parse(cachedData);
+                setCategorias(parsedData);
+                return;
+            }
+
             startLoading();
             try {
                 const response = await fetch('https://cesarvidros.onrender.com/api/categorias/get-all', {
@@ -21,25 +30,25 @@ export const useCategoria = () => {
                     headers: { 'Content-Type': 'application/json' },
                     cache: "force-cache" // Forces browser caching
                 });
-                
 
-                const response_json = await response.json()
+                const response_json = await response.json();
 
                 if (response_json.message === 'sucesso') {
-                    setCategorias(response_json.data)
+                    // Cache the fetched data in sessionStorage
+                    sessionStorage.setItem("categorias", JSON.stringify(response_json.data));
+                    setCategorias(response_json.data);
                 } else {
-                    console.log(response_json.message, response_json.data)
+                    console.log(response_json.message, response_json.data);
                 }
             } catch (error) {
                 console.error(error);
             } finally {
                 stopLoading();
             }
-        }
+        };
 
-        fetchCategorias()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+        fetchCategorias();
+    }, [startLoading, stopLoading]);
 
-    return categorias
-}
+    return categorias;
+};

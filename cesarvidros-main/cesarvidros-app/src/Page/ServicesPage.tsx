@@ -16,11 +16,14 @@ const paths = [
 
 const ServicesPage: React.FC = () => {
   return (
-    <Layout style={{ maxHeight: "100vh" }}>
-
+    <Layout >
       <ResponsiveNav paths={paths} />
-      <Layout.Content style={{padding: '20px', overflow: 'auto', backgroundColor: '#1e1e1e'}}>
-        <BannerComponent title="Serviços"/>
+      <Layout.Content
+        style={{
+          backgroundColor: "#f5f5f5",
+        }}
+      >
+        <BannerComponent title="Serviços" />
         <ListCategorias />
         <WhatsAppButton />
         <Footer />

@@ -1,7 +1,3 @@
-.layout-app {
-    background-color: #1e1e1e !important;
-}
-
 .ant-card-head {
     padding: 0 16px !important;
     margin-bottom: 15px !important;
@@ -10,22 +6,10 @@
 .ant-card-cover {
     padding: 6px 12px;
 }
-
-.ant-card-meta-description {
-    color: aliceblue !important;
-}
-
 img:hover {
-    cursor: pointer !important;
     transform: none !important;
 }
 
 .ant-card-head-title {
     font-size: 1.3rem !important;
-}
-@media screen and (max-width: 768px) {
-
-    .ant-layout-content {
-        padding: 19px !important;
-    }
 }

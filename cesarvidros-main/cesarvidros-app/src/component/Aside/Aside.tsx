@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  MenuOutlined,
-  HomeOutlined,
-  AlignLeftOutlined,
-  FileOutlined,
-} from "@ant-design/icons";
+import { MenuOutlined, HomeOutlined } from "@ant-design/icons";
 import { Layout, Menu, Drawer, Button } from "antd";
 import "../../styles/ResponsiveNav/ResponsiveNav.css"; // Import SCSS file
 
-const { Sider, Header } = Layout;
+const { Header } = Layout;
 
 interface ResponsiveNavProps {
   paths: { name: string; path: string }[];
 }
 
-export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({paths}) => {
+export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [drawerVisible, setDrawerVisible] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,13 +26,13 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({paths}) => {
   }, [isMobile]);
 
   const menuItems = (
-    <Menu theme="dark" mode="inline">
+    <div className="menu-items">
       {paths.map((path) => (
-        <Menu.Item key={path.name} icon={<HomeOutlined />}>
+        <div key={path.name}>
           <Link to={path.path}>{path.name}</Link>
-        </Menu.Item>
+        </div>
       ))}
-    </Menu>
+    </div>
   );
 
   return isMobile ? (
@@ -64,26 +58,21 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({paths}) => {
         open={drawerVisible}
         className="mobile-drawer"
       >
-        {menuItems}
+        <div className="mobile-items">{menuItems}</div>
       </Drawer>
     </>
   ) : (
-    // Desktop Sidebar
-    <Sider
-      collapsible
-      collapsed={collapsed}
-      onCollapse={setCollapsed}
-      className="desktop-sider"
-    >
+    // Desktop Header
+    <header className="desktop-header">
       <div className="logo-container">
-        <img
-        src="logo.png"
-          alt="Logo"
-          className="logo-img"
-        />
-        {!collapsed && <span className="logo-text">César Vidros</span>}
+        <img src="logo.png" alt="Logo" className="logo-img" />
+        <span className="logo-text">César Vidros</span>
       </div>
-      {menuItems}
-    </Sider>
+      <div
+        className="header-items"
+      >
+        {menuItems}
+      </div>
+    </header>
   );
 };

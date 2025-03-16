@@ -1,135 +1,126 @@
-// Variables (nova paleta de cores)
-$primary-color: #0a0a27; // Fundo escuro
-$secondary-color: #1e1e1e; // Fundo secundário
-$text-color: #ffffff; // Cor do texto
-$accent-color: #0074d9; // Azul claro para destaque
-$error-color: #ff4d4f; // Vermelho para erros
-$button-color: #0056b3; // Azul mais escuro para botão
-$shadow-color: rgba(0, 0, 0, 0.4); // Sombra padrão
-$expanded-shadow-color: rgba(0, 0, 0, 0.6); // Sombra no modo expandido
-$overlay-color: rgba(0, 0, 0, 0.7); // Fundo escuro semi-transparente
+// Variables
+$primary-color: #1890ff; // Blue primary color
+$secondary-color: #ffffff; // White background
+$card-background: #f5f5f5; // Light card background
+$text-color: #333333; // Dark text color
+$expanded-card-background: #ffffff; // White expanded card background
+$hover-color: #007bff; // Slightly darker blue for hover effects
+$border-radius: 8px;
 
-// Breakpoints
-$mobile-breakpoint: 768px;
-
-// General Reset
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-// Service Card
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Global Reset
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: $secondary-color; // White background
+  color: $text-color; // Dark text color
+}
+
+// Card Styles
 .servico-card {
+  position: relative;
   width: 100%;
-  margin: 10px auto;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px $shadow-color;
-  transition: transform 0.3s ease-in-out;
-  background: $primary-color;
+  max-width: 40vw;
+  height: 435px;
+  margin: 1rem auto;
   cursor: pointer;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background-color: $card-background; // Light card background
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @include transition();
 
-  .ant-card {
-    border-radius: 8px;
-    background: $primary-color;
-    height: 100%;
-    color: $text-color !important;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
 
-    .ant-card-head {
-      background: $primary-color;
-      font-weight: bold;
-      text-align: left;
-      border-bottom: 1px solid $accent-color; // Adiciona uma borda destacada
+  .ant-card-cover img {
+    height: auto;
+    max-height: 200px;
+  }
+
+  &.expanded {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 100%;
+    max-width: 60vw;
+    height: auto;
+    background-color: $expanded-card-background; // White expanded card background
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+
+    .ant-card-cover img {
+      height: auto;
+      max-height: 500px;
     }
+  }
+
+  .ant-card-head {
+    background-color: $card-background; // Light card background
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .ant-card-extra {
+      color: $primary-color; // Blue accent for extra content
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .ant-card-head-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: $text-color; // Dark text color
+    }
+  }
+
+  .ant-card-body {
+    padding: 1rem;
+    text-align: left;
 
     .ant-card-meta-description {
-      font-size: 14px;
-      color: $text-color !important;
-      margin-top: 8px;
-    }
-  }
-
-  .ant-card-body {
-    padding: 10px 20px 20px 20px;
-  }
-}
-
-.ant-card-head-title,
-.ant-card-extra {
-  color: $text-color !important;
-  text-align: left;
-}
-
-img {
-  padding: 5px;
-  border-radius: 5px;
-  object-fit: cover;
-  height: 300px;
-}
-
-// Expanded Mode
-.servico-card.expanded {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 65vw;
-  height: fit-content;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  box-shadow: 0 10px 30px $expanded-shadow-color;
-  transition: all 0.3s ease-in-out;
-
-  .card-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-  }
-
-  .ant-card-cover {
-    padding: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img {
-      width: 90% !important;
-      border-radius: 25px !important;
-      height: 60vh;
-      padding: 15px;
-      object-fit: cover !important;
-    }
-  }
-
-  .ant-card-body {
-    padding:0 20px 20px 20px;
-    font-size: 1rem;
-  }
-}
-
-// Responsive Design
-@media screen and (max-width: $mobile-breakpoint) {
-  .servico-card.expanded {
-    width: 90vw;
-
-    .ant-card-cover {
-      padding: 0;
-      img {
-        width: 100% !important;
-        height: 40vh !important;
-      }
+      font-size: 0.9rem;
+      color: #666666; // Lighter text for descriptions
+      line-height: 1.5;
     }
   }
 }
 
-// Overlay
+// Overlay Styles
 .overlay {
+  @include flex-center;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: $overlay-color;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); // Semi-transparent black overlay
   z-index: 999;
-  transition: opacity 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+// Motion Variants
+
+
+// Responsive Styles
+@media screen and (max-width: 768px) {
+  .servico-card {
+    max-width: 100%; // Full-width cards on smaller screens
+  }
 }

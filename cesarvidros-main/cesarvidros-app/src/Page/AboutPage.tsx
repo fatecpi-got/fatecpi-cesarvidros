@@ -5,6 +5,7 @@ import { AboutComponent } from "../component/About/About";
 import { ResponsiveNav } from "../component/Aside/Aside";
 import { BannerComponent } from "../component/Banner/Banner";
 import { WhatsAppButton } from "../component/Whatsapp/WhatsappButton";
+import { Footer } from "../component/Footer/FooterComponent";
 
 const loja = {
   nome: "César Vidros",
@@ -32,19 +33,17 @@ const paths = [
 
 const AboutPage: React.FC = () => {
   return (
-    <Layout style={{ maxHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <ResponsiveNav paths={paths}/>
       <Layout.Content
         style={{
-          padding: "20px",
-          overflow: "auto",
-          minHeight: "100vh",
-          backgroundColor: "#1e1e1e",
+          backgroundColor: "#f5f5f5",
         }}
       >
         <BannerComponent title="Sobre Nós" />
         <AboutComponent loja={loja} proprietario={proprietario} />
         <WhatsAppButton />
+        <Footer />
       </Layout.Content>
     </Layout>
   );

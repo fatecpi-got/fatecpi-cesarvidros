@@ -1,108 +1,141 @@
 // Variables
-$primary-color: #001529;
-$accent-color: #1890ff;
-$text-color: #fff;
+$primary-color: #1890ff; // Ant Design primary color
+$secondary-color: #1e1e1e;
+$card-background: #112240;
 
-// General Reset
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Global Styles
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background-color: $secondary-color;
+  color: #fff;
 }
 
-// Mobile Header
+// Responsive Navigation Styles
 .mobile-header {
-  display: flex;
-  max-height: 100vh;
+  @include flex-center;
   justify-content: space-between;
-  align-items: center;
-  background-color: $primary-color;
-  padding: 0 16px;
-  color: $text-color;
+  padding: 0 1rem;
+  background-color: $card-background;
+  height: 64px;
 
   .logo-container {
-    display: flex;
-    align-items: center;
-  }
+    @include flex-center;
 
-  .logo {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: $text-color;
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $primary-color;
+    }
   }
 
   .menu-button {
-    background: none;
     border: none;
-    color: $text-color;
+    background: transparent;
     cursor: pointer;
-    font-size: 1.5rem;
-  }
-}
 
-// Mobile Drawer
-.mobile-drawer {
-  .ant-drawer-content-wrapper {
-    width: 250px !important;
-  }
-
-  .ant-drawer-header {
-    background-color: $primary-color;
-    color: $text-color;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-
-  .ant-drawer-body {
-    background-color: $primary-color;
-  }
-
-  .ant-menu-dark {
-    background-color: $primary-color;
-
-    .ant-menu-item-selected {
-      background-color: $accent-color !important;
-    }
-
-    .ant-menu-item:hover {
-      background-color: $accent-color !important;
+    &:hover {
+      opacity: 0.8;
     }
   }
 }
 
-// Desktop Sidebar
-.desktop-sider {
-  height: 100vh;
-  background-color: $primary-color;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
+.desktop-header {
+  @include flex-center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: $card-background;
+  height: 80px;
 
   .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 16px 0;
+    @include flex-center;
 
     .logo-img {
-      width: 40px !important;
-      height: 40px !important;
-      object-fit: cover !important;
-      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      margin-right: 1rem;
     }
 
     .logo-text {
-      margin-left: 10px;
-      font-size: 1.2rem;
+      font-size: 1.75rem;
       font-weight: bold;
-      color: $text-color;
+      color: $primary-color;
     }
   }
 
-  .ant-menu-dark {
-    .ant-menu-item-selected {
-      background-color: $accent-color !important;
-    }
+  .header-items {
+    @include flex-center;
 
-    .ant-menu-item:hover {
-      background-color: $accent-color !important;
+    .menu-items {
+      display: flex;
+      gap: 2.5rem;
+
+      div {
+        a {
+          text-decoration: none;
+          color: $primary-color;
+          font-size: 1.05rem;
+          font-weight: 500;
+          @include transition();
+
+          &:hover {
+            color: $primary-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Drawer Styles
+.mobile-drawer {
+  .ant-drawer-header {
+    background-color: $card-background;
+    color: #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    .ant-drawer-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: $primary-color;
+    }
+  }
+
+  .ant-drawer-body {
+    background-color: $card-background;
+    padding: 1rem;
+
+    .mobile-items {
+      .menu-items {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+
+        div {
+          a {
+            text-decoration: none;
+            color: $primary-color;
+            font-size: 1rem;
+            font-weight: 500;
+            @include transition();
+
+            &:hover {
+              color: $primary-color;
+            }
+          }
+        }
+      }
     }
   }
 }

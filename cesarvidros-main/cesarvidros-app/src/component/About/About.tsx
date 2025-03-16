@@ -1,9 +1,8 @@
 import React from "react";
 import { Layout, Card, Typography, Row, Col } from "antd";
-import '../../styles/About/About.css';
-import { Footer } from "../Footer/FooterComponent";
+import "../../styles/About/About.css";
 
-const {  Text } = Typography;
+const { Text } = Typography;
 
 interface Props {
   loja: {
@@ -21,22 +20,28 @@ interface Props {
 }
 
 export const AboutComponent: React.FC<Props> = ({ loja, proprietario }) => {
-  
   // Card for Loja (Store)
   const LojaCard = () => (
-    <Card 
-    title={loja.nome}
-      style={{ marginBottom: '20px', color: '#1e1e1e' }} 
+    <Card
+      title={loja.nome}
       className="loja-card"
       bordered={false} // Optional: Remove border for a cleaner look
     >
-      <Row gutter={[16, 16]}>
+      <Row gutter={[8, 8]}>
         <Col xs={24}>
-          <Text style={{color: 'white', fontSize: '1.1rem'}} strong>Contato: </Text>
-          <Text style={{color: 'white', fontSize: '1rem' }}>{loja.contato}</Text>
+          <Text strong>
+            Contato:{" "}
+          </Text>
+          <Text >
+            {loja.contato}
+          </Text>
           <br />
-          <Text style={{color: 'white', fontSize: '1.1rem'}} strong>Descrição: </Text>
-          <Text style={{color: 'white', fontSize: '1rem'}}>{loja.descricao}</Text>
+          <Text strong>
+            Descrição:{" "}
+          </Text>
+          <Text >
+            {loja.descricao}
+          </Text>
         </Col>
       </Row>
     </Card>
@@ -44,8 +49,8 @@ export const AboutComponent: React.FC<Props> = ({ loja, proprietario }) => {
 
   // Card for Proprietario (Owner)
   const ProprietarioCard = () => (
-    <Card 
-      title={proprietario.nome} 
+    <Card
+      title={proprietario.nome}
       className="proprietario-card"
       bordered={false} // Optional: Remove border for a cleaner look
     >
@@ -53,26 +58,22 @@ export const AboutComponent: React.FC<Props> = ({ loja, proprietario }) => {
         <Col xs={24} md={8}>
           <img
             src={proprietario.imagem_url}
-            alt={proprietario.nome}
-            style={{ width: "100%", borderRadius: 8, objectFit: 'cover' }} // Added objectFit for better image handling
+            alt={proprietario.nome}// Added objectFit for better image handling
           />
         </Col>
         <Col xs={24} md={16}>
-          <Text style={{color: 'white', fontSize: '1rem'}}>{proprietario.descricao}</Text>
+          <Text >
+            {proprietario.descricao}
+          </Text>
         </Col>
       </Row>
     </Card>
   );
 
   return (
-    <Layout style={{ overflow: 'auto', padding: '0', minHeight: '100vh' }} className="about-page">
-      <Layout.Content>
-        <div style={{ padding: '20px' }}> {/* Added padding for better spacing */}
-          <LojaCard />
-          <ProprietarioCard />
-        </div>
-        <Footer />
-      </Layout.Content>
-    </Layout>
+    <div className="about-container">
+      <LojaCard />
+      <ProprietarioCard />
+    </div>
   );
 };

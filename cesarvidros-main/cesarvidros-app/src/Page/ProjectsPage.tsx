@@ -16,13 +16,11 @@ const paths = [
 
 const ProjectsPage: React.FC = () => {
   const style = {
-    overflow: "auto",
-    padding: "20px",
-    backgroundColor: "#1e1e1e ",
+    backgroundColor: "#f5f5f5 ",
   };
 
   return (
-    <Layout style={{ maxHeight: "100vh" }}>
+    <Layout>
 
       <ResponsiveNav paths={paths}/>
       <Layout.Content style={style} className="content-">
