@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, use } from "react";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Form/Form.css";
@@ -23,6 +23,10 @@ export const SignupForm = (props: SignupProps) => {
     props.password_confirmation_user
   );
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    sessionStorage.removeItem("auth_user");
+  } ,[]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -97,8 +101,8 @@ export const LoginForm = (props: LoginProps) => {
     event.preventDefault();
     if (email === "test@example.com" && password === "password") {
       setError("");
-      alert("Success");
-      navigate("user/home");
+      sessionStorage.setItem("auth_user", "user");
+      navigate("/");
     } else {
       setError("Email or password is incorrect");
     }

@@ -7,12 +7,14 @@ import { Footer } from "../component/Footer/FooterComponent";
 import { WhatsAppButton } from "../component/Whatsapp/WhatsappButton";
 import { BannerComponent } from "../component/Banner/Banner";
 
+const auth = sessionStorage.getItem("auth_user");
+
 const paths = [
-  { name: "Início", path: "/user/home" },
-  { name: "Sobre", path: "/user/sobre" },
-  { name: "Serviços", path: "/user/servicos" },
-  { name: "Projetos", path: "/user/projetos" },
-  { name: "Orçamentos", path: "/user/orcamentos" },
+  { name: "Início", path: "/" },
+  { name: "Sobre", path: "/sobre" },
+  { name: "Serviços", path: "/servicos" },
+  { name: "Projetos", path: "/projetos" },
+  ...(auth ? [{ name: "Orçamentos", path: "/orcamentos" }] : []),
 ]
 
 const BudgetPage: React.FC = () => {

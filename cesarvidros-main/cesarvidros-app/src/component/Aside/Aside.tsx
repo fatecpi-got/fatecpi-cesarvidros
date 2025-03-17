@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { MenuOutlined, HomeOutlined } from "@ant-design/icons";
-import { Layout, Menu, Drawer, Button } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { MenuOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import { Layout, Drawer, Button } from "antd";
 import "../../styles/ResponsiveNav/ResponsiveNav.css"; // Import SCSS file
 
 const { Header } = Layout;
@@ -13,6 +13,8 @@ interface ResponsiveNavProps {
 export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [drawerVisible, setDrawerVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -33,6 +35,35 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
         </div>
       ))}
     </div>
+  );
+
+  const isAuthenticated = !!sessionStorage.getItem("auth_user");
+
+  const handleSignOut = () => {
+    sessionStorage.removeItem("auth_user"); // Remove the auth_user key
+    navigate("/"); // Redirect to the home page
+  };
+
+  const loginButton = (
+    <Button
+      type="primary"
+      icon={<LoginOutlined />}
+      style={{ marginLeft: "1rem" }}
+      onClick={() => navigate("/login")}
+    >
+      Login
+    </Button>
+  );
+
+  const signOutButton = (
+    <Button
+      type="default"
+      icon={<LogoutOutlined />}
+      style={{ marginLeft: "1rem" }}
+      onClick={handleSignOut}
+    >
+      Sign Out
+    </Button>
   );
 
   return isMobile ? (
@@ -59,6 +90,10 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
         className="mobile-drawer"
       >
         <div className="mobile-items">{menuItems}</div>
+        {/* Conditionally render login or sign-out button */}
+        <div style={{ marginTop: "1rem" }}>
+          {isAuthenticated ? signOutButton : loginButton}
+        </div>
       </Drawer>
     </>
   ) : (
@@ -68,10 +103,10 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
         <img src="logo.png" alt="Logo" className="logo-img" />
         <span className="logo-text">César Vidros</span>
       </div>
-      <div
-        className="header-items"
-      >
+      <div className="header-items">
         {menuItems}
+        {/* Conditionally render login or sign-out button */}
+        {isAuthenticated ? signOutButton : loginButton}
       </div>
     </header>
   );

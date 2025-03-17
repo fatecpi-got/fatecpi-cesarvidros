@@ -1,11 +1,11 @@
-import React, {createContext, ReactNode, useContext, useState} from "react";
+import React, { createContext, ReactNode, useContext, useState, useMemo } from "react";
 import { Spin } from "antd";
-import '../../styles/Loading/Loading.css'
+import '../../styles/Loading/Loading.css';
 
-interface LoadingContextType  {
+interface LoadingContextType {
     loading: boolean;
-    startLoading: () => void
-    stopLoading: () => void
+    startLoading: () => void;
+    stopLoading: () => void;
 }
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
@@ -16,19 +16,32 @@ export const useLoading = () => {
         throw new Error('useLoading must be used within a LoadingProvider');
     }
     return context;
-}
+};
 
-export const LoadingProvider : React.FC<{children: ReactNode}> = ({children}) => {
-    const [loading, setLoading] = useState(false);
+export const LoadingIndicator: React.FC = () => {
+    const { loading } = useLoading();
+    if (!loading) return null;
 
     return (
-        <LoadingContext.Provider value={{loading, startLoading: () => setLoading(true), stopLoading: () => setLoading(false)}}>
-            {loading && (
-                <div className="loading-container">
-                    <Spin size="large" fullscreen/>
-                </div>
-            )}
+        <div className="loading-container">
+            <Spin size="large" fullscreen />
+        </div>
+    );
+};
+
+export const LoadingProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+    const [loading, setLoading] = useState(false);
+
+    const contextValue = useMemo(() => ({
+        loading,
+        startLoading: () => setLoading(true),
+        stopLoading: () => setLoading(false),
+    }), [loading]);
+
+    return (
+        <LoadingContext.Provider value={contextValue}>
             {children}
+            <LoadingIndicator />
         </LoadingContext.Provider>
-    )
-}
+    );
+};

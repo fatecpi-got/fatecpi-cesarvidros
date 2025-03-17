@@ -23,12 +23,14 @@ const proprietario = {
     "César é um profissional experiente no ramo de vidraçaria, com anos de dedicação e aprimoramento técnico. Apaixonado pelo setor, ele se destaca pelo compromisso em entregar serviços de alto padrão, sempre buscando novas tendências e tecnologias para oferecer as melhores soluções aos clientes. Seu objetivo é aliar tradição e inovação, tornando a César Vidros uma referência em qualidade e confiança.",
 };
 
+const auth = sessionStorage.getItem("auth_user");
+
 const paths = [
-  { name: "Início", path: "/user/home" },
-  { name: "Sobre", path: "/user/sobre" },
-  { name: "Serviços", path: "/user/servicos" },
-  { name: "Projetos", path: "/user/projetos" },
-  { name: "Orçamentos", path: "/user/orcamentos" },
+  { name: "Início", path: "/" },
+  { name: "Sobre", path: "/sobre" },
+  { name: "Serviços", path: "/servicos" },
+  { name: "Projetos", path: "/projetos" },
+  ...(auth ? [{ name: "Orçamentos", path: "/orcamentos" }] : []),
 ]
 
 const AboutPage: React.FC = () => {

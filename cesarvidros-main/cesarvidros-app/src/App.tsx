@@ -13,7 +13,7 @@ function App() {
       <Router>
         <Suspense fallback={<>Loading...</>}>
           <Routes>
-            <Route path="/" element={<LoginSignPage />} />
+            <Route path="/login" element={<LoginSignPage />} />
             {UserRoutes()}
           </Routes>
         </Suspense>
