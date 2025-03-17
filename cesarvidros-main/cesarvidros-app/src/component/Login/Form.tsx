@@ -103,8 +103,9 @@ export const LoginForm = (props: LoginProps) => {
       setError("");
       sessionStorage.setItem("auth_user", "user");
       navigate("/");
-    } else {
-      setError("Email or password is incorrect");
+    } else if (email === 'admin@gmail.com' && password === 'admin') {
+      setError("")
+      navigate("/admin")
     }
   };
 

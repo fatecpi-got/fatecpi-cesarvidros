@@ -1,10 +1,10 @@
 import React, { lazy } from "react";
 import { Route } from "react-router-dom";
-const AboutPage = lazy(() => import("../Page/AboutPage"));
-const BudgetPage = lazy(() => import("../Page/BudgetPage"));
-const HomePage = lazy(() => import("../Page/HomePage"));
-const ProjectsPage = lazy(() => import("../Page/ProjectsPage"));
-const ServicesPage = lazy(() => import("../Page/ServicesPage"));
+const AboutPage = lazy(() => import("../Page/User/AboutPage"));
+const BudgetPage = lazy(() => import("../Page/User/BudgetPage"));
+const HomePage = lazy(() => import("../Page/User/HomePage"));
+const ProjectsPage = lazy(() => import("../Page/User/ProjectsPage"));
+const ServicesPage = lazy(() => import("../Page/User/ServicesPage"));
 
 export const UserRoutes = () => {
   const auth = sessionStorage.getItem("auth_user");

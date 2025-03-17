@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
-import { ResponsiveNav } from "../component/Aside/Aside";
+import React from "react";
+import { ResponsiveNav } from "../../component/Aside/Aside";
 import { Layout, Row, Col, Card, Button } from "antd";
-import { Footer } from "../component/Footer/FooterComponent";
-import { WhatsAppButton } from "../component/Whatsapp/WhatsappButton";
+import { Footer } from "../../component/Footer/FooterComponent";
+import { WhatsAppButton } from "../../component/Whatsapp/WhatsappButton";
 import { Link } from "react-router-dom";
 
-import '../styles/HomePage/HomePage.css'
+import '../../styles/HomePage/HomePage.css'
 
 const { Content } = Layout;
 

@@ -1,11 +1,11 @@
 import React from "react";
 import { Layout } from "antd";
 
-import { AboutComponent } from "../component/About/About";
-import { ResponsiveNav } from "../component/Aside/Aside";
-import { BannerComponent } from "../component/Banner/Banner";
-import { WhatsAppButton } from "../component/Whatsapp/WhatsappButton";
-import { Footer } from "../component/Footer/FooterComponent";
+import { AboutComponent } from "../../component/About/About";
+import { ResponsiveNav } from "../../component/Aside/Aside";
+import { BannerComponent } from "../../component/Banner/Banner";
+import { WhatsAppButton } from "../../component/Whatsapp/WhatsappButton";
+import { Footer } from "../../component/Footer/FooterComponent";
 
 const loja = {
   nome: "César Vidros",

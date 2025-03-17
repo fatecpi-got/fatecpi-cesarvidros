@@ -1,9 +1,9 @@
 import React from "react";
-import { ResponsiveNav } from "../component/Aside/Aside";
-import { MenuCategoria } from "../component/MenuProjects/MenuProjects";
-import { WhatsAppButton } from "../component/Whatsapp/WhatsappButton";
-import { BannerComponent } from "../component/Banner/Banner";
-import { Footer } from "../component/Footer/FooterComponent";
+import { ResponsiveNav } from "../../component/Aside/Aside";
+import { MenuCategoria } from "../../component/MenuProjects/MenuProjects";
+import { WhatsAppButton } from "../../component/Whatsapp/WhatsappButton";
+import { BannerComponent } from "../../component/Banner/Banner";
+import { Footer } from "../../component/Footer/FooterComponent";
 import { Layout } from "antd";
 
 const auth = sessionStorage.getItem("auth_user");
