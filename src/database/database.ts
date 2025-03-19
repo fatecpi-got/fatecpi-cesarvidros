@@ -1,43 +1,38 @@
 import { Pool } from "pg";
-import dotenv from 'dotenv';
-import "../config/checkEnv"; 
-
-
-dotenv.config({ path: './config/.env' })
+import "../config/checkEnv";  // Já garante que as variáveis de ambiente foram carregadas
 
 const pool = new Pool({
-    user: process.env.POSTGRES_USER,
-    host: process.env.POSTGRES_HOST,
-    database: process.env.POSTGRES_DB,
-    password: process.env.POSTGRES_PASSWORD,
-    port: Number( process.env.POSTGRES_PORT ),
+    user: process.env.DB_USER,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD,
+    port: Number(process.env.DB_PORT),
 });
 
 const connect_to_database = async (): Promise<void> => {
-    let attemp: number = 0;
-    const max_attempts: number = 3
+    let attempt = 0;
+    const max_attempts = 3;
 
-    while (attemp < max_attempts) {
+    while (attempt < max_attempts) {
         try {
             await pool.query("SET client_encoding = 'UTF8';");
             const client = await pool.connect();
             client.release();
 
-            console.log("Connected to database");
+            console.log("✅ Conectado ao banco de dados com sucesso!");
             return;
         } catch (error) {
-            attemp++
-            console.error('error to connected to database', error);
+            attempt++;
+            console.error(`❌ Erro ao conectar ao banco de dados (tentativa ${attempt}/${max_attempts}):`, error);
 
-            if (attemp < max_attempts) {
-                console.log(`Retrying connection to database... (${attemp}/ ${max_attempts})`);
+            if (attempt < max_attempts) {
+                console.log("🔄 Tentando novamente em 1 segundo...");
                 await new Promise(resolve => setTimeout(resolve, 1000));
             } else {
-                console.error('Failed to connect to database after 3 attempts');
-                process.exit(1);
+                throw new Error("❌ Falha ao conectar ao banco de dados após 3 tentativas.");
             }
         }
     }
-}
+};
 
 export { connect_to_database, pool };

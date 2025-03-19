@@ -1,4 +1,5 @@
 import app from "./app";
+require('dotenv').config();
 import { connect_to_database } from "./database/database";
 
 const port = process.env.PORT || 3000;

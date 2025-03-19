@@ -1,14 +1,20 @@
+import dotenv from "dotenv";
+
+dotenv.config({ path: __dirname + "/../../.env" });
+
 const requiredEnv = [
-    "POSTGRES_USER",
-    "POSTGRES_HOST",
-    "POSTGRES_DB",
-    "POSTGRES_PASSWORD",
-    "POSTGRES_PORT"
+    "DB_USER",
+    "DB_HOST",
+    "DB_NAME",
+    "DB_PASSWORD",
+    "DB_PORT"
 ];
 
-requiredEnv.forEach((envVar) => {
-    if (!process.env[envVar]) {
-        console.error(`🚨 Erro: A variável de ambiente ${envVar} não está definida!`);
-        process.exit(1);
-    }
-});
+const missingEnv = requiredEnv.filter((envVar) => !process.env[envVar]);
+
+if (missingEnv.length > 0) {
+    throw new Error(`🚨 Erro: As seguintes variáveis de ambiente não estão definidas: ${missingEnv.join(", ")}`);
+}
+
+console.log("✅ Todas as variáveis de ambiente foram carregadas corretamente.");
+
