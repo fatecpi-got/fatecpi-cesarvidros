@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { MenuOutlined, LoginOutlined, LogoutOutlined } from "@ant-design/icons";
+import {
+  MenuOutlined,
+  LoginOutlined,
+  LogoutOutlined,
+  DeploymentUnitOutlined,
+} from "@ant-design/icons";
 import { Layout, Drawer, Button } from "antd";
 import "../../styles/ResponsiveNav/ResponsiveNav.css"; // Import SCSS file
 
@@ -46,9 +51,8 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
 
   const loginButton = (
     <Button
-      type="primary"
       icon={<LoginOutlined />}
-      style={{ marginLeft: "1rem" }}
+      className="login-button"
       onClick={() => navigate("/login")}
     >
       Login
@@ -71,11 +75,13 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
       {/* Mobile Header */}
       <Header className="mobile-header">
         <div className="logo-container">
+          <DeploymentUnitOutlined style={{ fontSize: "30px", color: "#fff" }} />
+
           <span className="logo">César Vidros</span>
         </div>
         <Button
           type="text"
-          icon={<MenuOutlined style={{ fontSize: "1.5rem", color: "#fff" }} />}
+          icon={<MenuOutlined style={{ fontSize: "30px", color: "#fff" }} />}
           onClick={() => setDrawerVisible(true)}
           className="menu-button"
         />
@@ -91,7 +97,7 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
       >
         <div className="mobile-items">{menuItems}</div>
         {/* Conditionally render login or sign-out button */}
-        <div style={{ marginTop: "1rem" }}>
+        <div style={{ marginTop: "1rem" }} className="mobile-button">
           {isAuthenticated ? signOutButton : loginButton}
         </div>
       </Drawer>
@@ -100,7 +106,7 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
     // Desktop Header
     <header className="desktop-header">
       <div className="logo-container">
-        <img src="logo.png" alt="Logo" className="logo-img" />
+        <DeploymentUnitOutlined style={{ fontSize: "36px", color: "#fff" }} />
         <span className="logo-text">César Vidros</span>
       </div>
       <div className="header-items">

@@ -5,37 +5,48 @@ interface SubCategoria {
     id_sub: number;
     nome: string;
 }
+
 export const useSubCategoria = () => {
-    const [categorias, setCategorias] = useState<SubCategoria[]>([]);
-    const {startLoading, stopLoading} = useLoading();
+    const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([]);
+    const { startLoading, stopLoading } = useLoading();
 
     useEffect(() => {
-        const fetchCategorias = async () => {
+        const fetchSubCategorias = async () => {
+            // Check if data is already cached in sessionStorage
+            const cachedData = sessionStorage.getItem("subCategorias");
+            if (cachedData) {
+                // Parse and use the cached data
+                const parsedData = JSON.parse(cachedData);
+                setSubCategorias(parsedData);
+                return;
+            }
+
             startLoading();
             try {
                 const response = await fetch('https://cesarvidros.onrender.com/api/sub-categorias/get-all', {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
+                    headers: { 'Content-Type': 'application/json' },
+                    cache: "force-cache" // Forces browser caching
+                });
 
-                const response_json = await response.json()
+                const response_json = await response.json();
 
                 if (response_json.message === 'sucesso') {
-                    setCategorias(response_json.data)
+                    // Cache the fetched data in sessionStorage
+                    sessionStorage.setItem("subCategorias", JSON.stringify(response_json.data));
+                    setSubCategorias(response_json.data);
                 } else {
-                    console.log(response_json.message, response_json.data)
+                    console.log(response_json.message, response_json.data);
                 }
             } catch (error) {
                 console.error(error);
             } finally {
                 stopLoading();
             }
-        }
+        };
 
-        fetchCategorias()
-    }, []);
+        fetchSubCategorias();
+    }, [startLoading, stopLoading]);
 
-    return categorias;
-}
+    return subCategorias;
+};

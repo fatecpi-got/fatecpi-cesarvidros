@@ -1,0 +1,136 @@
+// Variables
+$primary-color: #1890ff; // Blue primary color
+$secondary-color: #ffffff; // White background
+$card-background: #f5f5f5; // Light card background
+$text-color: #333333; // Dark text color
+$expanded-card-background: #ffffff; // White expanded card background
+$hover-color: #007bff; // Slightly darker blue for hover effects
+$border-radius: 8px;
+
+// Mixins
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin transition($property: all, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+// Card Styles
+.servico-card {
+  position: relative;
+  width: 100%;
+  max-width: 40vw;
+  height: auto;
+  margin: 1rem auto;
+  color: $text-color;
+  cursor: pointer;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background-color: $card-background; // Light card background
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  @include transition();
+
+  .ant-card-head {
+    background-color: $card-background; // Light card background
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .ant-card-head-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: $text-color; // Dark text color
+    }
+
+    .ant-card-extra {
+      color: $primary-color; // Blue accent for extra content
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+  }
+
+  .ant-card-body {
+    padding: 1rem;
+    text-align: left;
+
+    .contact-info,
+    .product-info {
+      margin-bottom: 1rem;
+
+      p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        color: #666666; // Lighter text for descriptions
+        line-height: 1.8;
+
+        svg {
+          margin-right: 0.5rem;
+          color: $primary-color; // Icon color
+        }
+      }
+    }
+
+    .additional-details {
+      font-size: 1rem;
+      color: #666666; // Lighter text for descriptions
+    }
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+
+    button {
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      font-size: 1rem;
+
+      &:first-child {
+        background-color: $primary-color; // Primary button color
+        border-color: $primary-color;
+        color: $secondary-color;
+      }
+
+      &:last-child {
+        background-color: transparent;
+        border-color: $hover-color;
+        color: $hover-color;
+      }
+    }
+  }
+
+  // Hover Effect
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+// Responsive Styles
+@media screen and (max-width: 768px) {
+  .servico-card {
+    max-width: 100%; // Full-width cards on smaller screens
+  }
+}
+
+// Media Query for 2560px Resolution
+@media screen and (min-width: 2560px) {
+  .servico-card {
+    max-width: 35vw; // Wider cards for ultra-wide screens
+
+    .ant-card-head-title {
+      font-size: 1.5rem; // Larger title
+    }
+
+    .ant-card-body {
+      padding: 1.5rem; // Increased padding for more spacing
+
+      p {
+        font-size: 1.2rem; // Larger description text
+      }
+    }
+  }
+}
