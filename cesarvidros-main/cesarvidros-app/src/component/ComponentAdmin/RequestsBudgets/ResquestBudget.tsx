@@ -10,6 +10,7 @@ interface CardBudgetProps {
     productType: string
     dimensions: string
     additionalDetails: string
+    status: string
 }
 const RequestBudget = () => {
     const [budgets, setBudgets] = useState<CardBudgetProps[]>([])
@@ -17,6 +18,7 @@ const RequestBudget = () => {
     useEffect(() => {
         fetchBudget().then(async (data) => {
             const budgets = await data;
+
             setBudgets(budgets as CardBudgetProps[])
         })
     }, [])
@@ -32,6 +34,7 @@ const RequestBudget = () => {
                     productType={budget.productType} 
                     dimensions={budget.dimensions} 
                     additionalDetails={budget.additionalDetails} 
+                    statusBudget={budget.status}
                 />
             })}
         </>

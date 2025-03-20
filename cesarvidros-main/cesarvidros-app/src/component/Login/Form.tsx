@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Form/Form.css";
@@ -26,7 +26,7 @@ export const SignupForm = (props: SignupProps) => {
 
   useEffect(() => {
     sessionStorage.removeItem("auth_user");
-  } ,[]);
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -103,9 +103,9 @@ export const LoginForm = (props: LoginProps) => {
       setError("");
       sessionStorage.setItem("auth_user", "user");
       navigate("/");
-    } else if (email === 'admin@gmail.com' && password === 'admin') {
-      setError("")
-      navigate("/admin")
+    } else if (email === "admin@gmail.com" && password === "admin") {
+      setError("");
+      navigate("/admin");
     }
   };
 

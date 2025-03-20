@@ -23,9 +23,9 @@ export const LoadingIndicator: React.FC = () => {
     if (!loading) return null;
 
     return (
-        <div className="loading-container">
-            <Spin size="large" fullscreen />
-        </div>
+            <div className="loading-container">
+                <Spin size="large" fullscreen />
+            </div>
     );
 };
 

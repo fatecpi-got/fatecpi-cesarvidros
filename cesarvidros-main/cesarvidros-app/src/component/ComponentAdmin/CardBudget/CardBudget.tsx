@@ -8,9 +8,10 @@ interface CardBudgetProps {
     productType: string
     dimensions: string
     additionalDetails: string
+    statusBudget: string
 }
 
-const CardBudget = ({name, email, phone, productType, dimensions, additionalDetails}: CardBudgetProps) => {
+const CardBudget = ({name, email, phone, productType, dimensions, additionalDetails, statusBudget}: CardBudgetProps) => {
     return (
         <Card title={name} style={{margin: 10}}>
             <p>Email: {email}</p>
@@ -18,6 +19,7 @@ const CardBudget = ({name, email, phone, productType, dimensions, additionalDeta
             <p>Tipo de produto: {productType}</p>
             <p>Dimensões: {dimensions}</p>
             <p>Detalhes adicionais: {additionalDetails}</p>
+            <p>Status do Orçamento: {statusBudget}</p>
         </Card>
     )
 }

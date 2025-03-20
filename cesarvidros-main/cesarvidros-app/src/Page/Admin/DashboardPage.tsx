@@ -1,8 +1,9 @@
 import React, {lazy} from "react";
+
 import { Layout } from 'antd';
 
 import { ResponsiveNav } from "../../component/Aside/Aside";
-const RequestsBudgets = lazy(() => import('../../component/ComponentAdmin/RequestsBudgets/ResquestBudget'))
+const DashboardPanel = lazy(() => import('../../component/ComponentAdmin/Dashboard/DashboardPanel/DashboardPanel'))
 
 const paths = [
     {name: 'Home', path: '/'},
@@ -10,15 +11,15 @@ const paths = [
     {name: 'Dashboard', path: '/admin/dashboard'}
 ]
 
-const BudgetPage = () => {
+const DashboardPage = () => {
     return (
         <Layout>
             <ResponsiveNav paths={paths}/>
-            <Layout.Content>
-                <RequestsBudgets/>
-            </Layout.Content>
+            <Layout>
+                <DashboardPanel />
+            </Layout>
         </Layout>
     )
 }
 
-export default BudgetPage;
+export default DashboardPage;

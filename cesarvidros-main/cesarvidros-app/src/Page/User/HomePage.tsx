@@ -14,7 +14,6 @@ const auth = sessionStorage.getItem("auth_user");
 const paths = [
   { name: "Início", path: "/" },
   { name: "Sobre", path: "/sobre" },
-  { name: "Serviços", path: "/servicos" },
   { name: "Projetos", path: "/projetos" },
   ...(auth ? [{ name: "Orçamentos", path: "/orcamentos" }] : []),
 ]
