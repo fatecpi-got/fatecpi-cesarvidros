@@ -76,7 +76,6 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
       <Header className="mobile-header">
         <div className="logo-container">
           <DeploymentUnitOutlined style={{ fontSize: "30px", color: "#fff" }} />
-
           <span className="logo">César Vidros</span>
         </div>
         <Button
@@ -107,6 +106,7 @@ export const ResponsiveNav: React.FC<ResponsiveNavProps> = ({ paths }) => {
     <header className="desktop-header">
       <div className="logo-container">
         <DeploymentUnitOutlined style={{ fontSize: "36px", color: "#fff" }} />
+
         <span className="logo-text">César Vidros</span>
       </div>
       <div className="header-items">

@@ -1,29 +1,25 @@
 import React from "react";
+import "../../styles/Banner/Banner.css"; // Import external CSS file
 
-export const BannerComponent = ({ title }: { title: string }) => {
-  const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      height: "100px", // Adjust height as needed
-      backgroundColor: "#0D47A1", // Dark blue background
-      borderRadius: "8px", // Rounded corners for aesthetics
-      boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)", // Subtle shadow for depth
-      margin: '10px'
-    },
-    title: {
-      fontSize: "24px", // Adjust font size as needed
-      fontWeight: "bold",
-      color: "#BBDEFB", // Light blue text for contrast
-      textAlign: "center" as "center",
-      margin: 0,
-    },
-  };
+interface BannerProps {
+  title: string;
+  subtitle?: string; // Optional subtitle
+}
 
+export const BannerComponent: React.FC<BannerProps> = ({ title, subtitle }) => {
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>{title}</h1>
+    <div className="banner-container" aria-label={title}>
+      {/* Left Section: Title */}
+      <div className="banner-left">
+        <h1 className="banner-title">{title}</h1>
+      </div>
+
+      {/* Right Section: Subtitle */}
+      {subtitle && (
+        <div className="banner-right">
+          <p className="banner-subtitle">{subtitle}</p>
+        </div>
+      )}
     </div>
   );
 };

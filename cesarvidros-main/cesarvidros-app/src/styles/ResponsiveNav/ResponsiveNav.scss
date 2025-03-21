@@ -56,6 +56,9 @@ $drawer-background: #131e48;
   padding: 0 2rem;
   background-color: $header-background;
   height: 80px;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
 
   .logo-container {
     @include flex-center;

@@ -1,8 +1,8 @@
 import React from "react";
-import { Layout, Card, Typography, Row, Col } from "antd";
+import { Row, Col, Typography, Card } from "antd";
 import "../../styles/About/About.css";
 
-const { Text } = Typography;
+const { Title, Paragraph, Text } = Typography;
 
 interface Props {
   loja: {
@@ -10,70 +10,63 @@ interface Props {
     proprietario: string;
     contato: string;
     descricao: string;
-    imagem_url: string;
+    imagem_url?: string;
   };
   proprietario: {
     nome: string;
-    imagem_url: string;
+    imagem_url?: string;
     descricao: string;
   };
 }
 
 export const AboutComponent: React.FC<Props> = ({ loja, proprietario }) => {
-  // Card for Loja (Store)
-  const LojaCard = () => (
-    <Card
-      title={loja.nome}
-      className="loja-card"
-      bordered={false} // Optional: Remove border for a cleaner look
-    >
-      <Row gutter={[8, 8]}>
-        <Col xs={24}>
-          <Text strong>
-            Contato:{" "}
-          </Text>
-          <Text >
-            {loja.contato}
-          </Text>
-          <br />
-          <Text strong>
-            Descrição:{" "}
-          </Text>
-          <Text >
-            {loja.descricao}
-          </Text>
-        </Col>
-      </Row>
-    </Card>
-  );
-
-  // Card for Proprietario (Owner)
-  const ProprietarioCard = () => (
-    <Card
-      title={proprietario.nome}
-      className="proprietario-card"
-      bordered={false} // Optional: Remove border for a cleaner look
-    >
-      <Row gutter={[16, 16]} align="middle">
-        <Col xs={24} md={8}>
-          <img
-            src={proprietario.imagem_url}
-            alt={proprietario.nome}// Added objectFit for better image handling
-          />
-        </Col>
-        <Col xs={24} md={16}>
-          <Text >
-            {proprietario.descricao}
-          </Text>
-        </Col>
-      </Row>
-    </Card>
-  );
-
   return (
     <div className="about-container">
-      <LojaCard />
-      <ProprietarioCard />
+      {/* Section: Sobre a Loja */}
+      <Row gutter={[32, 32]} justify="center" align="middle" className="section">
+        <Col xs={24} md={12}>
+          <img
+            src={loja.imagem_url}
+            alt={`Imagem da ${loja.nome}`}
+            className="about-image"
+          />
+        </Col>
+        <Col xs={24} md={12}>
+          <Card className="about-card" bordered={false}>
+            <Title level={3} className="section-title">
+              Sobre a {loja.nome}
+            </Title>
+            <Paragraph className="section-description">
+              {loja.descricao}
+            </Paragraph>
+            <div className="contact-info">
+              <Text strong>Contato:</Text>
+              <Text>{loja.contato}</Text>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+
+      {/* Section: Sobre o Proprietário */}
+      <Row gutter={[32, 32]} justify="center" align="middle" className="section">
+        <Col xs={24} md={12} order={2}>
+          <img
+            src={proprietario.imagem_url}
+            alt={`Foto de ${proprietario.nome}`}
+            className="about-image"
+          />
+        </Col>
+        <Col xs={24} md={12} order={1}>
+          <Card className="about-card" bordered={false}>
+            <Title level={3} className="section-title">
+              Sobre {proprietario.nome}
+            </Title>
+            <Paragraph className="section-description">
+              {proprietario.descricao}
+            </Paragraph>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 };

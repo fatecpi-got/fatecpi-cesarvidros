@@ -11,7 +11,7 @@ export const useServicosByProps = async (
   url: string,
   setServicos: React.Dispatch<React.SetStateAction<Servico[]>>
 ) => {
-  
+
   try {
     const response = await fetch(url, {
       method: "GET",
