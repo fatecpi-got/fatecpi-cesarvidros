@@ -1,5 +1,7 @@
 import { Pool } from "pg";
-import "../config/checkEnv";  // Já garante que as variáveis de ambiente foram carregadas
+import dotenv from "dotenv";
+
+dotenv.config({ path: './config/.env' })
 
 const pool = new Pool({
     user: process.env.DB_USER,
@@ -7,6 +9,9 @@ const pool = new Pool({
     database: process.env.DB_NAME,
     password: process.env.DB_PASSWORD,
     port: Number(process.env.DB_PORT),
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 const connect_to_database = async (): Promise<void> => {
