@@ -1,7 +1,7 @@
 import { Pool } from "pg";
-import dotenv from "dotenv";
+import { checkEnv } from "../config/checkEnv"; // <-- Corrigido para importar como named export
 
-dotenv.config({ path: './config/.env' })
+checkEnv();
 
 const pool = new Pool({
     user: process.env.DB_USER,
