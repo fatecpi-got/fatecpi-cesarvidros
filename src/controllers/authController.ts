@@ -24,19 +24,58 @@ export const register = async (req: Request, res: Response) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(senha, salt);
 
-        // Insere usuário no banco
+        // Insere usuário no banco e retorna o ID
         const newUser = await pool.query(
-            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento) VALUES ($1, $2, $3, $4, $5) RETURNING id",
             [nome, email, hashedPassword, tipo_acesso, data_nascimento]
         );
 
         // Gera o token JWT
-        const token = jwt.sign({ id: newUser.rows[0].id, tipo_acesso }, JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: newUser.rows[0].id, tipo_acesso: newUser.rows[0].tipo_acesso },
+            JWT_SECRET,
+            { expiresIn: "1h" }
+        );
 
-        res.status(201).json({ message: "Usuário registrado com sucesso!", token });
+        // Retorna o ID do usuário para o front
+        res.status(201).json({
+            message: "Usuário registrado com sucesso!",
+            userId: newUser.rows[0].id,
+            token
+        });
     } catch (error) {
         console.error("Erro ao registrar usuário:", error);
         res.status(500).json({ message: "Erro interno do servidor." });
+    }
+};
+
+export const addEndereco = async (req: Request, res: Response) => {
+    const { usuario_id, rua, numero, cidade, estado, } = req.body;
+
+    try {
+        await pool.query(
+            "INSERT INTO ENDERECO (usuario_id, rua, numero, cidade, estado ) VALUES ($1, $2, $3, $4, $5)",
+            [usuario_id, rua, numero, cidade, estado, ]
+        );
+        res.status(201).json({ message: "Endereço cadastrado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao cadastrar endereço:", error);
+        res.status(500).json({ message: "Erro interno ao cadastrar endereço." });
+    }
+};
+
+export const addTelefone = async (req: Request, res: Response) => {
+    const { usuario_id, numero } = req.body;
+
+    try {
+        await pool.query(
+            "INSERT INTO TELEFONE (usuario_id, numero) VALUES ($1, $2)",
+            [usuario_id, numero]
+        );
+        res.status(201).json({ message: "Telefone cadastrado com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao cadastrar telefone:", error);
+        res.status(500).json({ message: "Erro interno ao cadastrar telefone." });
     }
 };
 
