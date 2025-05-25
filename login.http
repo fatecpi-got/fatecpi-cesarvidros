@@ -3,39 +3,47 @@ POST https://fatecpi-cesarvidros-1.onrender.com/auth/register
 Content-Type: application/json
 
 {
-  "nome": "vitor",
-  "email": "vitor.jose@email.com",
-  "senha": "vitinho123",
-  "tipo_acesso": "user",
+  "nome": "João",
+  "email": "joao@email.com",
+  "senha": "123456",
+  "tipo_acesso": "usuario",
   "data_nascimento": "2000-01-01"
 }
 
-### Cadastro de endereço
-POST http://localhost:3001/auth/endereco
+### Login
+POST https://fatecpi-cesarvidros-1.onrender.com/auth/login
 Content-Type: application/json
 
 {
-  "usuario_id": 35,
-  "rua": "Rua dos Passarinhos",
-  "estado": "SP",
+  "email": "joao@email.com",
+  "senha": "123456"
+}
+
+### Cadastro de endereço
+POST https://fatecpi-cesarvidros-1.onrender.com/auth/endereco
+Content-Type: application/json
+
+{
+  "usuario_id": 1,
+  "rua": "Rua das Flores",
+  "numero": "123",
   "cidade": "São Paulo",
-  "numero": "222"
+  "estado": "SP"
 }
 
 ### Cadastro de telefone
-POST http://localhost:3001/auth/telefone
+POST https://fatecpi-cesarvidros-1.onrender.com/auth/telefone
 Content-Type: application/json
 
 {
-  "usuario_id": 35,
-  "numero": "12999999999"
+  "usuario_id": 1,
+  "numero": "11999999999"
 }
 
-### Login
-POST http://localhost:3001/auth/login
+### Cancelar cadastro
+POST https://fatecpi-cesarvidros-1.onrender.com/auth/cancelar
 Content-Type: application/json
 
 {
-  "email": "pedro@email.com",
-  "senha": "pedro123"
+  "userId": 38
 }
