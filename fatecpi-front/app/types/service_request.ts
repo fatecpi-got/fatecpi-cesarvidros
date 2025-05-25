@@ -4,7 +4,7 @@ export interface ServiceRequest {
     puxador: string;
     fechadura: string;
     estado: string;
-    sub_produto_id: 0;
+    sub_produto: string;
     largura: number;
     altura: number;
 }

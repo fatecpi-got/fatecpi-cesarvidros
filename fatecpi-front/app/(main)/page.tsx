@@ -1,247 +1,261 @@
 "use client";
 
 import React, { useState } from "react";
-
-import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-import { AuthSignUp, AuthSignIn } from "../types/auth";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  createUser,
+  createAdress,
+  createPhone,
+  loginUser,
+} from "../api/authFetch";
 
 import "./auth.css";
 
 export default function AuthPage() {
   const [isSignUp, setIsSignUp] = useState(false);
 
-  const formSignUp = useForm<AuthSignUp>({
-    defaultValues: {
-      nome: "",
-      email: "",
-      senha: "",
-      tipo_acesso: "user",
-      data_nascimento: "",
-      rua: "",
-      estado: "",
-      cidade: "",
-      numero_casa: "",
-      numero_telefone: "",
-    },
-  });
+  // Sign Up States
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [data_nascimento, setDataNascimento] = useState("");
+  const [rua, setRua] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cidade, setCidade] = useState("");
+  const [numero, setNumeroCasa] = useState("");
+  const [numeroTelefone, setNumeroTelefone] = useState("");
 
-  const formSignIn = useForm<AuthSignIn>({
-    defaultValues: {
-      email: "",
-      senha: "",
-    },
-  });
+  // Sign In States
+  const [emailSignIn, setEmailSignIn] = useState("");
+  const [senhaSignIn, setSenhaSignIn] = useState("");
 
-  const onSubmitSignUp = (data: AuthSignUp) => {
-    console.log("Sign Up Data: ", data);
-    // Aqui você pode fazer a chamada para a API de registro
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    console.log("Sign Up Data:", {
+      nome,
+      email,
+      senha,
+      data_nascimento,
+      rua,
+      estado,
+      cidade,
+      numero,
+      numeroTelefone,
+    });
+
+    const res = await createUser(
+      nome,
+      email,
+      senha,
+      "user",
+      data_nascimento,
+      "https://fatecpi-cesarvidros-1.onrender.com/auth/register"
+    );
+
+    if (res && res.ok) {
+      const json = await res.json();
+      const usuario_id = json.userId;
+
+      console.log("User Created:", json);
+      console.log("User ID:", usuario_id);
+
+      await createAdress(
+        usuario_id,
+        rua,
+        estado,
+        cidade,
+        numero,
+        "https://fatecpi-cesarvidros-1.onrender.com/auth/endereco"
+      );
+
+      await createPhone(
+        usuario_id,
+        numeroTelefone,
+        "https://fatecpi-cesarvidros-1.onrender.com/auth/telefone"
+      );
+
+      alert("Usuário cadastrado com sucesso!");
+      window.location.reload();
+    }
   };
 
-  const onSubmitSignIn = (data: AuthSignIn) => {
-    console.log("Sign In Data: ", data);
-    // Aqui você pode fazer a chamada para a API de login
+  const handleSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const email = emailSignIn;
+      const senha = senhaSignIn;
+
+      const res = await loginUser(
+        email,
+        senha,
+        "https://fatecpi-cesarvidros-1.onrender.com/auth/login"
+      );
+
+      const json = await res.json();
+
+      if (res.status === 200) {
+        alert(json.message);
+      }
+
+      console.log("Login Response:", json);
+
+    } catch (err) {
+      console.error("Erro ao fazer login:", err);
+    }
   };
 
   return (
     <div className="auth-page">
       {isSignUp ? (
-        <Form {...formSignUp}>
-          <form
-            onSubmit={formSignUp.handleSubmit(onSubmitSignUp)}
-            className="form signup"
+        <form onSubmit={handleSignUp} className="form signup">
+          <h2 className="form-title">Cadastro</h2>
+          <div className="form-fields">
+            <Input
+              className="input"
+              name="nome"
+              placeholder="Nome"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="senha"
+              type="password"
+              placeholder="Senha"
+              value={senha}
+              onChange={(e) => setSenha(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="data_nascimento"
+              type="date"
+              value={data_nascimento}
+              onChange={(e) => setDataNascimento(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="rua"
+              placeholder="Rua"
+              value={rua}
+              onChange={(e) => setRua(e.target.value)}
+            />
+
+            <Select value={estado} onValueChange={(value) => setEstado(value)}>
+              <SelectTrigger className="select-trigger">
+                <SelectValue placeholder="Selecione o estado" />
+              </SelectTrigger>
+              <SelectContent className="select-content" position="popper">
+                <SelectItem className="select-item" value="SP">São Paulo</SelectItem>
+                <SelectItem className="select-item" value="RJ">Rio de Janeiro</SelectItem>
+                <SelectItem className="select-item" value="MG">Minas Gerais</SelectItem>
+                <SelectItem className="select-item" value="ES">Espírito Santo</SelectItem>
+                <SelectItem className="select-item" value="PR">Paraná</SelectItem>
+                <SelectItem className="select-item" value="RS">Rio Grande do Sul</SelectItem>
+                <SelectItem className="select-item" value="SC">Santa Catarina</SelectItem>
+                <SelectItem className="select-item" value="BA">Bahia</SelectItem>
+                <SelectItem className="select-item" value="PE">Pernambuco</SelectItem>
+                <SelectItem className="select-item" value="CE">Ceará</SelectItem>
+                <SelectItem className="select-item" value="DF">Distrito Federal</SelectItem>
+                <SelectItem className="select-item" value="MT">Mato Grosso</SelectItem>
+                <SelectItem className="select-item" value="MS">Mato Grosso do Sul</SelectItem>
+                <SelectItem className="select-item" value="PA">Pará</SelectItem>
+                <SelectItem className="select-item" value="AM">Amazonas</SelectItem>
+                <SelectItem className="select-item" value="AC">Acre</SelectItem>
+                <SelectItem className="select-item" value="RO">Rondônia</SelectItem>
+                <SelectItem className="select-item" value="RR">Roraima</SelectItem>
+                <SelectItem className="select-item" value="AP">Amapá</SelectItem>
+                <SelectItem className="select-item" value="TO">Tocantins</SelectItem>
+                <SelectItem className="select-item" value="AL">Alagoas</SelectItem>
+                <SelectItem className="select-item" value="SE">Sergipe</SelectItem>
+                <SelectItem className="select-item" value="PB">Paraíba</SelectItem>
+                <SelectItem className="select-item" value="RN">Rio Grande do Norte</SelectItem>
+                <SelectItem className="select-item" value="PI">Piauí</SelectItem>
+                <SelectItem className="select-item" value="MA">Maranhão</SelectItem>
+              </SelectContent>
+            </Select>
+
+            <Input
+              className="input"
+              name="cidade"
+              placeholder="Cidade"
+              value={cidade}
+              onChange={(e) => setCidade(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="numero_casa"
+              placeholder="Número da Casa"
+              value={numero}
+              onChange={(e) => setNumeroCasa(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="numero_telefone"
+              placeholder="Número de Telefone"
+              value={numeroTelefone}
+              onChange={(e) => setNumeroTelefone(e.target.value)}
+            />
+          </div>
+          <Button type="submit" className="button-submit">
+            Registrar
+          </Button>
+          <Button
+            type="button"
+            className="button-redirect"
+            onClick={() => setIsSignUp(false)}
           >
-            <h2 className="form-title">Cadastro</h2>
-            <div className="form-fields">
-              <FormField
-                control={formSignUp.control}
-                name="nome"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Nome</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Nome" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="senha"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Senha" type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="tipo_acesso"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Tipo de Acesso</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Tipo de Acesso" {...field} disabled />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="data_nascimento"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Data de Nascimento</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Data de Nascimento" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="rua"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Rua</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Rua" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="estado"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Estado</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Estado" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="cidade"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Cidade</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Cidade" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="numero_casa"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Número da Casa</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Número da Casa" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignUp.control}
-                name="numero_telefone"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Número de Telefone</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Número de Telefone" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button type="submit" className="button-submit">Registrar</Button>
-            <Button className="button-redirect" onClick={() => setIsSignUp(!isSignUp)}>
-              {isSignUp
-                ? "Já tem uma conta? Faça login"
-                : "Não tem uma conta? Crie uma"}
-            </Button>
-          </form>
-        </Form>
+            Já tem uma conta? Faça login
+          </Button>
+        </form>
       ) : (
-        <Form {...formSignIn}>
-          <form onSubmit={formSignIn.handleSubmit(onSubmitSignIn)} className="form signin">
-            <h2 className="form-title">Entrar</h2>
-            <div className="form-fields">
-              <FormField
-                control={formSignIn.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Email" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formSignIn.control}
-                name="senha"
-                render={({ field }) => (
-                  <FormItem className="form-item">
-                    <FormLabel>Senha</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Senha" type="password" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <Button type="submit" className="button-submit">Entrar</Button>
-            <Button className="button-redirect" onClick={() => setIsSignUp(!isSignUp)}>
-              {isSignUp
-                ? "Já tem uma conta? Faça login"
-                : "Não tem uma conta? Crie uma"}
-            </Button>
-          </form>
-        </Form>
+        <form onSubmit={handleSignIn} className="form signin">
+          <h2 className="form-title">Entrar</h2>
+          <div className="form-fields">
+            <Input
+              className="input"
+              name="email"
+              placeholder="Email"
+              value={emailSignIn}
+              onChange={(e) => setEmailSignIn(e.target.value)}
+            />
+            <Input
+              className="input"
+              name="senha"
+              type="password"
+              placeholder="Senha"
+              value={senhaSignIn}
+              onChange={(e) => setSenhaSignIn(e.target.value)}
+            />
+          </div>
+          <Button type="submit" className="button-submit">
+            Entrar
+          </Button>
+          <Button
+            type="button"
+            className="button-redirect"
+            onClick={() => setIsSignUp(true)}
+          >
+            Não tem uma conta? Crie uma
+          </Button>
+        </form>
       )}
     </div>
   );

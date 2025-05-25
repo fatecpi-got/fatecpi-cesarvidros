@@ -4,6 +4,8 @@ interface HeaderProps {
   paths: Path[];
 }
 
+import './header.css';
+
 export default function Header({ paths }: HeaderProps) {
   return (
     <header className="header">

@@ -1,0 +1,34 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    background: #7794e2;
+    text-align: center;
+    color: antiquewhite;
+
+    .footer-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        .footer-copy {
+            font-size: 1.25rem;
+            color: antiquewhite;
+            text-decoration: none;
+        }
+
+        .footer-company {
+            color: antiquewhite;
+            text-decoration: none;
+            font-size: 1.25rem;
+            transition: color 0.3s;
+
+            &:hover {
+                color: #4a6bbf;
+            }
+        }
+    }
+}
