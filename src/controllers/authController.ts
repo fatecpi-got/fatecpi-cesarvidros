@@ -84,6 +84,37 @@ export const addTelefone = async (req: Request, res: Response) => {
     }
 };
 
+export const cancelarCadastro = async (req: Request, res: Response) => {
+    const { userId } = req.body;
+
+    if (!userId) {
+        return res.status(400).json({ message: "userId é obrigatório!" });
+    }
+
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        // Exclui telefones do usuário
+        await client.query("DELETE FROM TELEFONE WHERE usuario_id = $1", [userId]);
+
+        // Exclui endereços do usuário
+        await client.query("DELETE FROM ENDERECO WHERE usuario_id = $1", [userId]);
+
+        // Exclui o usuário
+        await client.query("DELETE FROM USUARIO WHERE id = $1", [userId]);
+
+        await client.query('COMMIT');
+        res.status(200).json({ message: "Cadastro cancelado e usuário excluído com sucesso!" });
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Erro ao cancelar cadastro:", error);
+        res.status(500).json({ message: "Erro ao cancelar cadastro." });
+    } finally {
+        client.release();
+    }
+};
+
 // Função para login
 export const login = async (req: Request, res: Response) => {
     const { email, senha } = req.body;

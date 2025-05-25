@@ -3,9 +3,9 @@ POST https://fatecpi-cesarvidros-1.onrender.com/auth/register
 Content-Type: application/json
 
 {
-  "nome": "pedro",
-  "email": "pedro.marcos@email.com",
-  "senha": "pedro1",
+  "nome": "vitor",
+  "email": "vitor.jose@email.com",
+  "senha": "vitinho123",
   "tipo_acesso": "user",
   "data_nascimento": "2000-01-01"
 }
