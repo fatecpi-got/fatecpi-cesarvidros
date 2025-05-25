@@ -1,11 +1,11 @@
 ### Cadastro de usuário
-POST http://localhost:3001/auth/register
+POST https://fatecpi-cesarvidros-1.onrender.com/auth/register
 Content-Type: application/json
 
 {
-  "nome": "João Figueira",
-  "email": "joao@email.com",
-  "senha": "123456",
+  "nome": "pedro",
+  "email": "pedro.marcos@email.com",
+  "senha": "pedro1",
   "tipo_acesso": "user",
   "data_nascimento": "2000-01-01"
 }
@@ -15,11 +15,11 @@ POST http://localhost:3001/auth/endereco
 Content-Type: application/json
 
 {
-  "usuario_id": 33,
-  "rua": "Rua das Flores",
+  "usuario_id": 35,
+  "rua": "Rua dos Passarinhos",
   "estado": "SP",
   "cidade": "São Paulo",
-  "numero": "123"
+  "numero": "222"
 }
 
 ### Cadastro de telefone
@@ -27,8 +27,8 @@ POST http://localhost:3001/auth/telefone
 Content-Type: application/json
 
 {
-  "usuario_id": 33,
-  "numero": "11999999999"
+  "usuario_id": 35,
+  "numero": "12999999999"
 }
 
 ### Login
@@ -36,6 +36,6 @@ POST http://localhost:3001/auth/login
 Content-Type: application/json
 
 {
-  "email": "joao@email.com",
-  "senha": "123456"
+  "email": "pedro@email.com",
+  "senha": "pedro123"
 }

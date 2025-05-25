@@ -12,6 +12,11 @@ const JWT_SECRET = process.env.JWT_SECRET || "seuSegredoSuperSeguro";
 export const register = async (req: Request, res: Response) => {
     const { nome, email, senha, tipo_acesso, data_nascimento } = req.body;
 
+    // Validação simples
+    if (!nome || !email || !senha || !tipo_acesso || !data_nascimento) {
+        return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
+    }
+    
     try {
         // Verifica se o e-mail já existe no banco
         const userExists = await pool.query("SELECT * FROM USUARIO WHERE Email = $1", [email]);
@@ -26,7 +31,7 @@ export const register = async (req: Request, res: Response) => {
 
         // Insere usuário no banco e retorna o ID
         const newUser = await pool.query(
-            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento) VALUES ($1, $2, $3, $4, $5) RETURNING id, tipo_acesso",
             [nome, email, hashedPassword, tipo_acesso, data_nascimento]
         );
 
@@ -37,7 +42,7 @@ export const register = async (req: Request, res: Response) => {
             { expiresIn: "1h" }
         );
 
-        // Retorna o ID do usuário para o front
+        // Retorna o ID do usuário, token e mensagem
         res.status(201).json({
             message: "Usuário registrado com sucesso!",
             userId: newUser.rows[0].id,
