@@ -71,9 +71,6 @@ export default function AuthPage() {
       const json = await res.json();
       const usuario_id = json.userId;
 
-      console.log("User Created:", json);
-      console.log("User ID:", usuario_id);
-
       await createAdress(
         usuario_id,
         data.rua,
@@ -216,7 +213,8 @@ export default function AuthPage() {
             className="button-redirect"
             onClick={() => setIsSignUp(false)}
           >
-            Já tem uma conta? Faça login
+            Já tem uma conta?{" "}
+            <span style={{ color: "#174cdf" }}>Faça login</span>
           </Button>
         </form>
       ) : (
@@ -246,7 +244,8 @@ export default function AuthPage() {
             className="button-redirect"
             onClick={() => setIsSignUp(true)}
           >
-            Não tem uma conta? Crie uma
+            Não tem uma conta?{" "}
+            <span style={{ color: "#174cdf" }}>Crie uma</span>
           </Button>
         </form>
       )}
