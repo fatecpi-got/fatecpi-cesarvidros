@@ -121,7 +121,7 @@ export const login = async (req: Request, res: Response) => {
 
     try {
         // Verifica se o usuário existe
-        const user = await pool.query("SELECT id FROM USUARIO WHERE Email = $1 LIMIT 1", [email]);
+        const user = await pool.query("SELECT id, senha, tipo_acesso FROM USUARIO WHERE Email = $1 LIMIT 1", [email]);
 
         if (user.rows.length === 0) {
             return res.status(400).json({ message: "E-mail ou senha incorretos!" });
