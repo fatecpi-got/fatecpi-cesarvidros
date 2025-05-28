@@ -150,6 +150,27 @@ body {
     }
 
     .form.signin {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .auth-page {
+        .form {
+            width: 100%;
+            padding: 1rem;
+        }
+    }
+
+    .form.signup {
+        min-width: 100%;
+        .form-fields {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .form.signin {
         width: 100%;
     }
+    
 }

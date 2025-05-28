@@ -92,7 +92,7 @@ export default function AuthPage() {
   };
 
   const handleSignIn = async (data: SignInFormData) => {
-    try {
+        try {
       const res = await loginUser(
         data.email,
         data.senha,
@@ -101,9 +101,8 @@ export default function AuthPage() {
 
       const json = await res.json();
 
-      if (res.status === 200) {
-        alert(json.message);
-      }
+      alert(json.message);
+
     } catch (err) {
       console.error("Erro ao fazer login:", err);
     }
