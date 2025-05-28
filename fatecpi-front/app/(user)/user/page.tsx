@@ -6,23 +6,23 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+// import {
+//   Form,
+//   FormControl,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "@/components/ui/form";
+// import { Input } from "@/components/ui/input";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 
 import { ServiceRequest } from "@/app/types/service_request";
 
@@ -68,7 +68,9 @@ export default function BudgetPage() {
           <div className="form-title">
             <h2 className="form-title-text">Formulário de Orçamento</h2>
           </div>
-          <div className="form-fields"></div>
+          <div className="form-fields">
+            
+          </div>
           <div className="button-submit">
             <Button type="submit">Enviar</Button>
           </div>
