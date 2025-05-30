@@ -14,7 +14,7 @@ export async function createUser(
         body: JSON.stringify({ nome, email, senha, tipo_acesso, data_nascimento }),
     });
     if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Erro ao cadastrar usuário");
     }
 
     return response;
@@ -100,7 +100,7 @@ export async function loginUser(
         body: JSON.stringify({ email, senha }),
     });
     if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Email ou senha inválidos");
     }
 
     return response;

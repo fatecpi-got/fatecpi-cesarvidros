@@ -7,6 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -37,8 +39,8 @@ const signUpSchema = z.object({
 });
 
 const signInSchema = z.object({
-  email: z.string().email("Email inválido"),
-  senha: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  email: z.string().email("Email é obrigatório").min(1, "Email inválido"),
+  senha: z.string().min(6, "Senha deve ter pelo menos 6 caracteres").min(1, "Senha deve ter pelo menos 6 caracteres"),
 });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -56,8 +58,6 @@ export default function AuthPage() {
   });
 
   const handleSignUp = async (data: SignUpFormData) => {
-    console.log("Sign Up Data:", data);
-
     const res = await createUser(
       data.nome,
       data.email,
@@ -92,7 +92,7 @@ export default function AuthPage() {
   };
 
   const handleSignIn = async (data: SignInFormData) => {
-        try {
+    try {
       const res = await loginUser(
         data.email,
         data.senha,
@@ -102,14 +102,26 @@ export default function AuthPage() {
       const json = await res.json();
 
       alert(json.message);
-
     } catch (err) {
       console.error("Erro ao fazer login:", err);
+      alert("Erro ao fazer login. Verifique suas credenciais.");
+      window.location.reload();
     }
   };
 
   return (
     <div className="auth-page">
+      <h1 className="auth-title">
+        César Vidros
+        <Image
+          src="/logo_cesar.png"
+          alt="Logo"
+          className="logo"
+          width={80}
+          height={80}
+
+        />
+      </h1>
       {isSignUp ? (
         <form
           onSubmit={signUpForm.handleSubmit(handleSignUp)}
@@ -117,92 +129,146 @@ export default function AuthPage() {
         >
           <h2 className="form-title">Cadastro</h2>
           <div className="form-fields">
-            <Input
-              className="input"
-              placeholder="Nome"
-              {...signUpForm.register("nome")}
-            />
-            <Input
-              className="input"
-              type="email"
-              placeholder="Email"
-              {...signUpForm.register("email")}
-            />
-            <Input
-              className="input"
-              type="password"
-              placeholder="Senha"
-              {...signUpForm.register("senha")}
-            />
-            <Input
-              className="input"
-              type="date"
-              placeholder="Data de Nascimento"
-              {...signUpForm.register("data_nascimento")}
-            />
-            <Input
-              className="input"
-              placeholder="Rua"
-              {...signUpForm.register("rua")}
-            />
+            <div className="form-control">
+              <Label>Nome</Label>
+              <Input
+                className="input"
+                placeholder="Nome"
+                {...signUpForm.register("nome")}
+              />
+              {signUpForm.formState.errors.nome && (
+                <p className="error-message">{signUpForm.formState.errors.nome.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Email</Label>
+              <Input
+                className="input"
+                type="email"
+                placeholder="Email"
+                {...signUpForm.register("email")}
+              />
+              {signUpForm.formState.errors.email && (
+                <p className="error-message">{signUpForm.formState.errors.email.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Senha</Label>
+              <Input
+                className="input"
+                type="password"
+                placeholder="Senha"
+                {...signUpForm.register("senha")}
+              />
+              {signUpForm.formState.errors.senha && (
+                <p className="error-message">{signUpForm.formState.errors.senha.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Data de Nascimento</Label>
+              <Input
+                className="input"
+                type="date"
+                placeholder="Data de Nascimento"
+                {...signUpForm.register("data_nascimento")}
+              />
+              {signUpForm.formState.errors.data_nascimento && (
+                <p className="error-message">{signUpForm.formState.errors.data_nascimento.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Nome da Rua</Label>
+              <Input
+                className="input"
+                placeholder="Rua"
+                {...signUpForm.register("rua")}
+              />
+              {signUpForm.formState.errors.rua && (
+                <p className="error-message">{signUpForm.formState.errors.rua.message}</p>
+              )}
+            </div>
 
-            <Select
-              onValueChange={(value) => signUpForm.setValue("estado", value)}
-            >
-              <SelectTrigger className="select-trigger">
-                <SelectValue placeholder="Selecione o estado" />
-              </SelectTrigger>
-              <SelectContent className="select-content" position="popper">
-                {[
-                  "SP",
-                  "RJ",
-                  "MG",
-                  "ES",
-                  "PR",
-                  "RS",
-                  "SC",
-                  "BA",
-                  "PE",
-                  "CE",
-                  "DF",
-                  "MT",
-                  "MS",
-                  "PA",
-                  "AM",
-                  "AC",
-                  "RO",
-                  "RR",
-                  "AP",
-                  "TO",
-                  "AL",
-                  "SE",
-                  "PB",
-                  "RN",
-                  "PI",
-                  "MA",
-                ].map((uf) => (
-                  <SelectItem key={uf} value={uf} className="select-item">
-                    {uf}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="form-control">
+              <Label>Estado</Label>
+              <Select
+                onValueChange={(value) => signUpForm.setValue("estado", value)}
+              >
+                <SelectTrigger className="select-trigger">
+                  <SelectValue placeholder="Selecione o estado" />
+                </SelectTrigger>
+                <SelectContent className="select-content" position="popper">
+                  {[
+                    "SP",
+                    "RJ",
+                    "MG",
+                    "ES",
+                    "PR",
+                    "RS",
+                    "SC",
+                    "BA",
+                    "PE",
+                    "CE",
+                    "DF",
+                    "MT",
+                    "MS",
+                    "PA",
+                    "AM",
+                    "AC",
+                    "RO",
+                    "RR",
+                    "AP",
+                    "TO",
+                    "AL",
+                    "SE",
+                    "PB",
+                    "RN",
+                    "PI",
+                    "MA",
+                  ].map((uf) => (
+                    <SelectItem key={uf} value={uf} className="select-item">
+                      {uf}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {signUpForm.formState.errors.estado && (
+                <p className="error-message">{signUpForm.formState.errors.estado.message}</p>
+              )}
+            </div>
 
-            <Input
-              className="input"
-              placeholder="Cidade"
-              {...signUpForm.register("cidade")}
-            />
-            <Input
-              className="input"
-              placeholder="Número da Casa"
-              {...signUpForm.register("numero")}
-            />
-            <Input
-              className="input"
-              placeholder="Número de Telefone"
-              {...signUpForm.register("numeroTelefone")}
-            />
+            <div className="form-control">
+              <Label>Cidade</Label>
+              <Input
+                className="input"
+                placeholder="Cidade"
+                {...signUpForm.register("cidade")}
+              />
+              {signUpForm.formState.errors.cidade && (
+                <p className="error-message">{signUpForm.formState.errors.cidade.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Número da Casa</Label>
+              <Input
+                className="input"
+                placeholder="Número da Casa"
+                {...signUpForm.register("numero")}
+              />
+              {signUpForm.formState.errors.numero && (
+                <p className="error-message">{signUpForm.formState.errors.numero.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Telefone</Label>
+              <Input
+                className="input"
+                placeholder="Número de Telefone"
+                {...signUpForm.register("numeroTelefone")}
+              />
+              {signUpForm.formState.errors.numeroTelefone && (
+                <p className="error-message">{signUpForm.formState.errors.numeroTelefone.message}</p>
+              )}
+            </div>
           </div>
           <Button type="submit" className="button-submit">
             Registrar
@@ -223,17 +289,29 @@ export default function AuthPage() {
         >
           <h2 className="form-title">Entrar</h2>
           <div className="form-fields">
-            <Input
-              className="input"
-              placeholder="Email"
-              {...signInForm.register("email")}
-            />
-            <Input
-              className="input"
-              type="password"
-              placeholder="Senha"
-              {...signInForm.register("senha")}
-            />
+            <div className="form-control">
+              <Label>Email</Label>
+              <Input
+                className="input"
+                placeholder="Email"
+                {...signInForm.register("email")}
+              />
+              {signInForm.formState.errors.email && (
+                <p className="error-message">{signInForm.formState.errors.email.message}</p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>Senha</Label>
+              <Input
+                className="input"
+                type="password"
+                placeholder="Senha"
+                {...signInForm.register("senha")}
+              />
+              {signInForm.formState.errors.senha && (
+                <p className="error-message">{signInForm.formState.errors.senha.message}</p>
+              )}
+            </div>
           </div>
           <Button type="submit" className="button-submit">
             Entrar
@@ -248,6 +326,11 @@ export default function AuthPage() {
           </Button>
         </form>
       )}
+      <div className="copy-right">
+        <p>
+          © 2024 César Vidros. Todos os direitos reservados. Desenvolvido por <span style={{fontStyle: "italic"}}>Lovelace Solutions</span>
+        </p>
+      </div>
     </div>
   );
 }
