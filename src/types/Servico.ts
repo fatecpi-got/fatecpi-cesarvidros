@@ -1,8 +1,14 @@
 export interface Servico {
-    id_servico: number;
-    nome: string;
-    imagem_url: string;
-    descricao: string;
-    categoria_nome: string;
-    sub_categoria_nome: string | null;
+    id: number;
+    custo: number;
+    preco: number;
+    cor_vidro: string;
+    largura: number;
+    altura: number;
+    fechadura: string;
+    cor_aluminio: string;
+    puxador: string;
+    estado: string;
+    sub_produto_id: number;
+    orcamento_id: number;
 }
