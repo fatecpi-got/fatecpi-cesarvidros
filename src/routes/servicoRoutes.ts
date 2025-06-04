@@ -19,8 +19,15 @@ router.get('/get-by-user', async (req, res) => {
     } catch (err) {
         console.error("Error in GET /get-by-user", err);
     }
-}
-);
+});
+
+router.get('/get-by-orcamento', async (req, res) => {
+    try {
+        await servicosController.getServicoByOrcamentoId(req, res);
+    } catch (err) {
+        console.error("Error in GET /get-by-orcamento:", err);
+    }
+});
 
 router.post('/create', async (req, res) => {
     try {

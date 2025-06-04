@@ -10,10 +10,10 @@ const JWT_SECRET = process.env.JWT_SECRET || "seuSegredoSuperSeguro";
 
 // Função para registrar um usuário
 export const register = async (req: Request, res: Response) => {
-    const { nome, email, senha, tipo_acesso, data_nascimento } = req.body;
+    const { nome, email, senha, tipo_acesso, data_nascimento, numero_telefone, rua, cidade, estado, numero_casa, cep } = req.body;
 
     // Validação simples
-    if (!nome || !email || !senha || !tipo_acesso || !data_nascimento) {
+    if (!nome || !email || !senha || !tipo_acesso || !data_nascimento || !numero_telefone || !rua || !cidade || !estado || !numero_casa || !cep) {
         return res.status(400).json({ message: "Preencha todos os campos obrigatórios!" });
     }
     
@@ -31,8 +31,8 @@ export const register = async (req: Request, res: Response) => {
 
         // Insere usuário no banco e retorna o ID
         const newUser = await pool.query(
-            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento) VALUES ($1, $2, $3, $4, $5) RETURNING id, tipo_acesso",
-            [nome, email, hashedPassword, tipo_acesso, data_nascimento]
+            "INSERT INTO USUARIO (Nome, Email, Senha, tipo_acesso, data_nascimento, numero_telefone, rua, cidade, estado, numero_casa, cep) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING id, tipo_acesso",
+            [nome, email, hashedPassword, tipo_acesso, data_nascimento, numero_telefone, rua, cidade, estado, numero_casa, cep]
         );
 
         // Gera o token JWT
@@ -51,67 +51,6 @@ export const register = async (req: Request, res: Response) => {
     } catch (error) {
         console.error("Erro ao registrar usuário:", error);
         res.status(500).json({ message: "Erro interno do servidor." });
-    }
-};
-
-export const addEndereco = async (req: Request, res: Response) => {
-    const { usuario_id, rua, numero, cidade, estado, } = req.body;
-
-    try {
-        await pool.query(
-            "INSERT INTO ENDERECO (usuario_id, rua, numero, cidade, estado ) VALUES ($1, $2, $3, $4, $5)",
-            [usuario_id, rua, numero, cidade, estado, ]
-        );
-        res.status(201).json({ message: "Endereço cadastrado com sucesso!" });
-    } catch (error) {
-        console.error("Erro ao cadastrar endereço:", error);
-        res.status(500).json({ message: "Erro interno ao cadastrar endereço." });
-    }
-};
-
-export const addTelefone = async (req: Request, res: Response) => {
-    const { usuario_id, numero } = req.body;
-
-    try {
-        await pool.query(
-            "INSERT INTO TELEFONE (usuario_id, numero) VALUES ($1, $2)",
-            [usuario_id, numero]
-        );
-        res.status(201).json({ message: "Telefone cadastrado com sucesso!" });
-    } catch (error) {
-        console.error("Erro ao cadastrar telefone:", error);
-        res.status(500).json({ message: "Erro interno ao cadastrar telefone." });
-    }
-};
-
-export const cancelarCadastro = async (req: Request, res: Response) => {
-    const { userId } = req.body;
-
-    if (!userId) {
-        return res.status(400).json({ message: "userId é obrigatório!" });
-    }
-
-    const client = await pool.connect();
-    try {
-        await client.query('BEGIN');
-
-        // Exclui telefones do usuário
-        await client.query("DELETE FROM TELEFONE WHERE usuario_id = $1", [userId]);
-
-        // Exclui endereços do usuário
-        await client.query("DELETE FROM ENDERECO WHERE usuario_id = $1", [userId]);
-
-        // Exclui o usuário
-        await client.query("DELETE FROM USUARIO WHERE id = $1", [userId]);
-
-        await client.query('COMMIT');
-        res.status(200).json({ message: "Cadastro cancelado e usuário excluído com sucesso!" });
-    } catch (error) {
-        await client.query('ROLLBACK');
-        console.error("Erro ao cancelar cadastro:", error);
-        res.status(500).json({ message: "Erro ao cancelar cadastro." });
-    } finally {
-        client.release();
     }
 };
 

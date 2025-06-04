@@ -37,7 +37,11 @@ export class OrcamentoService {
             const values = [status, orcamento_id];
             const result = await pool.query(query, values);
 
-            return result.rows.length > 0; // Return true if the update was successful
+            if (result.rowCount !== null && result.rowCount > 0) {
+                return true; // Return true if the update was successful
+            } else {
+                return false; // Return false if no rows were updated
+            }
         } catch (err) {
             console.error("Error in updateOrcamentoStatus:", err);
             return false; // Return false in case of error
@@ -47,16 +51,16 @@ export class OrcamentoService {
     async getOrcamentoByUserId(usuario_id: number): Promise<Orcamento[] | null> {
         try {
             const query = `
-                SELECT * FROM orcamento
-                WHERE usuario_id = $1
-                ORDER BY criado_em DESC
+                SELECT orcamento.id as orcamento_id, criado_em, status, usuario.nome, usuario.cep, usuario.numero_telefone FROM orcamento join usuario on  usuario.id = orcamento.usuario_id
+                WHERE usuario_id = $1 AND status = 'em andamento'
+                ORDER BY criado_em DESC;
             `;
 
             const values = [usuario_id];
             const result = await pool.query(query, values);
 
             if (result.rows.length > 0) {
-                return result.rows[0] as Orcamento[]; // Return the first orcamento found
+                return result.rows;
             } else {
                 return null; // Return null if no orcamento was found
             }

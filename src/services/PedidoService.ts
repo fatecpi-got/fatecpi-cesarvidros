@@ -2,15 +2,17 @@ import { pool } from "../database/database";
 import { Pedido } from "../types/pedido";
 
 export class PedidoService {
-    async createPedido(pedido: Pedido): Promise<Pedido | null> {
+    async createPedido(orcamento_id: number): Promise<Pedido | null> {
         try {
             const query = `
                 INSERT INTO pedido (criado_em, produzido_em, finalizado_em, orcamento_id)
+                VALUES (NOW(), null, null, $1)
+                RETURNING *
             `;
 
-            const values = [pedido.criado_em, pedido.produzido_em, pedido.finalizado_em, pedido.orcamento_id];
+            const values = [orcamento_id];
 
-            const result = await pool.query(query, values);
+            const result = await pool.query<Pedido>(query, values);
             if (result.rows.length > 0) {
                 return result.rows[0]; // Return the inserted row
             } else {
@@ -43,9 +45,7 @@ export class PedidoService {
     async getPedidoByOrcamentoId(orcamento_id: number): Promise<Pedido | null> {
         try {
             const query = `
-                SELECT * FROM pedido
-                WHERE orcamento_id = $1
-                ORDER BY criado_em DESC
+                select pedido.id as pedido_id, pedido.criado_em as pedido_criado_em, usuario.nome, usuario.numero_telefone, usuario.email from pedido join orcamento on pedido.orcamento_id = orcamento.id join usuario on orcamento.usuario_id = usuario.id where pedido.orcamento_id = $1;
             `;
 
             const values = [orcamento_id];

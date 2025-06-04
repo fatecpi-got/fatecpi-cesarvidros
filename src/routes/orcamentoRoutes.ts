@@ -20,20 +20,4 @@ router.get('/get-by-user', async (req, res) => {
     }
 });
 
-router.post('/create', async (req, res) => {
-    try {
-        await orcamentoController.createOrcamento(req, res);
-    } catch (err) {
-        console.error("Error in POST /create:", err);
-    }
-});
-
-router.put('/update-status', async (req, res) => {
-    try {
-        await orcamentoController.updateOrcamentoStatus(req, res);
-    } catch (err) {
-        console.error("Error in PUT /update-status:", err);
-    }
-});
-
 export default router;

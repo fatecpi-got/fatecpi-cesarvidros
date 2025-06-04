@@ -20,14 +20,6 @@ router.get('/get-by-orcamento', async (req, res) => {
     }
 });
 
-router.post('/create', async (req, res) => {
-    try {
-        await pedidoController.createPedido(req, res);
-    } catch (err) {
-        console.error("Error in POST /create:", err);
-    }
-});
-
 router.put('/update-status', async (req, res) => {
     try {
         await pedidoController.updatePedidoStatus(req, res);

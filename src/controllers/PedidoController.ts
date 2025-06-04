@@ -8,21 +8,6 @@ export class PedidoController {
     this.pedidoService = new PedidoService();
   }
 
-  async createPedido(req: Request, res: Response): Promise<void> {
-    try {
-      const pedido = req.body;
-      const createdPedido = await this.pedidoService.createPedido(pedido);
-      if (createdPedido) {
-        res.status(201).json(createdPedido);
-      } else {
-        res.status(400).json({ message: "Failed to create pedido" });
-      }
-    } catch (error) {
-      console.error("Error creating pedido:", error);
-      res.status(500).json({ message: "Internal server error" });
-    }
-  }
-
   async updatePedidoStatus(req: Request, res: Response): Promise<void> {
     try {
       const { estado, id } = req.body;
@@ -40,7 +25,7 @@ export class PedidoController {
 
   async getPedidoByOrcamentoId(req: Request, res: Response): Promise<void> {
     try {
-      const orcamento_id = parseInt(req.params.orcamento_id);
+      const { orcamento_id } = req.body;
       const pedido = await this.pedidoService.getPedidoByOrcamentoId(orcamento_id);
       if (pedido) {
         res.status(200).json(pedido);

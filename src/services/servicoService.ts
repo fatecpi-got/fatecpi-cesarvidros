@@ -11,9 +11,16 @@ export class ServicoService {
     }
 
     async createServico(cor_vidro: string, largura: number, altura: number, fechadura: number, cor_aluminio: string, puxador: string, sub_produto_id: number, usuario_id: number): Promise<Servico | null> {
+
+        // validação
+        if (!cor_vidro || !largura || !altura || !fechadura || !cor_aluminio || !puxador || !sub_produto_id || !usuario_id) {
+            console.error("Invalid parameters for createServico");
+            return null; // Return null if any parameter is invalid
+        }
+
         try {
             const query = `
-                INSERT INTO servico (cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, orcamento_id, status)
+                INSERT INTO servico (cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, orcamento_id, estado)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'em andamento')
                 RETURNING *
             `;
@@ -38,7 +45,7 @@ export class ServicoService {
         try {
             const query = `
                 UPDATE servico
-                SET status = $1,
+                SET estado = $1
                 WHERE id = $2
             `;
 
@@ -74,6 +81,7 @@ export class ServicoService {
         try {
             const query = `
                 SELECT * FROM servico
+                ORDER BY id DESC
             `;
 
             const result = await pool.query<Servico>(query);
@@ -88,7 +96,7 @@ export class ServicoService {
         try {
             const query = `
                 SELECT * FROM servico
-                WHERE usuario_id = $1
+                WHERE id = $1
             `;
 
             const values = [usuario_id];
@@ -97,6 +105,49 @@ export class ServicoService {
         } catch (err) {
             console.error("Error in getServicoByUserId:", err);
             return []; // Return an empty array in case of error
+        }
+    }
+
+    async getServicoById(servico_id: number): Promise<Servico | null> {
+        try {
+            const query = `
+                SELECT * FROM servico
+                WHERE id = $1
+            `;
+
+            const values = [servico_id];
+            const result = await pool.query<Servico>(query, values);
+
+            if (result.rows.length > 0) {
+                return result.rows[0]; // Return the servico found
+            } else {
+                return null; // No servico found
+            }
+        } catch (err) {
+            console.error("Error in getServicoById:", err);
+            return null; // Return null in case of error
+        }
+    }
+
+    async getServicoByOrcamentoId(orcamento_id: number): Promise<Servico[] | null> {
+        try {
+            const query = `
+                SELECT * FROM servico
+                WHERE orcamento_id = $1
+                AND estado = 'em andamento'
+            `;
+
+            const values = [orcamento_id];
+            const result = await pool.query<Servico>(query, values);
+
+            if (result.rows.length > 0) {
+                return result.rows; // Return the servico found
+            } else {
+                return null; // No servico found
+            }
+        } catch (err) {
+            console.error("Error in getServicoByOrcamentoId:", err);
+            return null; // Return null in case of error
         }
     }
 }
