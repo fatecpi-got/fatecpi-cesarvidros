@@ -13,7 +13,7 @@ export class SubProdutoService {
             ORDER BY sub_produto.nome;
         `;
 
-            const result = await pool.query(query);
+            const result = await pool.query<SubProduto>(query);
             return result.rows as SubProduto[];
         } catch (err) {
             console.error("Error in getSubProdutos:", err);

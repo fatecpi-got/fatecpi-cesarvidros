@@ -63,4 +63,30 @@ export class ServicosController {
             return res.status(500).json({ message: "Internal server error" });
         }
     }
+
+    async getAllServicos(req: Request, res: Response): Promise<Response> {
+        try {
+            const servicos = await this.servicoService.getAllServicos();
+            return res.status(200).json(servicos);
+        } catch (error) {
+            console.error("Error fetching servicos:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async getServicoByUserId(req: Request, res: Response): Promise<Response> {
+        const { usuario_id } = req.body;
+
+        if (!usuario_id) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+
+        try {
+            const servicos = await this.servicoService.getServicoByUserId(Number(usuario_id));
+            return res.status(200).json(servicos);
+        } catch (error) {
+            console.error("Error fetching servicos by user ID:", error);
+            return res.status(500).json({ message: "Internal server error" });
+        }
+    }
 }

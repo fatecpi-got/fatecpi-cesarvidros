@@ -1,12 +1,19 @@
 import { Router } from "express";
-import serviceRoutes from './servicoRoutes';
-import categoriaRoutes from './categoriaRoutes';
-import subcategoriaRoutes from './subcategoriaRoutes';
+
+import servicoRoutes from "./servicoRoutes";
+import orcamentoRoutes from "./orcamentoRoutes";
+import feedbackRoutes from "./feedbackRoutes";  
+import pedidoRoutes from "./pedidoRoutes";
+import subCategoriaRoutes from "./subcategoriaRoutes";
+
 
 const router = Router();
 
-router.use('/servicos', serviceRoutes);
-router.use('/categorias', categoriaRoutes);
-router.use('/sub-categorias', subcategoriaRoutes);
+// Define the base routes for each module
+router.use("/servico", servicoRoutes);
+router.use("/orcamento", orcamentoRoutes);
+router.use("/feedback", feedbackRoutes);
+router.use("/pedido", pedidoRoutes);
+router.use("/subcategoria", subCategoriaRoutes);
 
 export default router;

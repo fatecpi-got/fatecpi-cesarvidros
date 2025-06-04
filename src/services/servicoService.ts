@@ -69,4 +69,34 @@ export class ServicoService {
             return false; // Return false in case of error
         }
     }
+    
+    async getAllServicos(): Promise<Servico[]> {
+        try {
+            const query = `
+                SELECT * FROM servico
+            `;
+
+            const result = await pool.query<Servico>(query);
+            return result.rows as Servico[]; // Return all servicos
+        } catch (err) {
+            console.error("Error in getAllServicos:", err);
+            return []; // Return an empty array in case of error
+        }
+    }
+
+    async getServicoByUserId(usuario_id: number): Promise<Servico[]> {
+        try {
+            const query = `
+                SELECT * FROM servico
+                WHERE usuario_id = $1
+            `;
+
+            const values = [usuario_id];
+            const result = await pool.query<Servico>(query, values);
+            return result.rows as Servico[]; // Return servicos for the user
+        } catch (err) {
+            console.error("Error in getServicoByUserId:", err);
+            return []; // Return an empty array in case of error
+        }
+    }
 }

@@ -19,14 +19,14 @@ export class OrcamentoService {
             } else {
                 return -1; // Return -1 if no rows were inserted
             }
-            
+
         } catch (err) {
             console.error("Error in createOrcamento:", err);
             return -1; // Return -1 in case of error
         }
     }
 
-    async updateOrcamentoStatus(orcamento: Orcamento): Promise<boolean> {
+    async updateOrcamentoStatus(orcamento_id: number, status: string): Promise<boolean> {
         try {
             const query = `
                 UPDATE orcamento
@@ -34,13 +34,55 @@ export class OrcamentoService {
                 WHERE id = $2
             `;
 
-            const values = [orcamento.status, orcamento.id];
+            const values = [status, orcamento_id];
             const result = await pool.query(query, values);
 
             return result.rows.length > 0; // Return true if the update was successful
         } catch (err) {
             console.error("Error in updateOrcamentoStatus:", err);
             return false; // Return false in case of error
+        }
+    }
+
+    async getOrcamentoByUserId(usuario_id: number): Promise<Orcamento[] | null> {
+        try {
+            const query = `
+                SELECT * FROM orcamento
+                WHERE usuario_id = $1
+                ORDER BY criado_em DESC
+            `;
+
+            const values = [usuario_id];
+            const result = await pool.query(query, values);
+
+            if (result.rows.length > 0) {
+                return result.rows[0] as Orcamento[]; // Return the first orcamento found
+            } else {
+                return null; // Return null if no orcamento was found
+            }
+        } catch (err) {
+            console.error("Error in getOrcamentoByUserId:", err);
+            return null; // Return null in case of error
+        }
+    }
+
+    async getAllOrcamentos(): Promise<Orcamento[] | null> {
+        try {
+            const query = `
+                SELECT * FROM orcamento
+                ORDER BY criado_em DESC
+            `;
+
+            const result = await pool.query(query);
+
+            if (result.rows.length > 0) {
+                return result.rows as Orcamento[]; // Return all orcamentos found
+            } else {
+                return null; // Return null if no orcamentos were found
+            }
+        } catch (err) {
+            console.error("Error in getAllOrcamentos:", err);
+            return null; // Return null in case of error
         }
     }
 }
