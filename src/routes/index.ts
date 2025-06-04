@@ -4,7 +4,7 @@ import servicoRoutes from "./servicoRoutes";
 import orcamentoRoutes from "./orcamentoRoutes";
 import feedbackRoutes from "./feedbackRoutes";  
 import pedidoRoutes from "./pedidoRoutes";
-import subCategoriaRoutes from "./subCategoriaRoutes";
+import subCategoriaRoutes from "./subcategoriaRoutes";
 
 
 const router = Router();

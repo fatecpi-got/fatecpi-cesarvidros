@@ -1,7 +1,4 @@
 import { Pool } from "pg";
-import { checkEnv } from "../config/checkEnv"; // <-- Corrigido para importar como named export
-
-checkEnv();
 
 const pool = new Pool({
     user: process.env.DB_USER,
