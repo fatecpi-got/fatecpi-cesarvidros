@@ -17,12 +17,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import {
-  createUser,
-  createAdress,
-  createPhone,
-  loginUser,
-} from "../api/authFetch";
+import { createUser, loginUser } from "../api/authFetch";
 
 import "./auth.css";
 
@@ -34,19 +29,26 @@ const signUpSchema = z.object({
   rua: z.string().min(1, "Rua é obrigatória"),
   estado: z.string().min(1, "Estado é obrigatório"),
   cidade: z.string().min(1, "Cidade é obrigatória"),
-  numero: z.string().min(1, "Número da casa é obrigatório"),
+  numeroCasa: z.string().min(1, "Número da casa é obrigatório"),
   numeroTelefone: z.string().min(1, "Número de telefone é obrigatório"),
+  cep: z.string().min(1, "CEP é obrigatório"),
 });
 
 const signInSchema = z.object({
   email: z.string().email("Email é obrigatório").min(1, "Email inválido"),
-  senha: z.string().min(6, "Senha deve ter pelo menos 6 caracteres").min(1, "Senha deve ter pelo menos 6 caracteres"),
+  senha: z
+    .string()
+    .min(6, "Senha deve ter pelo menos 6 caracteres")
+    .min(1, "Senha deve ter pelo menos 6 caracteres"),
 });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function AuthPage() {
+  // REMOVA OU COMENTE ESTA LINHA:
+  // window.localStorage.clear();
+
   const [isSignUp, setIsSignUp] = useState(false);
 
   const signUpForm = useForm<SignUpFormData>({
@@ -58,35 +60,28 @@ export default function AuthPage() {
   });
 
   const handleSignUp = async (data: SignUpFormData) => {
-    const res = await createUser(
-      data.nome,
-      data.email,
-      data.senha,
-      "user",
-      data.data_nascimento,
-      "https://fatecpi-cesarvidros-1.onrender.com/auth/register"
-    );
-
-    if (res && res.ok) {
-      const json = await res.json();
-      const usuario_id = json.userId;
-
-      await createAdress(
-        usuario_id,
-        data.rua,
-        data.estado,
-        data.cidade,
-        data.numero,
-        "https://fatecpi-cesarvidros-1.onrender.com/auth/endereco"
-      );
-
-      await createPhone(
-        usuario_id,
+    try {
+      const res = await createUser(
+        data.nome,
+        data.email,
+        data.senha,
+        "user",
+        data.data_nascimento,
         data.numeroTelefone,
-        "https://fatecpi-cesarvidros-1.onrender.com/auth/telefone"
+        data.rua,
+        data.cidade,
+        data.estado,
+        data.numeroCasa,
+        data.cep,
+        "https://fatecpi-cesarvidros.onrender.com/auth/register"
       );
+      const json = await res.json();
 
-      alert("Usuário cadastrado com sucesso!");
+      alert(json.message);
+      setIsSignUp(false); // Switch to sign in after successful registration
+    } catch (err) {
+      console.error("Erro ao cadastrar usuário:", err);
+      alert("Erro ao cadastrar usuário. Verifique os dados e tente novamente.");
       window.location.reload();
     }
   };
@@ -96,16 +91,26 @@ export default function AuthPage() {
       const res = await loginUser(
         data.email,
         data.senha,
-        "https://fatecpi-cesarvidros-1.onrender.com/auth/login"
+        "https://fatecpi-cesarvidros.onrender.com/auth/login"
       );
 
       const json = await res.json();
 
       alert(json.message);
+
+      if (res.status === 200) {
+        if (json.token && json.userId) {
+          await window.localStorage.setItem("token", json.token);
+          await window.localStorage.setItem("user_id", String(json.userId));
+          window.location.href = "/user";
+        } else {
+          console.error("Token ou userId não encontrados na resposta da API.");
+          alert("Erro no login: dados de autenticação incompletos.");
+        }
+      }
     } catch (err) {
       console.error("Erro ao fazer login:", err);
       alert("Erro ao fazer login. Verifique suas credenciais.");
-      window.location.reload();
     }
   };
 
@@ -119,7 +124,6 @@ export default function AuthPage() {
           className="logo"
           width={80}
           height={80}
-
         />
       </h1>
       {isSignUp ? (
@@ -137,7 +141,9 @@ export default function AuthPage() {
                 {...signUpForm.register("nome")}
               />
               {signUpForm.formState.errors.nome && (
-                <p className="error-message">{signUpForm.formState.errors.nome.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.nome.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -149,7 +155,9 @@ export default function AuthPage() {
                 {...signUpForm.register("email")}
               />
               {signUpForm.formState.errors.email && (
-                <p className="error-message">{signUpForm.formState.errors.email.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.email.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -161,7 +169,9 @@ export default function AuthPage() {
                 {...signUpForm.register("senha")}
               />
               {signUpForm.formState.errors.senha && (
-                <p className="error-message">{signUpForm.formState.errors.senha.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.senha.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -173,7 +183,9 @@ export default function AuthPage() {
                 {...signUpForm.register("data_nascimento")}
               />
               {signUpForm.formState.errors.data_nascimento && (
-                <p className="error-message">{signUpForm.formState.errors.data_nascimento.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.data_nascimento.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -184,7 +196,9 @@ export default function AuthPage() {
                 {...signUpForm.register("rua")}
               />
               {signUpForm.formState.errors.rua && (
-                <p className="error-message">{signUpForm.formState.errors.rua.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.rua.message}
+                </p>
               )}
             </div>
 
@@ -232,7 +246,9 @@ export default function AuthPage() {
                 </SelectContent>
               </Select>
               {signUpForm.formState.errors.estado && (
-                <p className="error-message">{signUpForm.formState.errors.estado.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.estado.message}
+                </p>
               )}
             </div>
 
@@ -244,7 +260,9 @@ export default function AuthPage() {
                 {...signUpForm.register("cidade")}
               />
               {signUpForm.formState.errors.cidade && (
-                <p className="error-message">{signUpForm.formState.errors.cidade.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.cidade.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -252,10 +270,12 @@ export default function AuthPage() {
               <Input
                 className="input"
                 placeholder="Número da Casa"
-                {...signUpForm.register("numero")}
+                {...signUpForm.register("numeroCasa")}
               />
-              {signUpForm.formState.errors.numero && (
-                <p className="error-message">{signUpForm.formState.errors.numero.message}</p>
+              {signUpForm.formState.errors.numeroCasa && (
+                <p className="error-message">
+                  {signUpForm.formState.errors.numeroCasa.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -266,7 +286,22 @@ export default function AuthPage() {
                 {...signUpForm.register("numeroTelefone")}
               />
               {signUpForm.formState.errors.numeroTelefone && (
-                <p className="error-message">{signUpForm.formState.errors.numeroTelefone.message}</p>
+                <p className="error-message">
+                  {signUpForm.formState.errors.numeroTelefone.message}
+                </p>
+              )}
+            </div>
+            <div className="form-control">
+              <Label>CEP</Label>
+              <Input
+                className="input"
+                placeholder="CEP"
+                {...signUpForm.register("cep")}
+              />
+              {signUpForm.formState.errors.cep && (
+                <p className="error-message">
+                  {signUpForm.formState.errors.cep.message}
+                </p>
               )}
             </div>
           </div>
@@ -297,7 +332,9 @@ export default function AuthPage() {
                 {...signInForm.register("email")}
               />
               {signInForm.formState.errors.email && (
-                <p className="error-message">{signInForm.formState.errors.email.message}</p>
+                <p className="error-message">
+                  {signInForm.formState.errors.email.message}
+                </p>
               )}
             </div>
             <div className="form-control">
@@ -309,7 +346,9 @@ export default function AuthPage() {
                 {...signInForm.register("senha")}
               />
               {signInForm.formState.errors.senha && (
-                <p className="error-message">{signInForm.formState.errors.senha.message}</p>
+                <p className="error-message">
+                  {signInForm.formState.errors.senha.message}
+                </p>
               )}
             </div>
           </div>
@@ -328,7 +367,8 @@ export default function AuthPage() {
       )}
       <div className="copy-right">
         <p>
-          © 2024 César Vidros. Todos os direitos reservados. Desenvolvido por <span style={{fontStyle: "italic"}}>Lovelace Solutions</span>
+          © 2024 César Vidros. Todos os direitos reservados. Desenvolvido por{" "}
+          <span style={{ fontStyle: "italic" }}>Lovelace Solutions</span>
         </p>
       </div>
     </div>

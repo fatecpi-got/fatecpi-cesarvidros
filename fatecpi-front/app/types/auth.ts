@@ -9,6 +9,7 @@ export interface AuthSignUp {
     cidade: string;
     numero_casa: string;
     numero_telefone: string;
+    cep: string;
 }
 
 export interface AuthSignIn {
