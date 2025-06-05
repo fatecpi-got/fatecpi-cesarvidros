@@ -26,18 +26,32 @@ export class PedidoService {
 
     async updatePedidoStatus(pedido_id: number, status: string): Promise<boolean> {
         try {
-            const query = `
-                UPDATE pedido
-                SET estado = $1
-                WHERE id = $2
-            `;
+            let query = '';
 
-            const values = [status, pedido_id];
+            if (status === "produzido") { // Using strict equality
+                query = `
+                UPDATE pedido
+                SET produzido_em = NOW(), finalizado_em = NULL, estado = $2
+                WHERE id = $1
+            `;
+            } else if (status === "finalizado") { // Using strict equality
+                query = `
+                UPDATE pedido
+                SET finalizado_em = NOW(), estado = $2
+                WHERE id = $1
+            `;
+            } else {
+                console.error("Invalid status provided for updatePedidoStatus:", status);
+                return false; // Handle unknown status
+            }
+
+            // Corrected order of values: [pedido_id, status]
+            const values = [pedido_id, status];
             const result = await pool.query(query, values);
 
             return (result.rowCount ?? 0) > 0; // Return true if the update was successful
         } catch (err) {
-            console.error("Error in updatePedidoStatus:", err);
+            console.error(`Error in updatePedidoStatus for pedido_id: ${pedido_id}, status: ${status}:`, err);
             return false; // Return false in case of error
         }
     }
@@ -45,7 +59,7 @@ export class PedidoService {
     async getPedidoByOrcamentoId(orcamento_id: number): Promise<Pedido | null> {
         try {
             const query = `
-                select pedido.id as pedido_id, pedido.criado_em as pedido_criado_em, usuario.nome, usuario.numero_telefone, usuario.email from pedido join orcamento on pedido.orcamento_id = orcamento.id join usuario on orcamento.usuario_id = usuario.id where pedido.orcamento_id = $1;
+                select pedido.id as pedido_id, orcamento.id as orcamento_id, pedido.criado_em as pedido_criado_em, usuario.nome, usuario.numero_telefone, usuario.email from pedido join orcamento on pedido.orcamento_id = orcamento.id join usuario on orcamento.usuario_id = usuario.id where pedido.orcamento_id = $1 order by pedido.criado_em desc;
             `;
 
             const values = [orcamento_id];
@@ -65,12 +79,11 @@ export class PedidoService {
     async getAllPedidos(): Promise<Pedido[]> {
         try {
             const query = `
-                SELECT * FROM pedido
-                ORDER BY criado_em DESC
+                select pedido.id as pedido_id, pedido.criado_em as pedido_criado_em, usuario.nome, usuario.numero_telefone, usuario.email from pedido join orcamento on pedido.orcamento_id = orcamento.id join usuario on orcamento.usuario_id = usuario.id order by pedido.criado_em desc;
             `;
 
             const result = await pool.query(query);
-            return result.rows as Pedido[]; // Return all pedidos
+            return result.rows;
         } catch (err) {
             console.error("Error in getAllPedidos:", err);
             return []; // Return an empty array in case of error
