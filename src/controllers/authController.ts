@@ -79,7 +79,7 @@ export const login = async (req: Request, res: Response) => {
             { expiresIn: "1h" }
         );
 
-        res.json({ message: "Login realizado com sucesso!", token });
+        res.status(200).json({ message: "Login realizado com sucesso!", token: token, userId: user.rows[0].id});
     } catch (error) {
         console.error("Erro ao realizar login:", error);
         res.status(500).json({ message: "Erro interno do servidor." });

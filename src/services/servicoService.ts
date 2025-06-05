@@ -10,7 +10,7 @@ export class ServicoService {
         this.orcamentoService = new OrcamentoService();
     }
 
-    async createServico(cor_vidro: string, largura: number, altura: number, fechadura: number, cor_aluminio: string, puxador: string, sub_produto_id: number, usuario_id: number): Promise<Servico | null> {
+    async createServico(cor_vidro: string, largura: number, altura: number, fechadura: string, cor_aluminio: string, puxador: string, sub_produto_id: number, usuario_id: number): Promise<Servico | null> {
 
         // validação
         if (!cor_vidro || !largura || !altura || !fechadura || !cor_aluminio || !puxador || !sub_produto_id || !usuario_id) {

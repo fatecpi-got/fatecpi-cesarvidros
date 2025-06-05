@@ -20,7 +20,7 @@ export class ServicosController {
         try {
             const createdServico = await this.servicoService.createServico(cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, usuario_id);
             if (createdServico) {
-                return res.status(201).json(createdServico);
+                return res.status(201).json({createdServico, message: "Orcamento enviado com sucesso!"});
             } else {
                 return res.status(400).json({ message: "Failed to create servico" });
             }
