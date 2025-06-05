@@ -8,7 +8,7 @@ export async function cadastrarOrcamento(
     sub_produto_id: number,
     usuario_id: number,
     url: string
-) : Promise<any> {
+) : Promise<Response> {
     const response = await fetch(url, {
         method: "POST",
         headers: {

@@ -1,4 +1,4 @@
-export async function fetchSubProdutos(url: string): Promise<any> {
+export async function fetchSubProdutos(url: string): Promise<Response> {
     const response = await fetch(url, {
         method: "GET",
         headers: {
