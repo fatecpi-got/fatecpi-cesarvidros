@@ -9,8 +9,9 @@ const app = express();
 app.use(cors({
   origin: [
     "http://192.168.10.8:3000",
+    "http://192.168.10.9:3000", // <-- add this line
     "https://fatecpi-cesarvidros.vercel.app",
-    "http://localhost:3000" // Adicione a origem do seu frontend local aqui!
+    "http://localhost:3000"
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
