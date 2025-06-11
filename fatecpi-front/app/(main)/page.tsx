@@ -72,7 +72,7 @@ export default function AuthPage() {
         data.estado,
         data.numeroCasa,
         data.cep,
-        "http://localhost:3001/auth/register"
+        "https://fatecpi-cesarvidros-1.onrender.com/auth/register"
       );
       const json = await res.json();
 
@@ -90,7 +90,7 @@ export default function AuthPage() {
       const res = await loginUser(
         data.email,
         data.senha,
-        "http://localhost:3001/auth/login"
+        "https://fatecpi-cesarvidros-1.onrender.com/auth/login"
       );
 
       const json = await res.json();

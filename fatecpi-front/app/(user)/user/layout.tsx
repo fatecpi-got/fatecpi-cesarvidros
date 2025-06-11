@@ -4,9 +4,9 @@ import Footer from "@/app/components/general/footer/Footer";
 import "./globals.css";
 
 const paths = [
-    {name: "Home", path: "/"},
-    {name: "Solicitação", path: "/user"},
-    {name: "Orçamento", path: "/user/orcamento"}
+  {name: "Solicitação", path: "/user"},
+  {name: "Orçamento", path: "/user/orcamento"},
+  {name: "Sair", path: "/"}
 ]
 
 export default function RootLayout({

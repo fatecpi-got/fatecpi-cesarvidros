@@ -62,7 +62,7 @@ export default function BudgetPage() {
     const fetchData = async () => {
       try {
         const response = await fetchSubProdutos(
-          "http://localhost:3001/api/subcategoria/get-all"
+          "https://fatecpi-cesarvidros-1.onrender.com/api/subcategoria/get-all"
         );
         const data = await response.json();
         setSubProdutos(data);
@@ -90,7 +90,7 @@ export default function BudgetPage() {
   });
 
   const onSubmit = async (data: ServiceRequest) => {
-    setServicos((prev) => [...prev, { ...data}]);
+    setServicos((prev) => [...prev, { ...data }]);
     setSubProdutoEscolhido(false);
     setCurrentSubProdutoId(null);
     setShowPuxador(true);
@@ -105,16 +105,16 @@ export default function BudgetPage() {
         usuario_id: Number(userId),
       };
 
-      console.log(body)
+      console.log(body);
 
       const response = await cadastrarOrcamento(
         body,
-        "http://localhost:3001/api/servico/create"
+        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/create"
       );
 
-      const response_json = await response.json();
+      await response.json();
 
-      console.log(response_json);
+      setServicos([]);
     } catch (e) {
       console.log(e);
     }
@@ -363,29 +363,59 @@ export default function BudgetPage() {
         {subProdutoEscolhido && (
           <div className="button-submit">
             <Button type="submit" className="button">
-              Enviar
+              Adicionar ao carrinho
             </Button>
           </div>
         )}
       </form>
       <div className="servicos-container-carrinho">
+        <div className="title-container-carrinho">
+          <h1>Serviços a requisitar</h1>
+        </div>
         {servicos.length > 0 ? (
-          <div>
+          <div className="container-carrinho">
             {servicos.map((servico, index) => (
-              <div key={index}>
-                <p>{servico.altura}</p>
-                <p>{servico.largura}</p>
-                <p>{servico.fechadura}</p>
-                <p>{servico.cor_aluminio}</p>
-                <p>{servico.cor_vidro}</p>
-                <p>{servico.puxador}</p>
-                <p>{servico.sub_produto_id}</p>
+              <div key={index} className="item-carrinho">
+                <div className="title-item-carrinho">Servico: {index + 1}</div>
+                <div className="body-item-carrinho">
+                  <p>
+                    <span>Produto</span>
+                    <span>
+                      {subProdutos.find((sp) => sp.id == servico.sub_produto_id)
+                        ?.nome || "Subproduto não encontrado"}
+                    </span>
+                  </p>
+                  <p>
+                    <span>Altura</span>
+                    <span>{servico.altura}</span>
+                  </p>
+                  <p>
+                    <span>Largura</span>
+                    <span>{servico.largura}</span>
+                  </p>
+                  <p>
+                    <span>Cor aluminio</span>
+                    <span>{servico.cor_aluminio}</span>
+                  </p>
+                  <p>
+                    <span>Cor vidro</span>
+                    <span>{servico.cor_vidro}</span>
+                  </p>
+                  <p>
+                    <span>Fechadura</span>
+                    <span>{servico.fechadura}</span>
+                  </p>
+                  <p>
+                    <span>puxador</span>
+                    <span>{servico.puxador}</span>
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         ) : (
-          <div>
-            <p>Não existe nada no carrinho</p>
+          <div className="error-message">
+            <p>Não há serviços a requisitar</p>
           </div>
         )}
       </div>

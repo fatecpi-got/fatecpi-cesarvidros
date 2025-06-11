@@ -6,7 +6,7 @@ import "./globals.css";
 const paths = [
   {name: "Serviços", path: "/admin"},
   {name: "Pedidos", path: "/admin/pedido"},
-  {name: "Login", path: "/"},
+  {name: "Sair", path: "/"}
 ]
 
 export default function RootLayout({

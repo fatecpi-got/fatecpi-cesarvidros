@@ -7,6 +7,18 @@
     background: #7794e2;
     color: antiquewhite;
 
+    .logo {
+        display: flex;
+        align-items: center;
+
+        .title-logo {
+            font-size: 2rem;
+            margin-left: 1rem;
+            text-transform: uppercase;
+            font-style: italic;
+        }
+    }
+
     .nav-list {
         display: flex;
         align-items: center;

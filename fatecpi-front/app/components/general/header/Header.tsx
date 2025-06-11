@@ -1,16 +1,21 @@
+import Image from "next/image";
+
 type Path = { name: string; path: string };
 
 interface HeaderProps {
   paths: Path[];
 }
 
-import './header.css';
+import "./header.css";
 
 export default function Header({ paths }: HeaderProps) {
   return (
     <header className="header">
       <div className="logo">
-        <h1>Logo</h1>
+        <span>
+          <Image src="/logo_cesar.png" alt="" width={50} height={50} />
+        </span>
+        <span className="title-logo">César Vidros</span>
       </div>
       <nav className="navbar">
         <ul className="nav-list">
