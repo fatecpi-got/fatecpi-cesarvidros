@@ -40,8 +40,8 @@ export class OrcamentoController {
 
     async getOrcamentoByUserId(req: Request, res: Response): Promise<void> {
         try {
-            const { usuario_id } = req.body;
-            const orcamento = await this.orcamentoService.getOrcamentoByUserId(usuario_id);
+            const usuario_id = req.params.usuario_id;
+            const orcamento = await this.orcamentoService.getOrcamentoByUserId(Number(usuario_id));
             if (orcamento) {
                 res.status(200).json(orcamento);
             } else {

@@ -12,7 +12,7 @@ router.get('/get-all', async (req, res) => {
     }
 });
 
-router.get('/get-by-user', async (req, res) => {
+router.get('/get-by-user/:usuario_id', async (req, res) => {
     try {
         await orcamentoController.getOrcamentoByUserId(req, res);
     } catch (err) {

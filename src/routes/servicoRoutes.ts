@@ -21,7 +21,7 @@ router.get('/get-by-user/:usuario_id', async (req, res) => {
     }
 });
 
-router.get('/get-by-orcamento', async (req, res) => {
+router.get('/get-by-orcamento/:orcamento_id', async (req, res) => {
     try {
         await servicosController.getServicoByOrcamentoId(req, res);
     } catch (err) {

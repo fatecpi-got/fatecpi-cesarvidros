@@ -15,12 +15,12 @@ export class ServicosController {
     }
 
     async createServico(req: Request, res: Response): Promise<Response> {
-        const { servicos , usuario_id } = req.body;
+        const { servicos, usuario_id } = req.body;
 
         try {
             const createdServico = await this.servicoService.createServicos(servicos, usuario_id);
             if (createdServico) {
-                return res.status(201).json({createdServico, message: "Orcamento enviado com sucesso!"});
+                return res.status(201).json({ createdServico, message: "Orcamento enviado com sucesso!" });
             } else {
                 return res.status(400).json({ message: "Failed to create servico" });
             }
@@ -31,31 +31,44 @@ export class ServicosController {
     }
 
     async updateServicoStatus(req: Request, res: Response): Promise<Response> {
-        const { servico_id, novo_status } = req.body;
+        const servicos: { servico_id: number; novo_status: string }[] = req.body;
 
-        if (!servico_id || !novo_status) {
-            return res.status(400).json({ message: "ID and estado are required" });
+        if (!Array.isArray(servicos) || servicos.length === 0) {
+            return res.status(400).json({ message: "Body must be an array of { servico_id, novo_status }" });
+        }
+
+        // Verifica cada elemento do array
+        for (const s of servicos) {
+            if (!s.servico_id || !s.novo_status) {
+                return res.status(400).json({ message: "Each item must have servico_id and novo_status" });
+            }
         }
 
         try {
-            const updated = await this.servicoService.updateServicoStatus(servico_id, novo_status);
+            const updated = await this.servicoService.updateServicoStatus(servicos);
+
             if (updated) {
-                if (novo_status === "aceito") {
-                    const servico = await this.servicoService.getServicoById(servico_id);
-                    if (servico) {
-                        const pedido = await this.pedidoService.createPedido(servico.orcamento_id);
-                        const orcamento = await this.orcamentoService.updateOrcamentoStatus(servico.orcamento_id, "finalizado");
-                        if (pedido) {
-                            return res.status(200).json({ message: "Servico status updated and Pedido created successfully", pedido, orcamento });
-                        } else {
-                            return res.status(400).json({ message: "Servico status updated but failed to create Pedido" });
+                const results = [];
+                for (const s of servicos) {
+                    if (s.novo_status === "aceito") {
+                        const servico = await this.servicoService.getServicoById(s.servico_id);
+                        if (servico) {
+                            const pedido = await this.pedidoService.createPedido(servico.orcamento_id);
+                            const orcamento = await this.orcamentoService.updateOrcamentoStatus(servico.orcamento_id, "finalizado");
+                            results.push({
+                                servico_id: s.servico_id,
+                                message: pedido ? "Servico status updated and Pedido created successfully" : "Servico status updated but failed to create Pedido",
+                                pedido,
+                                orcamento
+                            });
+                            continue;
                         }
                     }
-                } else {
-                    // Status updated but not "aceito"
-                    return res.status(200).json({ message: "Servico status updated successfully" });
+                    results.push({ servico_id: s.servico_id, message: "Servico status updated successfully" });
                 }
+                return res.status(200).json(results);
             }
+
             return res.status(400).json({ message: "Failed to update servico status" });
         } catch (error) {
             console.error("Error updating servico status:", error);
@@ -105,7 +118,7 @@ export class ServicosController {
     }
 
     async getServicoByOrcamentoId(req: Request, res: Response): Promise<Response> {
-        const { orcamento_id } = req.body;
+        const orcamento_id  = req.params.orcamento_id;
 
         if (!orcamento_id) {
             return res.status(400).json({ message: "Orcamento ID is required" });

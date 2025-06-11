@@ -1,4 +1,5 @@
 import { pool } from "../database/database";
+import { OrcamentoService } from "./OrcamentoService";
 
 export interface Servico {
     id: number;
@@ -15,7 +16,10 @@ export interface Servico {
     orcamento_id: number;
 }
 
-import { OrcamentoService } from "./OrcamentoService";
+interface updateServicoDTO {
+    servico_id: number,
+    novo_status: string
+}
 
 interface CreateServicoDTO {
     cor_vidro: string;
@@ -97,18 +101,26 @@ export class ServicoService {
         }
     }
 
-    async updateServicoStatus(servico_id: number, novo_status: string): Promise<boolean> {
+    async updateServicoStatus(servicos: updateServicoDTO[]): Promise<boolean> {
         try {
-            const query = `
+            const results: updateServicoDTO[] = [];
+
+            for (const servico of servicos) {
+                const query = `
                 UPDATE servico
                 SET estado = $1
                 WHERE id = $2
             `;
 
-            const values = [novo_status, servico_id];
-            const result = await pool.query(query, values);
+                const values = [servico.novo_status, servico.servico_id];
+                const result = await pool.query(query, values);
 
-            return (result.rowCount ?? 0) > 0; // Return true if the update was successful
+                if (result.rows.length > 0) {
+                    results.push(result.rows[0])
+                }
+            }
+
+            return (results.length ?? 0) > 0; // Return true if the update was successful
         } catch (err) {
             console.error("Error in updateServicoStatus:", err);
             return false; // Return false in case of error
@@ -193,9 +205,10 @@ export class ServicoService {
     async getServicoByOrcamentoId(orcamento_id: number): Promise<Servico[] | null> {
         try {
             const query = `
-                SELECT * FROM servico
-                WHERE orcamento_id = $1
-                AND estado = 'em andamento'
+                select servico.id, servico.cor_vidro, servico.cor_aluminio, servico.altura, servico.largura, servico.fechadura, servico.puxador, servico.estado, servico.preco, sub_produto.nome as produto from servico
+                join sub_produto on servico.sub_produto_id = sub_produto.id 
+                join orcamento on servico.orcamento_id = orcamento.id
+                where servico.orcamento_id = $1;
             `;
 
             const values = [orcamento_id];

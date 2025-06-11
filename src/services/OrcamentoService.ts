@@ -51,9 +51,8 @@ export class OrcamentoService {
     async getOrcamentoByUserId(usuario_id: number): Promise<Orcamento[] | null> {
         try {
             const query = `
-                SELECT orcamento.id as orcamento_id, criado_em, status, usuario.nome, usuario.cep, usuario.numero_telefone FROM orcamento join usuario on  usuario.id = orcamento.usuario_id
-                WHERE usuario_id = $1 AND status = 'em andamento'
-                ORDER BY criado_em DESC;
+                select orcamento.id, orcamento.status, orcamento.criado_em from orcamento 
+                where orcamento.usuario_id = $1;
             `;
 
             const values = [usuario_id];
