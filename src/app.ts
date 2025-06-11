@@ -7,7 +7,11 @@ import authRoutes from "./routes/authRoutes";
 const app = express();
 
 app.use(cors({
-  origin: ["http://192.168.10.8:3000", "https://fatecpi-cesarvidros.vercel.app"],
+  origin: [
+    "http://192.168.10.8:3000",
+    "https://fatecpi-cesarvidros.vercel.app",
+    "http://localhost:3000" // Adicione a origem do seu frontend local aqui!
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));

@@ -15,10 +15,10 @@ export class ServicosController {
     }
 
     async createServico(req: Request, res: Response): Promise<Response> {
-        const { cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, usuario_id } = req.body;
+        const { servicos , usuario_id } = req.body;
 
         try {
-            const createdServico = await this.servicoService.createServico(cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, usuario_id);
+            const createdServico = await this.servicoService.createServicos(servicos, usuario_id);
             if (createdServico) {
                 return res.status(201).json({createdServico, message: "Orcamento enviado com sucesso!"});
             } else {
@@ -94,13 +94,8 @@ export class ServicosController {
     }
 
     async getServicoByUserId(req: Request, res: Response): Promise<Response> {
-        const { usuario_id } = req.body;
-
-        if (!usuario_id) {
-            return res.status(400).json({ message: "User ID is required" });
-        }
-
         try {
+            const usuario_id = req.params.usuario_id;
             const servicos = await this.servicoService.getServicoByUserId(Number(usuario_id));
             return res.status(200).json(servicos);
         } catch (error) {

@@ -3,6 +3,16 @@ import { Servico } from "../types/servico";
 
 import { OrcamentoService } from "./OrcamentoService";
 
+interface CreateServicoDTO {
+    cor_vidro: string;
+    largura: number;
+    altura: number;
+    fechadura: string;
+    cor_aluminio: string;
+    puxador: string;
+    sub_produto_id: number;
+};
+
 export class ServicoService {
     private orcamentoService: OrcamentoService;
 
@@ -10,34 +20,66 @@ export class ServicoService {
         this.orcamentoService = new OrcamentoService();
     }
 
-    async createServico(cor_vidro: string, largura: number, altura: number, fechadura: string, cor_aluminio: string, puxador: string, sub_produto_id: number, usuario_id: number): Promise<Servico | null> {
+    async createServicos(
+        servicos: CreateServicoDTO[],
+        usuario_id: number
+    ): Promise<Servico[] | null> {
 
-        // validação
-        if (!cor_vidro || !largura || !altura || !fechadura || !cor_aluminio || !puxador || !sub_produto_id || !usuario_id) {
-            console.error("Invalid parameters for createServico");
-            return null; // Return null if any parameter is invalid
+        // Validação básica
+        if (!usuario_id || !Array.isArray(servicos) || servicos.length === 0) {
+            console.error("Parâmetros inválidos para createServicos");
+            return null;
+        }
+
+        // Checa se todos os objetos do array têm os parâmetros obrigatórios
+        for (const servico of servicos) {
+            if (
+                !servico.cor_vidro ||
+                !servico.largura ||
+                !servico.altura ||
+                !servico.fechadura ||
+                !servico.cor_aluminio ||
+                !servico.puxador ||
+                !servico.sub_produto_id
+            ) {
+                console.error("Objeto de serviço com parâmetros faltando:", servico);
+                return null;
+            }
         }
 
         try {
-            const query = `
-                INSERT INTO servico (cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, orcamento_id, estado)
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'em andamento')
-                RETURNING *
-            `;
-
+            // Cria o orçamento só uma vez para todos os serviços
             const orcamento_id = await this.orcamentoService.createOrcamento(usuario_id);
 
-            const values = [cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, orcamento_id];
+            const results: Servico[] = [];
 
-            const result = await pool.query<Servico>(query, values);
-            if (result.rows.length > 0) {
-                return result.rows[0]; // Return the created servico
-            } else {
-                return null; // No rows were inserted
+            for (const servico of servicos) {
+                const query = `
+                    INSERT INTO servico (cor_vidro, largura, altura, fechadura, cor_aluminio, puxador, sub_produto_id, orcamento_id, estado)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'em andamento')
+                    RETURNING *
+                    `;
+                const values = [
+                    servico.cor_vidro,
+                    servico.largura,
+                    servico.altura,
+                    servico.fechadura,
+                    servico.cor_aluminio,
+                    servico.puxador,
+                    servico.sub_produto_id,
+                    orcamento_id,
+                ];
+
+                const result = await pool.query<Servico>(query, values);
+                if (result.rows.length > 0) {
+                    results.push(result.rows[0]);
+                }
             }
+
+            return results.length > 0 ? results : null;
         } catch (err) {
-            console.error("Error in createServico:", err);
-            return null; // Return null in case of error
+            console.error("Erro em createServicos:", err);
+            return null;
         }
     }
 
@@ -63,7 +105,7 @@ export class ServicoService {
         try {
             const query = `
                 UPDATE servico
-                SET custo = $1, preco = $2
+                SET custo = $1, preco = $2, estado = "devolvido"
                 WHERE id = $3
             `;
 
@@ -76,15 +118,18 @@ export class ServicoService {
             return false; // Return false in case of error
         }
     }
-    
+
     async getAllServicos(): Promise<Servico[]> {
         try {
             const query = `
-                SELECT * FROM servico
-                ORDER BY id DESC
+                select servico.id, servico.cor_vidro, servico.preco, servico.custo, servico.cor_aluminio, servico.altura, servico.largura, servico.fechadura, servico.puxador, servico.estado, servico.orcamento_id, sub_produto.nome as produto, usuario.nome as nome_usuario, usuario.numero_telefone, usuario.cep from servico 
+                join sub_produto on sub_produto.id = servico.sub_produto_id
+                join orcamento on servico.orcamento_id = orcamento.id
+                join usuario on orcamento.usuario_id = usuario.id
+                order by servico.id;
             `;
 
-            const result = await pool.query<Servico>(query);
+            const result = await pool.query(query);
             return result.rows as Servico[]; // Return all servicos
         } catch (err) {
             console.error("Error in getAllServicos:", err);
@@ -95,8 +140,10 @@ export class ServicoService {
     async getServicoByUserId(usuario_id: number): Promise<Servico[]> {
         try {
             const query = `
-                SELECT * FROM servico
-                WHERE id = $1
+                select servico.id, servico.cor_vidro, servico.cor_aluminio, servico.altura, servico.largura, servico.fechadura, servico.preco, servico.puxador, servico.estado, sub_produto.nome as produto, orcamento.usuario_id from servico 
+                join sub_produto on servico.sub_produto_id = sub_produto.id
+                join orcamento on servico.orcamento_id = orcamento.id
+                where orcamento.usuario_id = $1;
             `;
 
             const values = [usuario_id];
