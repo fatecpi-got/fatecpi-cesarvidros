@@ -24,14 +24,11 @@ import { SubProduto } from "@/app/types/subProduto";
 
 import "./page.css";
 
-// --- INÍCIO DA MUDANÇA IMPORTANTE NO SCHEMA ---
 const serviceRequestSchema = z.object({
   cor_vidro: z.string().min(1, "Cor do vidro é obrigatória"),
   cor_aluminio: z.string().min(1, "Cor do alumínio é obrigatória"),
-  // Puxador e fechadura são strings que devem ter pelo menos 1 caractere.
-  // A lógica de "nao possui" será aplicada antes da validação final do Zod.
-  puxador: z.string(), // Remove .min(1) daqui, será validado por superRefine ou no transform
-  fechadura: z.string(), // Remove .min(1) daqui, será validado por superRefine ou no transform
+  puxador: z.string(),
+  fechadura: z.string(),
   sub_produto_id: z.number().min(1, "Sub produto é obrigatório"),
   largura: z
     .number()
@@ -41,10 +38,10 @@ const serviceRequestSchema = z.object({
     .number()
     .min(0, "Altura deve ser um número positivo")
     .max(1000, "Altura não pode ser maior que 1000"),
-  usuario_id: z.number(),
 });
 
 export default function BudgetPage() {
+  const [servicos, setServicos] = useState<ServiceRequest[]>([]);
   const [subProdutos, setSubProdutos] = useState<SubProduto[]>([]);
   const [subProdutoEscolhido, setSubProdutoEscolhido] =
     useState<boolean>(false);
@@ -52,14 +49,12 @@ export default function BudgetPage() {
     null
   );
 
-  // Estes estados controlam a VISIBILIDADE e são usados para a lógica de atribuição
   const [showPuxador, setShowPuxador] = useState<boolean>(true);
   const [showFechadura, setShowFechadura] = useState<boolean>(true);
 
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
-    // Este código só roda no cliente
     const storedUserId = localStorage.getItem("user_id");
     if (storedUserId) {
       setUserId(storedUserId);
@@ -67,7 +62,7 @@ export default function BudgetPage() {
     const fetchData = async () => {
       try {
         const response = await fetchSubProdutos(
-          "https://fatecpi-cesarvidros.onrender.com/api/subcategoria/get-all"
+          "http://localhost:3001/api/subcategoria/get-all"
         );
         const data = await response.json();
         setSubProdutos(data);
@@ -91,54 +86,40 @@ export default function BudgetPage() {
       sub_produto_id: 0,
       largura: 0,
       altura: 0,
-      usuario_id: Number(userId) || 0,
     },
   });
 
   const onSubmit = async (data: ServiceRequest) => {
-    try {
-      const dataToSubmit: ServiceRequest = { ...data };
-
-      if (
-        showPuxador &&
-        (!dataToSubmit.puxador || dataToSubmit.puxador.trim() === "")
-      ) {
-        alert("Puxador é obrigatório para este subproduto.");
-        return;
-      }
-
-      if (
-        showFechadura &&
-        (!dataToSubmit.fechadura || dataToSubmit.fechadura.trim() === "")
-      ) {
-        alert("Fechadura é obrigatória para este subproduto.");
-        return;
-      }
-
-      const res = await cadastrarOrcamento(
-        dataToSubmit.cor_vidro,
-        dataToSubmit.largura,
-        dataToSubmit.altura,
-        dataToSubmit.fechadura,
-        dataToSubmit.cor_aluminio,
-        dataToSubmit.puxador,
-        dataToSubmit.sub_produto_id,
-        Number(userId),
-        "https://fatecpi-cesarvidros.onrender.com/api/servico/create"
-      );
-
-      const json = await res.json();
-      alert(json.message);
-    } catch (err) {
-      console.error("Erro ao cadastrar serviço: ", err);
-      alert("Erro ao enviar orçamento");
-    }
+    setServicos((prev) => [...prev, { ...data}]);
     setSubProdutoEscolhido(false);
     setCurrentSubProdutoId(null);
-    setShowPuxador(true); // Reseta para o estado inicial padrão
-    setShowFechadura(true); // Reseta para o estado inicial padrão
+    setShowPuxador(true);
+    setShowFechadura(true);
     form.reset();
   };
+
+  const cadastrar = async () => {
+    try {
+      const body = {
+        servicos: servicos,
+        usuario_id: Number(userId),
+      };
+
+      console.log(body)
+
+      const response = await cadastrarOrcamento(
+        body,
+        "http://localhost:3001/api/servico/create"
+      );
+
+      const response_json = await response.json();
+
+      console.log(response_json);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const handleSubProdutoChange = (value: string) => {
     const selectedId = Number(value);
     form.setValue("sub_produto_id", selectedId);
@@ -387,6 +368,32 @@ export default function BudgetPage() {
           </div>
         )}
       </form>
+      <div className="servicos-container-carrinho">
+        {servicos.length > 0 ? (
+          <div>
+            {servicos.map((servico, index) => (
+              <div key={index}>
+                <p>{servico.altura}</p>
+                <p>{servico.largura}</p>
+                <p>{servico.fechadura}</p>
+                <p>{servico.cor_aluminio}</p>
+                <p>{servico.cor_vidro}</p>
+                <p>{servico.puxador}</p>
+                <p>{servico.sub_produto_id}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <p>Não existe nada no carrinho</p>
+          </div>
+        )}
+      </div>
+      {servicos.length > 0 && (
+        <div className="button">
+          <button onClick={() => cadastrar()}>Enviar</button>
+        </div>
+      )}
     </div>
   );
 }

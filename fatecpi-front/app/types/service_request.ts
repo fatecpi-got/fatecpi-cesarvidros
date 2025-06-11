@@ -6,5 +6,4 @@ export interface ServiceRequest {
     cor_aluminio: string;
     puxador: string;
     sub_produto_id: number;
-    usuario_id: number;
 }

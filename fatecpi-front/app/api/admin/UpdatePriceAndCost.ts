@@ -1,15 +1,15 @@
-
-
-export async function cadastrarOrcamento(
-    data: unknown,
+export async function UpdatePriceCost(
+    id: number,
+    preco: number,
+    custo: number,
     url: string
 ) : Promise<Response> {
     const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
+        body: JSON.stringify({id, preco, custo})
     })
 
     if (!response.ok) {

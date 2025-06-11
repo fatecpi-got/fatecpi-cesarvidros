@@ -35,11 +35,10 @@ const signUpSchema = z.object({
 });
 
 const signInSchema = z.object({
-  email: z.string().email("Email é obrigatório").min(1, "Email inválido"),
+  email: z.string().email("Email é obrigatório"),
   senha: z
     .string()
     .min(6, "Senha deve ter pelo menos 6 caracteres")
-    .min(1, "Senha deve ter pelo menos 6 caracteres"),
 });
 
 type SignUpFormData = z.infer<typeof signUpSchema>;
@@ -73,7 +72,7 @@ export default function AuthPage() {
         data.estado,
         data.numeroCasa,
         data.cep,
-        "https://fatecpi-cesarvidros.onrender.com/auth/register"
+        "http://localhost:3001/auth/register"
       );
       const json = await res.json();
 
@@ -91,7 +90,7 @@ export default function AuthPage() {
       const res = await loginUser(
         data.email,
         data.senha,
-        "https://fatecpi-cesarvidros.onrender.com/auth/login"
+        "http://localhost:3001/auth/login"
       );
 
       const json = await res.json();
@@ -99,6 +98,11 @@ export default function AuthPage() {
       alert(json.message);
 
       if (res.status === 200) {
+        if (json.userRole === "admin") {
+          window.location.href = "/admin"
+          return;
+        }
+
         if (json.token && json.userId) {
           await window.localStorage.setItem("token", json.token);
           await window.localStorage.setItem("user_id", String(json.userId));
