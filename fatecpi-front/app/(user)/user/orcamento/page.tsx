@@ -20,7 +20,7 @@ export default function DevolutivaPage() {
       try {
         const res = await GetOrcamentosByUser(
           Number(user),
-          "http://localhost:3001/api/orcamento/get-by-user/"
+          "https://fatecpi-cesarvidros-1.onrender.com/api/orcamento/get-by-user/"
         );
 
         const data: ServicoDetalhado[] = await res.json();

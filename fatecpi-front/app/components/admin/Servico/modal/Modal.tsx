@@ -52,7 +52,7 @@ export default function Modal({
         id,
         data.preco,
         data.custo,
-        "http://localhost:3001/api/servico/update-cost-price"
+        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/update-cost-price"
       );
 
       const json = await res.json();

@@ -33,7 +33,7 @@ export default function Servicos() {
     const fetchData = async () => {
       try {
         const response = await getAllServicos(
-          "http://localhost:3001/api/servico/get-all"
+          "https://fatecpi-cesarvidros-1.onrender.com/api/servico/get-all"
         );
         const data: Servico[] = await response.json();
 

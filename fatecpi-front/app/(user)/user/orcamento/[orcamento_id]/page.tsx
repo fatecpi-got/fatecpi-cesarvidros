@@ -36,7 +36,7 @@ export default function ServicoPorOrcamentoPage() {
       try {
         const response = await getServicosByOrcamentoId(
           Number(orcamento_id),
-          "http://localhost:3001/api/servico/get-by-orcamento/"
+          "https://fatecpi-cesarvidros-1.onrender.com/api/servico/get-by-orcamento/"
         );
 
         const response_json: ServicoOrcamento[] = await response.json();
@@ -68,7 +68,7 @@ export default function ServicoPorOrcamentoPage() {
     try {
       const response = await updateServicosEstados(
         servicos,
-        "http://localhost:3001/api/servico/update-status"
+        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/update-status"
       );
 
       if (response) {
@@ -88,7 +88,7 @@ export default function ServicoPorOrcamentoPage() {
     try {
       const response = await updateServicosEstados(
         servicos,
-        "http://localhost:3001/api/servico/update-status"
+        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/update-status"
       );
 
       if (response) {
