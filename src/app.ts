@@ -9,7 +9,8 @@ const app = express();
 app.use(cors({
   origin: [
     "http://192.168.10.8:3000",
-    "http://192.168.10.9:3000", // <-- add this line
+    "http://192.168.10.9:3000", 
+    "https://fatecpi-cesarvidros-git-pedro-frontend-fatecpis-projects.vercel.app",
     "https://fatecpi-cesarvidros.vercel.app",
     "http://localhost:3000"
   ],
