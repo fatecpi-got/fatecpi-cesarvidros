@@ -1,0 +1,101 @@
+// Color variables (assuming these are defined globally or imported)
+$primary-blue: #007bff;
+$dark-blue: #0056b3;
+$light-blue: #e9f5ff;
+$white: #ffffff;
+$light-gray: #f8f9fa;
+$medium-gray: #6c757d;
+$dark-gray: #343a40;
+$red-danger: #dc3545; // Keeping this for consistency
+
+.orcamento-devolutiva-user-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  padding: 1rem 2rem;
+  gap: 1rem;
+  background-color: $light-gray; // Subtle background for the page
+  min-height: 100vh; // Ensure it takes full viewport height
+}
+
+.orcamento-devolutiva-user {
+  background-color: $white;
+  border: 1px solid $light-blue;
+  border-radius: 10px; // Slightly larger rounded corners for a softer feel
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); // More pronounced shadow
+  padding: 25px;
+  margin-bottom: 25px; // Space between each budget card
+  width: 100%;
+  max-width: 700px; // Max width for readability on large screens
+  display: flex;
+  flex-direction: column;
+  gap: 20px; // Space between sections (header, body, footer)
+  transition: all 0.3s ease; // Smooth transition for hover effects
+
+  &:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); // Deeper shadow on hover
+    transform: translateY(-3px); // Slight lift effect
+  }
+
+  .header-devolutiva {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: $primary-blue; // Primary blue for the ID
+    padding-bottom: 15px;
+    border-bottom: 2px solid $light-blue; // A distinct separator
+    text-align: center;
+  }
+
+  .body-devolutiva {
+    display: flex;
+    flex-direction: column; // Stack status and data
+    gap: 10px; // Space between status and data lines
+
+    .status,
+    .data {
+      font-size: 1em;
+      color: $dark-gray;
+      display: flex;
+      justify-content: space-between; // Align text to ends
+      align-items: center;
+      padding: 8px 0; // Padding for each line
+
+      span {
+        // To style the value part, if you were to wrap it in a span
+        font-weight: normal;
+        color: $medium-gray;
+      }
+    }
+
+    .status {
+      font-weight: bold; // Make status stand out slightly
+      color: $dark-blue; // Darker blue for status
+    }
+  }
+
+  .footer-devolutiva {
+    padding-top: 15px;
+    border-top: 1px dashed $light-gray; // A lighter separator for the footer
+    display: flex;
+    justify-content: center; // Center the button
+
+    button {
+      background-color: $primary-blue;
+      color: $white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px; // Rounded button
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+
+      &:hover {
+        background-color: $dark-blue;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Add a subtle shadow on hover
+      }
+    }
+  }
+}

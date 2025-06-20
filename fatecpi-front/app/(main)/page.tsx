@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { API_URL } from "@/utils/env";
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -45,8 +47,6 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function AuthPage() {
-  // REMOVA OU COMENTE ESTA LINHA:
-  // window.localStorage.clear();
 
   const [isSignUp, setIsSignUp] = useState(false);
 
@@ -72,7 +72,7 @@ export default function AuthPage() {
         data.estado,
         data.numeroCasa,
         data.cep,
-        "https://fatecpi-cesarvidros-1.onrender.com/auth/register"
+        `${API_URL}/auth/register`
       );
       const json = await res.json();
 
@@ -90,7 +90,7 @@ export default function AuthPage() {
       const res = await loginUser(
         data.email,
         data.senha,
-        "https://fatecpi-cesarvidros-1.onrender.com/auth/login"
+        `${API_URL}/auth/login`
       );
 
       const json = await res.json();

@@ -2,6 +2,8 @@ import { UpdatePriceCost } from "@/app/api/admin/UpdatePriceAndCost";
 
 import "./modal.css";
 
+import { API_URL } from "@/utils/env";
+
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +30,7 @@ interface ModalProps {
   cep: string;
   produto: string;
   onClose: () => void;
+  onActionComplete: () => void; // Optional callback for action completion
 }
 
 export default function Modal({
@@ -41,6 +44,7 @@ export default function Modal({
   cep,
   produto,
   onClose,
+  onActionComplete, // Optional callback for action completion
 }: ModalProps) {
   const form = useForm<UpdatePriceCostData>({
     resolver: zodResolver(updatePriceCostSchema),
@@ -52,11 +56,12 @@ export default function Modal({
         id,
         data.preco,
         data.custo,
-        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/update-cost-price"
+        `${API_URL}/api/servico/update-cost-price`
       );
 
-      const json = await res.json();
-      console.log(json);
+      await res.json();
+      onActionComplete?.(); // Call the optional callback if provided
+      onClose();
     } catch (e) {
       console.log(e);
     }
@@ -142,3 +147,4 @@ export default function Modal({
     </div>
   );
 }
+

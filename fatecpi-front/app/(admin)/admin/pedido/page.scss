@@ -1,0 +1,82 @@
+.page-pedidos {
+    min-height: 70vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    h1 {
+        font-size: 2rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .pedidos-container {
+        display: flex;
+        flex-direction: column;
+        // align-items: start;
+        width: 100%;
+        height: 100%;
+
+        .pedido-status {
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+
+            h2 {
+                font-size: 1.4rem;
+                font-weight: bold;
+                margin-bottom: 1rem;
+                text-transform: uppercase;
+            }
+
+            .lista-pedidos {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1rem;
+                border-radius: 0.5rem;
+                padding: 20px;
+                place-items: center;
+
+                .pedido-item {
+                    cursor: pointer;
+                    background-color: white;
+                    border-radius: 0.5rem;
+                    padding: 12px;
+                    width: 100%;
+                    transition: box-shadow 0.2s;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+                    &:hover {
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+                    }
+
+                    .id-pedido {
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        color: #333;
+                        padding-bottom: .5rem;
+                        margin-bottom: 0.5rem;
+                        border-bottom: 1px solid #ccc;
+                    }
+
+                    p {
+                        margin: .5rem 0;
+                    }
+                }
+
+                .none {
+                    width: 100%;
+                    text-align: center;
+                    color: #888;
+                    font-size: 1.2rem;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+}

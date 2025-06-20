@@ -10,10 +10,28 @@
         }
 
         .servicos {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
-            gap: "1rem";
-            place-items: center;
+            display: flex;
+            flex-direction: column;
+
+            .grupo-orcamento {
+                display: flex;
+                flex-direction: column;
+                margin: 1rem;
+                padding: 2rem;
+                border-radius: 1rem;
+                box-shadow: 0 0 2px rgba(0, 0, 0, .5);
+
+                .orcamento-title {
+                    font-size: 1.5rem;
+                    margin-bottom: 1rem;
+                }
+
+                .lista-servicos {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                    place-items: center;
+                }
+            }
         }
     }
 }

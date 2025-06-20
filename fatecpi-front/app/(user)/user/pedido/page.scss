@@ -1,0 +1,76 @@
+.page-pedidos {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    width: 100%;
+    background-color: #f8f9fa;
+
+    h1 {
+        font-size: 2rem;
+        color: #343a40;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .pedidos-container {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        width: 100%;
+
+        .pedido-status {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+            .title-pedido-status {
+                font-size: 1.3rem;
+                color: #495057;
+                margin-bottom: 0.5rem;
+                text-transform: uppercase;
+            }
+
+            .lista-pedidos {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 1rem;
+
+                .pedido-item {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 1rem;
+                    border: 1px solid #dee2e6;
+                    border-radius: 0.5rem;
+                    background-color: #ffffff;
+                    transition: box-shadow 0.3s;
+                    cursor: pointer;
+
+                    &:hover {
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    }
+
+                    .title-pedido-item {
+                        font-size: 1.2rem;
+                        color: #495057;
+                        margin-bottom: 0.5rem;
+                    }
+
+                    .body-pedido-item {
+                        font-size: 1rem;
+                        color: #6c757d;
+                        margin-bottom: 0.5rem;
+
+                        p {
+                            margin: .5rem 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

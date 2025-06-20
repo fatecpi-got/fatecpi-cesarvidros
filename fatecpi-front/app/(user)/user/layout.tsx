@@ -6,6 +6,7 @@ import "./globals.css";
 const paths = [
   {name: "Solicitação", path: "/user"},
   {name: "Orçamento", path: "/user/orcamento"},
+  {name: "Pedido", path: "/user/pedido"},
   {name: "Sair", path: "/"}
 ]
 
@@ -18,7 +19,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <Header paths={paths} />
-        <main>
+        <main style={{minHeight: "60vh"}}>
           {children}
         </main>
         <Footer />

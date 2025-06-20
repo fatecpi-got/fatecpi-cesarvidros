@@ -18,6 +18,7 @@ interface Servico {
 
 interface ServiceCardProps {
   service: Servico;
+  onActionComplete?: () => void; 
 }
 
 import { useState } from "react";
@@ -25,7 +26,7 @@ import Modal from "../modal/Modal";
 
 import "./servicoCard.css";
 
-export default function ServiceCard({ service }: ServiceCardProps) {
+export default function ServiceCard({ service, onActionComplete }: ServiceCardProps) {
   const [open, setOpen] = useState<boolean>(false);
 
   const closeModal = () => {
@@ -109,6 +110,7 @@ export default function ServiceCard({ service }: ServiceCardProps) {
             cep={service.cep}
             produto={service.produto}
             onClose={closeModal}
+            onActionComplete={onActionComplete ?? (() => {})}
           />
         )}
       </div>

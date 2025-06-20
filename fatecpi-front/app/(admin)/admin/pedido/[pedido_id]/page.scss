@@ -1,0 +1,129 @@
+.pedido-detail {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #333;
+        text-align: center;
+    }
+
+    .pedido-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        gap: 1rem;
+        padding: 2rem 0;
+
+        section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            border-radius: 0.4rem;
+            box-shadow: 0 0 10px rgba(4, 4, 46, 0.329);
+
+            h2 {
+                font-size: 1.4rem;
+                padding: 1.2rem 1rem;
+                font-weight: bold;
+                margin-bottom: 0.5rem;
+                text-transform: uppercase;
+                border-bottom: 1px solid #ccc;
+                color: #1d1818;
+                width: 100%;
+            }
+
+            &.dados-pedido {
+                width: 100%;
+                max-width: 500px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .itens {
+                    padding: 0 1rem 1rem 1rem;
+
+                    p {
+                        margin: 0.5rem 0;
+                        font-size: 1.1rem;
+                        color: #1d1818;
+
+                        span {
+                            font-weight: bold;
+                            margin-right: 0.4rem;
+                        }
+                    }
+                }
+            }
+
+            &.dados-servicos {
+                width: 100%;
+
+                .servicos {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                    gap: 1rem;
+                    padding: 1rem;
+                    place-items: center;
+
+                    .servico-item {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 1rem;
+                        border: 1px solid #ccc;
+                        border-radius: 8px;
+                        width: 100%;
+                        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+
+                        h3 {
+                            font-size: 1.2rem;
+                            margin-bottom: 0.5rem;
+                            color: #333;
+                        }
+
+                        p {
+                            margin: 0.2rem 0;
+                            font-size: 1.1rem;
+                            color: #1d1818;
+
+                            span {
+                                font-weight: bold;
+                                margin-right: 0.4rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 2rem;
+        padding: 0.8rem 1.5rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 0.4rem;
+        cursor: pointer;
+        font-size: 1.2rem;
+
+        &:hover {
+            background-color: #0056b3;
+        }
+    }
+
+    .finalizado {
+        color: #666;
+        font-style: italic;
+        text-align: center;
+        font-size: 1.5rem;
+    }
+}

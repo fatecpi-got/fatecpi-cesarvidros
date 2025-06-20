@@ -1,0 +1,134 @@
+// Define color variables
+$primary-blue: #007bff; // A standard blue for accents and buttons
+$dark-blue: #0056b3; // A darker blue for hover states
+$light-blue: #e9f5ff; // A very light blue for backgrounds
+$white: #ffffff;
+$light-gray: #f8f9fa; // A light gray for subtle borders or backgrounds
+$medium-gray: #6c757d; // A medium gray for text
+$dark-gray: #343a40; // A dark gray for headings and strong text
+$red-danger: #dc3545; // Red for the "Recusar" button
+
+.orcamento-especifico-user {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+  gap: 1rem;
+  background-color: $light-gray;
+
+  .orcamentos-a-formalizar,
+  .orcamento-em-andamento {
+    background-color: $white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .title-orcamento-param {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: $dark-gray;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 2px solid $primary-blue;
+    padding-bottom: 10px;
+  }
+
+  .servico {
+    border: 0.2rem solid $light-blue;
+    border-radius: 0.2rem;
+    padding: 1rem;
+    background-color: $white;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .header-servico-orcamento {
+      padding: 0 2rem;
+    }
+
+    .body-servico-orcamento {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.5rem;
+      margin-top: 1rem;
+      text-align: left;
+
+      p {
+        margin: 0;
+        font-size: 0.95em;
+        text-align: start;
+        color: $medium-gray;
+
+        .strong {
+          color: $dark-gray;
+        }
+      }
+    }
+
+    .footer-servico-orcamento {
+      display: flex;
+      justify-content: center;
+      padding-top: 10px;
+      border-top: 1px dashed $light-gray;
+
+      button {
+        padding: 8px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition:
+          background-color 0.3s ease,
+          transform 0.2s ease;
+
+        &.recusar-button {
+          background-color: $red-danger;
+          color: $white;
+
+          &:hover {
+            background-color: darken($red-danger, 10%);
+            transform: translateY(-1px);
+          }
+        }
+      }
+    }
+  }
+
+  .enviar {
+    margin-top: 20px;
+    text-align: center;
+
+    button {
+      background-color: $primary-blue;
+      color: $white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: bold;
+      transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+
+      &:hover {
+        background-color: $dark-blue;
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  p {
+    text-align: center;
+    color: $medium-gray;
+    font-style: italic;
+    padding: 20px;
+  }
+}

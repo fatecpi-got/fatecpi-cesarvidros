@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { fetchSubProdutos } from "@/app/api/subProdutoFetch";
 import { cadastrarOrcamento } from "@/app/api/CadastrarOrcamentoFetch";
 
+import { API_URL } from "@/utils/env";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -18,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import { toast } from "sonner";
 
 import { ServiceRequest } from "@/app/types/service_request";
 import { SubProduto } from "@/app/types/subProduto";
@@ -62,7 +66,7 @@ export default function BudgetPage() {
     const fetchData = async () => {
       try {
         const response = await fetchSubProdutos(
-          "https://fatecpi-cesarvidros-1.onrender.com/api/subcategoria/get-all"
+          `${API_URL}/api/subcategoria/get-all`
         );
         const data = await response.json();
         setSubProdutos(data);
@@ -95,6 +99,7 @@ export default function BudgetPage() {
     setCurrentSubProdutoId(null);
     setShowPuxador(true);
     setShowFechadura(true);
+    toast("Serviço criado com sucesso")
     form.reset();
   };
 
@@ -109,10 +114,12 @@ export default function BudgetPage() {
 
       const response = await cadastrarOrcamento(
         body,
-        "https://fatecpi-cesarvidros-1.onrender.com/api/servico/create"
+        `${API_URL}/api/servico/create`
       );
 
       await response.json();
+
+      toast("Orçamento enviado com sucesso! Aguarde o retorno")
 
       setServicos([]);
     } catch (e) {
@@ -187,7 +194,7 @@ export default function BudgetPage() {
         </div>
         <div className="form-fields">
           <div className="form-control">
-            <Label className="label">Sub Produto</Label>
+            <Label className="label">Produto</Label>
             <Select
               onValueChange={handleSubProdutoChange}
               value={currentSubProdutoId?.toString() || ""}

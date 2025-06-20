@@ -1,9 +1,9 @@
 export async function updateServicosEstados(
-    data: unknown,
+    data: {servico_id: number, orcamento_id: number, novo_status: string}[],
     url: string
 ) : Promise<Response> {
     const response = await fetch(url, {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
