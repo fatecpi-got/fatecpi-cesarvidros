@@ -20,6 +20,22 @@ router.get('/get-by-orcamento', async (req, res) => {
     }
 });
 
+router.get('/get-by-id/:pedido_id', async (req, res) => {
+    try {
+        await pedidoController.getPedidoById(req, res);
+    } catch (err) {
+        console.error("Error in GET /get-by-id:", err);
+    }
+});
+
+router.get('/get-by-user/:usuario_id', async (req, res) => {
+    try {
+        await pedidoController.getPedidoByUserId(req, res);
+    } catch (err) {
+        console.error("Error in GET /get-by-user:", err);
+    }
+});
+
 router.put('/update-status', async (req, res) => {
     try {
         await pedidoController.updatePedidoStatus(req, res);

@@ -46,7 +46,6 @@ export class ServicosController {
 
         try {
             const updated = await this.servicoService.updateServicoStatus(servicos);
-
             if (updated) {
                 const results = [];
                 for (const s of servicos) {
@@ -54,6 +53,7 @@ export class ServicosController {
                         const servico = await this.servicoService.getServicoById(s.servico_id);
                         if (servico) {
                             const pedido = await this.pedidoService.createPedido(servico.orcamento_id);
+                            console.log("Pedido created:", pedido);
                             const orcamento = await this.orcamentoService.updateOrcamentoStatus(servico.orcamento_id, "finalizado");
                             results.push({
                                 servico_id: s.servico_id,
@@ -69,7 +69,8 @@ export class ServicosController {
                 return res.status(200).json(results);
             }
 
-            return res.status(400).json({ message: "Failed to update servico status" });
+            return res.status(400).json({ message: "Failed to update servico status", data: updated });
+
         } catch (error) {
             console.error("Error updating servico status:", error);
             return res.status(500).json({ message: "Internal server error" });
@@ -118,7 +119,7 @@ export class ServicosController {
     }
 
     async getServicoByOrcamentoId(req: Request, res: Response): Promise<Response> {
-        const orcamento_id  = req.params.orcamento_id;
+        const orcamento_id = req.params.orcamento_id;
 
         if (!orcamento_id) {
             return res.status(400).json({ message: "Orcamento ID is required" });

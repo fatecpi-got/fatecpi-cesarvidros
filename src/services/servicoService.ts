@@ -18,6 +18,7 @@ export interface Servico {
 
 interface updateServicoDTO {
     servico_id: number,
+    orcamento_id: number,
     novo_status: string
 }
 
@@ -103,7 +104,7 @@ export class ServicoService {
 
     async updateServicoStatus(servicos: updateServicoDTO[]): Promise<boolean> {
         try {
-            const results: updateServicoDTO[] = [];
+            let updates = 0;
 
             for (const servico of servicos) {
                 const query = `
@@ -115,23 +116,28 @@ export class ServicoService {
                 const values = [servico.novo_status, servico.servico_id];
                 const result = await pool.query(query, values);
 
-                if (result.rows.length > 0) {
-                    results.push(result.rows[0])
+                console.log('\n rows counts')
+                console.log(result.rowCount);
+
+                if ((result.rowCount ?? 0) > 0) {
+                    await this.orcamentoService.updateOrcamentoStatus(servico.orcamento_id, 'finalizado');
+                    updates++;
                 }
             }
 
-            return (results.length ?? 0) > 0; // Return true if the update was successful
+            return updates > 0;
         } catch (err) {
             console.error("Error in updateServicoStatus:", err);
-            return false; // Return false in case of error
+            return false;
         }
     }
+
 
     async updateCostAndPrice(servico_id: number, preco: number, custo: number): Promise<boolean> {
         try {
             const query = `
                 UPDATE servico
-                SET custo = $1, preco = $2, estado = "devolvido"
+                SET custo = $1, preco = $2, estado = 'devolvido'
                 WHERE id = $3
             `;
 
@@ -152,7 +158,7 @@ export class ServicoService {
                 join sub_produto on sub_produto.id = servico.sub_produto_id
                 join orcamento on servico.orcamento_id = orcamento.id
                 join usuario on orcamento.usuario_id = usuario.id
-                order by servico.id;
+                order by servico.orcamento_id, servico.id;
             `;
 
             const result = await pool.query(query);
