@@ -31,10 +31,10 @@ export class ServicosController {
     }
 
     async updateServicoStatus(req: Request, res: Response): Promise<Response> {
-        const servicos: { servico_id: number; novo_status: string }[] = req.body;
+        const servicos: { servico_id: number; orcamento_id: number; novo_status: string }[] = req.body;
 
         if (!Array.isArray(servicos) || servicos.length === 0) {
-            return res.status(400).json({ message: "Body must be an array of { servico_id, novo_status }" });
+            return res.status(400).json({ message: "Body must be an array of { servico_id, orcamento_id, novo_status }" });
         }
 
         // Verifica cada elemento do array
