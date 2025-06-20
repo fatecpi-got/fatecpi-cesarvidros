@@ -38,6 +38,9 @@ export async function loginUser(
         },
         body: JSON.stringify({ email, senha }),
     });
+
+    console.log(url)
+
     if (!response.ok) {
         throw new Error("Email ou senha inválidos");
     }

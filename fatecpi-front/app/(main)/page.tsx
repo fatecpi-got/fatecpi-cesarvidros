@@ -74,9 +74,8 @@ export default function AuthPage() {
         data.cep,
         `${API_URL}/auth/register`
       );
-      const json = await res.json();
+      await res.json();
 
-      alert(json.message);
       setIsSignUp(false); // Switch to sign in after successful registration
     } catch (err) {
       console.error("Erro ao cadastrar usuário:", err);
@@ -94,8 +93,6 @@ export default function AuthPage() {
       );
 
       const json = await res.json();
-
-      alert(json.message);
 
       if (res.status === 200) {
         if (json.userRole === "admin") {
