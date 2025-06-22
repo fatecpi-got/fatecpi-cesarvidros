@@ -109,6 +109,7 @@ export default function ServiceCard({ service, onActionComplete }: ServiceCardPr
             puxador={service.puxador}
             cep={service.cep}
             produto={service.produto}
+            orcamento_id={service.orcamento_id}
             onClose={closeModal}
             onActionComplete={onActionComplete ?? (() => {})}
           />

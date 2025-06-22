@@ -29,6 +29,7 @@ interface ModalProps {
   puxador: string;
   cep: string;
   produto: string;
+  orcamento_id: number;
   onClose: () => void;
   onActionComplete: () => void; // Optional callback for action completion
 }
@@ -43,6 +44,7 @@ export default function Modal({
   puxador,
   cep,
   produto,
+  orcamento_id,
   onClose,
   onActionComplete, // Optional callback for action completion
 }: ModalProps) {
@@ -56,6 +58,7 @@ export default function Modal({
         id,
         data.preco,
         data.custo,
+        orcamento_id,
         `${API_URL}/api/servico/update-cost-price`
       );
 
@@ -147,4 +150,3 @@ export default function Modal({
     </div>
   );
 }
-
