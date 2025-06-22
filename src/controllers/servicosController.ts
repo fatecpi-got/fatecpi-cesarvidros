@@ -78,14 +78,14 @@ export class ServicosController {
     }
 
     async updateCostAndPrice(req: Request, res: Response): Promise<Response> {
-        const { id, custo, preco } = req.body;
+        const { id, custo, preco, orcamento_id } = req.body;
 
         if (!id || custo === undefined || preco === undefined) {
             return res.status(400).json({ message: "ID, custo, and preco are required" });
         }
 
         try {
-            const updated = await this.servicoService.updateCostAndPrice(id, preco, custo);
+            const updated = await this.servicoService.updateCostAndPrice(id, preco, custo, orcamento_id);
             if (updated) {
                 return res.status(200).json({ message: "Servico cost and price updated successfully" });
             } else {

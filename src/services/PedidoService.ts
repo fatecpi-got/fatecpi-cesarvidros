@@ -32,19 +32,16 @@ export class PedidoService {
             if (status === "produzido") {
                 query = `
                 UPDATE pedido
-                SET produzido_em = NOW(), finalizado_em = NULL, estado = $2
+                SET produzido_em = DATE_TRUNC('second', NOW()), finalizado_em = NULL, estado = $2
                 WHERE id = $1
             `;
             } else if (status === "finalizado") {
                 query = `
                 UPDATE pedido
-                SET finalizado_em = NOW(), estado = $2
+                SET finalizado_em = DATE_TRUNC('second', NOW()), estado = $2
                 WHERE id = $1
             `;
-            } else {
-                console.error("Invalid status provided for updatePedidoStatus:", status);
-                return false;
-            }
+            } 
 
             // Corrected order of values: [pedido_id, status]
             const values = [pedido_id, status];

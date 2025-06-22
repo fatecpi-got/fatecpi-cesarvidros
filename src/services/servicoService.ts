@@ -133,13 +133,19 @@ export class ServicoService {
     }
 
 
-    async updateCostAndPrice(servico_id: number, preco: number, custo: number): Promise<boolean> {
+    async updateCostAndPrice(servico_id: number, preco: number, custo: number, orcamento_id: number): Promise<boolean> {
         try {
             const query = `
                 UPDATE servico
                 SET custo = $1, preco = $2, estado = 'devolvido'
                 WHERE id = $3
             `;
+
+            const resultOrcamentoStatus = await this.orcamentoService.updateOrcamentoStatus(orcamento_id, "orcado")
+
+            if (!resultOrcamentoStatus) {
+                return false;
+            }
 
             const values = [custo, preco, servico_id];
             const result = await pool.query(query, values);

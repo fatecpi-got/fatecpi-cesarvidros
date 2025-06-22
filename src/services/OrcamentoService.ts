@@ -6,7 +6,7 @@ export class OrcamentoService {
         try {
             const query = `
                 INSERT INTO orcamento (criado_em, usuario_id)
-                VALUES (NOW(), $1)
+                VALUES (DATE_TRUNC('second', NOW()), $1)
                 RETURNING id
             `;
 
@@ -28,23 +28,32 @@ export class OrcamentoService {
 
     async updateOrcamentoStatus(orcamento_id: number, status: string): Promise<boolean> {
         try {
-            const query = `
+            let query = "";
+
+            if (status === "orcado") {
+                query = `
                 UPDATE orcamento
-                SET status = $1
+                SET status = $1, DATE_TRUNC('second', NOW())
                 WHERE id = $2
             `;
+            } else if (status === "finalizado") {
+                query = `
+                UPDATE orcamento
+                SET status = $1, DATE_TRUNC('second', NOW())
+                WHERE id = $2
+            `;
+            } else {
+                console.warn(`Invalid status provided: ${status}`);
+                return false;
+            }
 
             const values = [status, orcamento_id];
             const result = await pool.query(query, values);
 
-            if (result.rowCount !== null && result.rowCount > 0) {
-                return true; // Return true if the update was successful
-            } else {
-                return false; // Return false if no rows were updated
-            }
+            return (result.rowCount ?? 0) > 0;
         } catch (err) {
             console.error("Error in updateOrcamentoStatus:", err);
-            return false; // Return false in case of error
+            return false;
         }
     }
 
@@ -88,5 +97,5 @@ export class OrcamentoService {
             return null; // Return null in case of error
         }
     }
-    
+
 }
