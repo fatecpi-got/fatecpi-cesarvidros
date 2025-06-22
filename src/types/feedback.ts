@@ -1,8 +1,9 @@
 export interface Feedback {
     id: number;
+    pedido_id: number;
     entrega: number;
     atendimento: number;
     preco: number;
-    fim_servico: Date;
-    pedido_id: number;
+    pontos_positivos_id: number[];
+    pontos_negativos_id: number[];
 }

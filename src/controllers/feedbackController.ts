@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { FeedbackService } from "../services/FeedbackService";
+import { Feedback } from "../types/feedback";
 
 export class FeedbackController {
     private feedbackService: FeedbackService;
@@ -10,8 +11,8 @@ export class FeedbackController {
 
     async createFeedback(req: Request, res: Response): Promise<void> {
         try {
-            const { pedido_id, fim_servico, entrega, atendimento, preco } = req.body;
-            const feedback = await this.feedbackService.createFeedback(pedido_id, fim_servico, entrega, atendimento, preco);
+            const { pedido_id, entrega, atendimento, preco, pontos_positivos_id, pontos_negativos_id } : Feedback = req.body;
+            const feedback = await this.feedbackService.createFeedback(pedido_id, entrega, atendimento, preco, pontos_positivos_id, pontos_negativos_id);
             
             if (feedback) {
                 res.status(201).json({ message: "Feedback created successfully", feedback });

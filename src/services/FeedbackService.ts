@@ -1,23 +1,57 @@
 import { pool } from "../database/database";
+import { PoolClient } from "pg";
 import { Feedback } from "../types/feedback";
 
 export class FeedbackService {
-    async createFeedback(pedido_id: number, fim_servico: Date, entrega: number, atendimento: number, preco: number): Promise<Feedback | null> {
+    async createFeedback(pedido_id: number, entrega: number, atendimento: number, preco: number, pontos_positivos_id: number[], pontos_negativos_id: number[]): Promise<boolean> {
+        let client: PoolClient | undefined;
+
         try {
-            const query = `
-                INSERT INTO feedback (pedido_id, fim_servico, entrega, atendimento, preco)
+            client = await pool.connect();
+            await client.query('BEGIN');
+
+            const feedbackQuery = `
+                INSERT INTO feedback (pedido_id, entrega, atendimento, preco)
+                VALUES ($1, $2, $3, $4)
+                RETURNING id;
             `;
 
-            const values = [pedido_id, fim_servico, entrega, atendimento, preco];
-            const result = await pool.query(query, values);
-            if (result.rows.length > 0) {
-                return result.rows[0]; // Return the inserted row
-            } else {
-                return null; // No rows were inserted
+            const values = [pedido_id, entrega, atendimento, preco]
+            const resultFeedback = await pool.query(feedbackQuery, values)
+
+            const idFeedback = resultFeedback.rows[0].id;
+
+            if (Array.isArray(pontos_positivos_id) && pontos_positivos_id.length > 0) {
+                const insertPositivo = pontos_positivos_id.map(ponto => pool.query(
+                    'insert into feedback_positivo (feedback_id, pontos_positivos_id) values ($1, $2)',
+                    [idFeedback, ponto]
+                ))
+                await Promise.all(insertPositivo);
             }
+
+            if (Array.isArray(pontos_negativos_id) && pontos_negativos_id.length > 0) {
+                const insertNegativo = pontos_negativos_id.map(ponto => pool.query(
+                    'insert into feedback_negativo (feedback_id, pontos_negativos_id) values ($1, $2)',
+                    [idFeedback, ponto]
+                ))
+
+                await Promise.all(insertNegativo)
+            }
+
+            await client.query("COMMIT")
+            return true;
+
         } catch (err) {
+            if (client) {
+                await client.query('ROLLBACK')
+            }
+
             console.error("Error in createFeedback:", err);
-            return null; // Return null in case of error
+            return false; // Return null in case of error
+        } finally {
+            if (client) {
+                client.release();
+            }
         }
     }
 
