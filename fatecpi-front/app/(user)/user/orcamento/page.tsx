@@ -15,7 +15,9 @@ interface ServicoDetalhado {
 import "./page.css";
 
 export default function DevolutivaPage() {
-  const [devolutiva, setDevolutiva] = useState<ServicoDetalhado[]>();
+  const [devolutiva, setDevolutiva] = useState<ServicoDetalhado[] | undefined>(
+    undefined
+  ); 
   const router = useRouter();
 
   useEffect(() => {
@@ -29,9 +31,10 @@ export default function DevolutivaPage() {
 
         const data: ServicoDetalhado[] = await res.json();
 
-        setDevolutiva(data);
+        setDevolutiva(Array.isArray(data) ? data : []);
       } catch (e) {
-        console.log(e);
+        console.error("Erro ao buscar orçamentos:", e); 
+        setDevolutiva([]);
       }
     };
 
@@ -42,33 +45,56 @@ export default function DevolutivaPage() {
     router.push(`/user/orcamento/${orcamento_id}`);
   };
 
+  if (devolutiva === undefined) {
+    return <div className="loading-message">Carregando orçamentos...</div>;
+  }
+
   return (
     <div>
-      {devolutiva && devolutiva.length > 0 ? (
+      {devolutiva.length > 0 ? (
         <div className="orcamento-devolutiva-user-content">
           {devolutiva.map((orcamento) => (
             <div key={orcamento.id} className="orcamento-devolutiva-user">
               <div className="header-devolutiva">
-                <div className="id">Orçamento id: {orcamento.id}</div>
+                <div className="id">Orçamento ID: {orcamento.id}</div>{" "}
+                {/* Mudei para ID maiúsculo */}
               </div>
               <div className="body-devolutiva">
                 <div className="status">
-                  Estado do Orcamento: {orcamento.status}
+                  Status do Orçamento: {orcamento.status}{" "}
+                  {/* Mudei para "Status do Orçamento" */}
                 </div>
                 <div className="data">
-                  Data de solicitação: {orcamento.criado_em.toLocaleString()}
+                  Data de Solicitação:{" "}
+                  {new Date(orcamento.criado_em).toLocaleString("pt-BR", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  })}{" "}
+                  {/* Formatação para BR */}
                 </div>
               </div>
               <div className="footer-devolutiva">
                 <button onClick={() => handleClick(orcamento.id)}>
-                  Visualizar orçamento
+                  Visualizar Orçamento
                 </button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p>Nenhum orçamento encontrado.</p>
+        <div className="no-orcamento-message-container">
+          <p className="no-orcamento-message">
+            Você ainda não possui orçamentos.
+            <br />
+            Que tal solicitar um agora?
+          </p>
+          <button
+            className="request-orcamento-button"
+            onClick={() => router.push("/user")}
+          >
+            Solicitar Orçamento
+          </button>
+        </div>
       )}
     </div>
   );

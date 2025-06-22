@@ -99,3 +99,54 @@ $red-danger: #dc3545; // Keeping this for consistency
     }
   }
 }
+
+.no-orcamento-message-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 50vh;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f9f9f9; /* Fundo mais claro */
+  border: 1px dashed #ccc; /* Borda tracejada suave */
+  border-radius: 8px;
+  margin: 50px auto; /* Centraliza e adiciona espaço */
+  max-width: 600px; /* Largura máxima */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Sombra suave */
+}
+
+.no-orcamento-message {
+  font-size: 1.3em; /* Tamanho maior para o texto */
+  color: #555; /* Cor de texto mais suave */
+  margin-bottom: 25px; /* Espaçamento abaixo do texto */
+  line-height: 1.6; /* Altura da linha para melhor leitura */
+}
+
+.request-orcamento-button {
+  background-color: #007bff; /* Azul primário */
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+}
+
+.request-orcamento-button:hover {
+  background-color: #0056b3; /* Azul mais escuro no hover */
+  transform: translateY(-2px); /* Efeito de levantar no hover */
+}
+
+.request-orcamento-button:active {
+  transform: translateY(0); /* Efeito de clique */
+}
+
+/* --- Estilos para a mensagem de carregamento --- */
+.loading-message {
+  text-align: center;
+  font-size: 1.2em;
+  color: #777;
+  padding: 50px;
+}

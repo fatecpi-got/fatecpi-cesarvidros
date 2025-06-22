@@ -2,6 +2,7 @@ import Header from "@/app/components/general/header/Header";
 import Footer from "@/app/components/general/footer/Footer";
 
 import "./globals.css";
+import './layout.css'
 
 const paths = [
   {name: "Solicitação", path: "/user"},
@@ -19,7 +20,7 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body>
         <Header paths={paths} />
-        <main style={{minHeight: "60vh"}}>
+        <main>
           {children}
         </main>
         <Footer />

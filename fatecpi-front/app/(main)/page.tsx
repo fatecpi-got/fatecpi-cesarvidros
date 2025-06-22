@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/select";
 
 import { createUser, loginUser } from "../api/authFetch";
+import { useRouter } from "next/navigation";
 
 import "./auth.css";
 
@@ -47,6 +48,7 @@ type SignUpFormData = z.infer<typeof signUpSchema>;
 type SignInFormData = z.infer<typeof signInSchema>;
 
 export default function AuthPage() {
+  const router = useRouter()
 
   const [isSignUp, setIsSignUp] = useState(false);
 
@@ -96,14 +98,15 @@ export default function AuthPage() {
 
       if (res.status === 200) {
         if (json.userRole === "admin") {
-          window.location.href = "/admin"
+          router.push('/admin')
           return;
         }
 
         if (json.token && json.userId) {
           await window.localStorage.setItem("token", json.token);
           await window.localStorage.setItem("user_id", String(json.userId));
-          window.location.href = "/user";
+          router.push('/user')
+          return;
         } else {
           console.error("Token ou userId não encontrados na resposta da API.");
           alert("Erro no login: dados de autenticação incompletos.");

@@ -18,22 +18,89 @@
             font-style: italic;
         }
     }
+}
 
-    .nav-list {
-        display: flex;
-        align-items: center;
-        gap: 2rem;
-        list-style: none;
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none; /* Esconde a lista por padrão em mobile */
+  flex-direction: column;
+  position: absolute;
+  top: 60px; /* Ajuste conforme a altura do seu header */
+  left: 0;
+  width: 100%;
+  background-color: #7794e2; /* Fundo do menu quando aberto */
+  z-index: 1000;
+  text-align: center;
+}
 
-        .nav-item {
-            font-size: 1.25rem;
-            transition: color 0.3s;
+.nav-list.open {
+  display: flex; /* Mostra a lista quando o menu está aberto */
+}
 
-            a {
-                color: antiquewhite;
+.nav-item {
+  margin: 10px 0;
+}
 
-                text-decoration: none;
-            }
-        }
-    }
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  display: block;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #2d58cc;
+}
+
+/* Estilos do ícone do Hambúrguer */
+.hamburger-icon {
+  width: 30px;
+  height: 20px;
+  display: flex; /* Mostra o ícone por padrão em mobile */
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  z-index: 1001; /* Garante que o ícone fique acima do menu */
+}
+
+.hamburger-icon .bar {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Animação do ícone quando aberto */
+.hamburger-icon .bar:nth-child(1).open {
+  transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger-icon .bar:nth-child(2).open {
+  opacity: 0;
+}
+
+.hamburger-icon .bar:nth-child(3).open {
+  transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Media Query para telas maiores */
+@media (min-width: 768px) {
+  .hamburger-icon {
+    display: none; /* Esconde o ícone do hambúrguer em telas maiores */
+  }
+
+  .nav-list {
+    display: flex; /* Mostra a lista de navegação em linha em telas maiores */
+    position: static;
+    flex-direction: row;
+    background-color: transparent;
+    width: auto;
+  }
+
+  .nav-item {
+    margin: 0 10px;
+  }
 }

@@ -1,0 +1,19 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+
+    header {
+        width: 100%;
+    }
+
+    main {
+        width: 100%;
+    }
+
+    footer {
+        width: 100%;
+    }
+}
