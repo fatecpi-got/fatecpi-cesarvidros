@@ -11,9 +11,9 @@ export class FeedbackController {
 
     async createFeedback(req: Request, res: Response): Promise<void> {
         try {
-            const { pedido_id, entrega, atendimento, preco, pontos_positivos_id, pontos_negativos_id } : Feedback = req.body;
+            const { pedido_id, entrega, atendimento, preco, pontos_positivos_id, pontos_negativos_id }: Feedback = req.body;
             const feedback = await this.feedbackService.createFeedback(pedido_id, entrega, atendimento, preco, pontos_positivos_id, pontos_negativos_id);
-            
+
             if (feedback) {
                 res.status(201).json({ message: "Feedback created successfully", feedback });
             } else {
@@ -31,6 +31,26 @@ export class FeedbackController {
             res.status(200).json(feedbacks);
         } catch (error) {
             console.error("Error fetching all feedbacks:", error);
+            res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async getPontosPositivos(req: Request, res: Response): Promise<void> {
+        try {
+            const pontos_positivos = await this.feedbackService.getPontosPositivos()
+            res.status(200).json(pontos_positivos)
+        } catch (err) {
+            console.log("Error in getPontosPositivos", err)
+            res.status(500).json({ message: "Internal server error" });
+        }
+    }
+
+    async getPontosNegativos(req: Request, res: Response): Promise<void> {
+        try {
+            const pontos_negativos = await this.feedbackService.getPontosNegativos()
+            res.status(200).json(pontos_negativos)
+        } catch (err) {
+            console.log("Error in getPontosNegativos", err)
             res.status(500).json({ message: "Internal server error" });
         }
     }

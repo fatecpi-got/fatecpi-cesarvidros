@@ -33,13 +33,13 @@ export class OrcamentoService {
             if (status === "orcado") {
                 query = `
                 UPDATE orcamento
-                SET status = $1, DATE_TRUNC('second', NOW())
+                SET status = $1, orcado_em = DATE_TRUNC('second', NOW())
                 WHERE id = $2
             `;
             } else if (status === "finalizado") {
                 query = `
                 UPDATE orcamento
-                SET status = $1, DATE_TRUNC('second', NOW())
+                SET status = $1, finalizado_em = DATE_TRUNC('second', NOW())
                 WHERE id = $2
             `;
             } else {

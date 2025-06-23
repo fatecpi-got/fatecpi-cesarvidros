@@ -1,6 +1,6 @@
 import { pool } from "../database/database";
 import { PoolClient } from "pg";
-import { Feedback } from "../types/feedback";
+import { Feedback, Pontos } from "../types/feedback";
 
 export class FeedbackService {
     async createFeedback(pedido_id: number, entrega: number, atendimento: number, preco: number, pontos_positivos_id: number[], pontos_negativos_id: number[]): Promise<boolean> {
@@ -11,8 +11,8 @@ export class FeedbackService {
             await client.query('BEGIN');
 
             const feedbackQuery = `
-                INSERT INTO feedback (pedido_id, entrega, atendimento, preco)
-                VALUES ($1, $2, $3, $4)
+                INSERT INTO feedback (pedido_id, entrega, atendimento, preco, fim_servico)
+                VALUES ($1, $2, $3, $4, DATE_TRUNC('second', NOW()))
                 RETURNING id;
             `;
 
@@ -67,6 +67,34 @@ export class FeedbackService {
         } catch (err) {
             console.error("Error in getAllFeedbacks:", err);
             return []; // Return an empty array in case of error
+        }
+    }
+
+    async getPontosPositivos(): Promise<Pontos[]> {
+        try {
+            const query = `
+                select id, descricao from pontos_positivos
+            `
+
+            const result = await pool.query(query)
+            return result.rows as Pontos[];
+        } catch (err) {
+            console.log("Error in getPontosPositivos", err)
+            return [];
+        }
+    }
+
+    async getPontosNegativos(): Promise<Pontos[]> {
+        try {
+            const query = `
+                select id, descricao from pontos_negativos
+            `
+
+            const result = await pool.query(query)
+            return result.rows as Pontos[];
+        } catch (err) {
+            console.log("Error in getPontosNegativos", err)
+            return [];
         }
     }
 }

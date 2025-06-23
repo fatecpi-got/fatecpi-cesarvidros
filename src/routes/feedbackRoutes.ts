@@ -13,6 +13,24 @@ router.get('/get-all', async (req, res) => {
     }
 });
 
+router.get('/get-ponto-positivo', async (req, res) => {
+    try {
+        await feedbackController.getPontosPositivos(req, res);
+    } catch (err) {
+        console.error("Error in GET /get-ponto-positivo:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+
+router.get('/get-ponto-negativo', async (req, res) => {
+    try {
+        await feedbackController.getPontosNegativos(req, res);
+    } catch (err) {
+        console.error("Error in GET /get-ponto-negativo:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+})
+
 router.post('/create', async (req, res) => {
     try {
         await feedbackController.createFeedback(req, res);

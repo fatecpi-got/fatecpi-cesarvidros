@@ -6,7 +6,7 @@ export class PedidoService {
         try {
             const query = `
                 INSERT INTO pedido (criado_em, produzido_em, finalizado_em, orcamento_id)
-                VALUES (NOW(), null, null, $1)
+                VALUES (DATE_TRUNC('second', NOW()), null, null, $1)
                 RETURNING *
             `;
 
