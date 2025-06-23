@@ -5,6 +5,9 @@ import { getPedidoById } from "@/app/api/admin/pedido";
 import { useParams } from "next/navigation";
 import { PedidoResponse } from "@/app/types/pedido";
 import { API_URL } from "@/utils/env";
+
+import ModalFeedback from "@/app/components/user/Feedback/Modal";
+
 import "./page.css";
 
 export default function PedidoDetailPage() {
@@ -113,6 +116,9 @@ export default function PedidoDetailPage() {
           )}
         </section>
       </article>
+      {pedido.status_pedido === 'finalizado' && (
+        <ModalFeedback pedido_id={pedido_id} />
+      )}
     </section>
   );
 }

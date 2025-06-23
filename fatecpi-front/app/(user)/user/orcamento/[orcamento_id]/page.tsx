@@ -67,7 +67,11 @@ export default function ServicoPorOrcamentoPage() {
   }, [orcamento_id]);
 
   const recusar = async (
-    servicos: { servico_id: number; orcamento_id: number; novo_status: string }[]
+    servicos: {
+      servico_id: number;
+      orcamento_id: number;
+      novo_status: string;
+    }[]
   ) => {
     try {
       const response = await updateServicosEstados(
@@ -97,7 +101,7 @@ export default function ServicoPorOrcamentoPage() {
       );
 
       if (response) {
-        await fetchData()
+        await fetchData();
       }
     } catch (e) {
       console.log(e);
@@ -109,33 +113,39 @@ export default function ServicoPorOrcamentoPage() {
       <div className="orcamentos-a-formalizar">
         <div className="title-orcamento-param">Orcamentos orçados</div>
         {servicosDevolvidos.length > 0 ? (
-          servicosDevolvidos.map((servico) => (
-            <div className="servico" key={servico.id}>
-              <div className="body-servico-orcamento">
-                <p>Cor do Vidro: {servico.cor_vidro}</p>
-                <p>Largura: {servico.largura}</p>
-                <p>Altura: {servico.altura}</p>
-                <p>Fechadura: {servico.fechadura}</p>
-                <p>Cor do Alumínio: {servico.cor_aluminio}</p>
-                <p>Puxador: {servico.puxador}</p>
-                <p>Estado: {servico.estado}</p>
-                <p>Produto: {servico.produto}</p>
-                <p>Preço: {servico.preco}</p>
+          <div className="servicos-formalizar">
+            {servicosDevolvidos.map((servico) => (
+              <div className="servico" key={servico.id}>
+                <div className="body-servico-orcamento">
+                  <p>Cor do Vidro: {servico.cor_vidro}</p>
+                  <p>Largura: {servico.largura}</p>
+                  <p>Altura: {servico.altura}</p>
+                  <p>Fechadura: {servico.fechadura}</p>
+                  <p>Cor do Alumínio: {servico.cor_aluminio}</p>
+                  <p>Puxador: {servico.puxador}</p>
+                  <p>Estado: {servico.estado}</p>
+                  <p>Produto: {servico.produto}</p>
+                  <p>Preço: {servico.preco}</p>
+                </div>
+                <div className="footer-servico-orcamento">
+                  <button
+                    className="recusar-button"
+                    onClick={() =>
+                      recusar([
+                        {
+                          servico_id: servico.id,
+                          orcamento_id: orcamento_id,
+                          novo_status: "rejeitado",
+                        },
+                      ])
+                    }
+                  >
+                    Recusar
+                  </button>
+                </div>
               </div>
-              <div className="footer-servico-orcamento">
-                <button
-                  className="recusar-button"
-                  onClick={() =>
-                    recusar([
-                      { servico_id: servico.id, orcamento_id: orcamento_id, novo_status: "rejeitado" },
-                    ])
-                  }
-                >
-                  Recusar
-                </button>
-              </div>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
           <p>Por favor aguarde o orçamento</p>
         )}
