@@ -1,0 +1,37 @@
+.title-kpis {
+  font-size: 3rem;
+  text-align: center;
+  margin-top: 1rem;
+  color: rgb(8, 8, 99);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.dashboard-powerbi {
+  border-radius: 5px; /* Arredonda os cantos */
+  padding: 2rem;
+  height: 110vh;
+}
+
+.powerbi-container {
+  width: 100%;
+  margin: 0 auto; /* Centraliza o contêiner na página, se necessário */
+}
+
+/* Exemplo de estilos para telas menores (responsividade básica) */
+@media (max-width: 768px) {
+  .powerbi-container {
+    height: 600px !important; /* Ajusta a altura para telas menores */
+  }
+}
+
+@media (max-width: 576px) {
+
+    .dashboard-powerbi {
+        height: 50vh;
+    }
+
+  .powerbi-container {
+    height: 500px !important; /* Ajusta ainda mais para telas menores */
+  }
+}

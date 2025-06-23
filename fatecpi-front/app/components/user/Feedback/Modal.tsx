@@ -7,9 +7,11 @@ import {
   GetPontosNegativos,
 } from "@/app/api/user/feedback";
 
-import './modal.css'
+import "./modal.css";
 
 import { API_URL } from "@/utils/env";
+
+import { CreateFeedback } from "@/app/api/user/feedback";
 
 interface Pontos {
   id: number;
@@ -32,9 +34,6 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
   const [entregaRating, setEntregaRating] = useState<number>(0);
   const [atendimentoRating, setAtendimentoRating] = useState<number>(0);
   const [precoRating, setPrecoRating] = useState<number>(0);
-
-  // Estado para comentários adicionais
-  const [comments, setComments] = useState<string>("");
 
   // Estado para mensagens de erro ou sucesso
   const [message, setMessage] = useState<string>("");
@@ -137,7 +136,7 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
   );
 
   // Handler para o envio do formulário
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage(""); // Limpa mensagens anteriores
 
@@ -147,8 +146,7 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
       selectedNegativePoints.length === 0 &&
       entregaRating === 0 &&
       atendimentoRating === 0 &&
-      precoRating === 0 &&
-      comments.trim() === ""
+      precoRating === 0
     ) {
       setMessage("Por favor, preencha pelo menos uma opção de feedback.");
       return;
@@ -166,12 +164,27 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
       preco: precoRating,
       pontosPositivosSelecionados: selectedPositivePoints,
       pontosNegativosSelecionados: selectedNegativePoints,
-      comentarios: comments,
     };
 
     console.log("Dados de feedback a serem enviados:", feedbackData);
-    // Aqui você faria a chamada de API para enviar os dados para o seu backend
-    // Ex: const response = await fetch('/api/feedback', { method: 'POST', body: JSON.stringify(feedbackData) });
+
+    try {
+      const response = await CreateFeedback(
+        "http://localhost:3001/api/feedback/create",
+        feedbackData.pedido_id,
+        feedbackData.entrega,
+        feedbackData.atendimento,
+        feedbackData.preco,
+        feedbackData.pontosPositivosSelecionados,
+        feedbackData.pontosNegativosSelecionados
+      );
+
+      const response_json = await response.json()
+
+      alert(response_json.message)
+    } catch (err) {
+      console.log(err);
+    }
 
     setMessage("Feedback enviado com sucesso! Obrigado!");
     // Opcional: Resetar o formulário
@@ -180,7 +193,6 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
     setEntregaRating(0);
     setAtendimentoRating(0);
     setPrecoRating(0);
-    setComments("");
   };
 
   return (

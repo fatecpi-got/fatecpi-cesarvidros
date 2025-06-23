@@ -6,6 +6,7 @@ import "./globals.css";
 const paths = [
   {name: "Serviços", path: "/admin"},
   {name: "Pedidos", path: "/admin/pedido"},
+  {name: "Dashboard", path: "/admin/powerBI"},
   {name: "Sair", path: "/"}
 ]
 

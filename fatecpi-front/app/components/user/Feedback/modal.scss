@@ -10,7 +10,7 @@ $success-color: #28a745;
 $error-color: #dc3545;
 
 $border-radius-base: 8px;
-$padding-base: 20px;
+$padding-base: .5rem;
 $margin-base: 15px;
 
 // Mixin para centralizar elementos
@@ -50,7 +50,7 @@ $margin-base: 15px;
 .modal-content-wrapper {
   background-color: $modal-bg;
   border-radius: $border-radius-base;
-  padding: $padding-base * 1.5;
+  padding: $padding-base * 2.5;
   max-width: 600px;
   width: 100%;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -60,7 +60,7 @@ $margin-base: 15px;
   transition: transform 0.3s ease-out;
 
   @media (max-width: 768px) {
-    padding: $padding-base;
+    padding: $padding-base * 2.5;
     margin: $margin-base;
   }
 }

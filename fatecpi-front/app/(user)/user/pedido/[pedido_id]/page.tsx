@@ -116,8 +116,10 @@ export default function PedidoDetailPage() {
           )}
         </section>
       </article>
-      {pedido.status_pedido === 'finalizado' && (
+      {pedido.status_pedido === 'finalizado' && pedido.feedback_fim_servico == null ? (
         <ModalFeedback pedido_id={pedido_id} />
+      ) : (
+        <div className="message">Pedido já avaliado</div>
       )}
     </section>
   );

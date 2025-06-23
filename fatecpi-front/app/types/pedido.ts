@@ -29,5 +29,6 @@ export interface PedidoResponse {
 	orcamento_id: number,
     servicos: Servicos[],
 	nome_usuario: string,
-	numero_telefone: string | null
+	numero_telefone: string | null,
+    feedback_fim_servico: Date | null
 }
