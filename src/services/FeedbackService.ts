@@ -11,27 +11,28 @@ export class FeedbackService {
             await client.query('BEGIN');
 
             const feedbackQuery = `
-                INSERT INTO feedback (pedido_id, entrega, atendimento, preco, fim_servico)
-                VALUES ($1, $2, $3, $4, DATE_TRUNC('second', NOW()))
-                RETURNING id;
-            `;
+            INSERT INTO feedback (pedido_id, entrega, atendimento, preco, fim_servico)
+            VALUES ($1, $2, $3, $4, DATE_TRUNC('second', NOW()))
+            RETURNING id;
+        `;
 
             const values = [pedido_id, entrega, atendimento, preco]
-            const resultFeedback = await pool.query(feedbackQuery, values)
+            // Mude de pool.query para client.query aqui
+            const resultFeedback = await client.query(feedbackQuery, values)
 
             const idFeedback = resultFeedback.rows[0].id;
 
             if (Array.isArray(pontos_positivos_id) && pontos_positivos_id.length > 0) {
-                const insertPositivo = pontos_positivos_id.map(ponto => pool.query(
-                    'insert into feedback_positivo (feedback_id, pontos_positivos_id) values ($1, $2)',
+                const insertPositivo = pontos_positivos_id.map(ponto => client!.query( // Mude de pool.query para client.query aqui
+                    'insert into feedback_positivo (feedback_id, positivo_id) values ($1, $2)',
                     [idFeedback, ponto]
                 ))
                 await Promise.all(insertPositivo);
             }
 
             if (Array.isArray(pontos_negativos_id) && pontos_negativos_id.length > 0) {
-                const insertNegativo = pontos_negativos_id.map(ponto => pool.query(
-                    'insert into feedback_negativo (feedback_id, pontos_negativos_id) values ($1, $2)',
+                const insertNegativo = pontos_negativos_id.map(ponto => client!.query( // Mude de pool.query para client.query aqui
+                    'insert into feedback_negativo (feedback_id, negativo_id) values ($1, $2)',
                     [idFeedback, ponto]
                 ))
 

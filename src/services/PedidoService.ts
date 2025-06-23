@@ -140,6 +140,7 @@ export class PedidoService {
         try {
             const query = `
                 select 
+                feedback.fim_servico as feedback_fim_servico,
                 pedido.id as pedido_id,
                 pedido.estado as status_pedido,
                 pedido.criado_em as pedido_data_inicio,
@@ -162,13 +163,14 @@ export class PedidoService {
                     'produto', sub_produto.nome
                     )
                 ) as servicos
-                from pedido
+                from feedback
+                right join pedido on feedback.pedido_id = pedido.id
                 join orcamento on pedido.orcamento_id = orcamento.id
                 join servico on servico.orcamento_id = orcamento.id
                 join sub_produto on servico.sub_produto_id = sub_produto.id
                 join usuario on orcamento.usuario_id = usuario.id
                 where pedido.id = $1
-                group by pedido.id, pedido.estado, pedido.criado_em, pedido.produzido_em, pedido.finalizado_em, orcamento.id, usuario.nome, usuario.numero_telefone;
+                group by feedback.fim_servico, pedido.id, pedido.estado, pedido.criado_em, pedido.produzido_em, pedido.finalizado_em, orcamento.id, usuario.nome, usuario.numero_telefone;
 
             `;
 
