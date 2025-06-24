@@ -10,11 +10,7 @@ $red-danger: #dc3545;
 
 .servico-card {
     background-color: $white;
-    border: 1px solid $light-blue;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    // width: 600px;
     margin-bottom: 20px; // Space between cards
     font-family: "Arial", sans-serif;
     gap: 15px; // Space between header, body, and footer
@@ -22,10 +18,12 @@ $red-danger: #dc3545;
     .article-header {
         font-size: 1.2em;
         font-weight: bold;
+        background-color: #0056b3;
         color: $primary-blue;
-        padding-bottom: 10px;
-        border-bottom: 1px solid $light-gray;
-        text-align: center; // Center the Service ID
+        margin-bottom: .5rem;
+        padding: 1rem;
+        border-radius: .5rem;
+        color: white;
     }
 
     .article-body {
@@ -34,6 +32,9 @@ $red-danger: #dc3545;
         align-items: center;
         gap: 0.5rem;
         width: 100%;
+        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.1);
+        padding: 1rem .7rem;
+        border: .5rem;
 
         .article-body-item {
             display: flex;

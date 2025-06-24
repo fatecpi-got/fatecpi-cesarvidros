@@ -8,17 +8,30 @@ $medium-gray: #6c757d; // A medium gray for text
 $dark-gray: #343a40; // A dark gray for headings and strong text
 $red-danger: #dc3545; // Red for the "Recusar" button
 
+@mixin card-shadow {
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.075);
+  border: 0.2rem solid rgba(0, 0, 0, 0.075);
+}
+
 .orcamento-especifico-user {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
   gap: 1rem;
-  background-color: $light-gray;
+  padding: 1rem;
+
+  .message-finalizado {
+    p {
+      text-align: center;
+      font-size: 1.2rem;
+      color: black;
+    }
+  }
 
   .orcamentos-a-formalizar,
   .orcamento-em-andamento {
     background-color: $white;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    @include card-shadow();
     padding: 25px;
     display: flex;
     flex-direction: column;
@@ -144,6 +157,6 @@ $red-danger: #dc3545; // Red for the "Recusar" button
   .orcamento-especifico-user {
     display: flex;
     flex-direction: column;
-    padding: .5rem;
+    padding: 0.5rem;
   }
 }

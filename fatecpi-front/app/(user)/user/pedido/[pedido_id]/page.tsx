@@ -43,7 +43,6 @@ export default function PedidoDetailPage() {
 
   return (
     <section className="pedido-detail">
-      <h2>Pedido #{pedido_id}</h2>
       <article className="pedido-info">
         <section className="dados-pedido">
           <h2 className="title-dado">Dados do Pedido</h2>
@@ -116,10 +115,16 @@ export default function PedidoDetailPage() {
           )}
         </section>
       </article>
-      {pedido.status_pedido === 'finalizado' && pedido.feedback_fim_servico == null ? (
+      {pedido.status_pedido === "finalizado" &&
+      pedido.feedback_fim_servico == null ? (
         <ModalFeedback pedido_id={pedido_id} />
       ) : (
-        <div className="message">Pedido já avaliado</div>
+        <div className="message-feedback">
+          <div className="text">
+            <p>Pedido já avaliado</p>
+            <p>Agradeçemos pela preferência</p>
+          </div>
+        </div>
       )}
     </section>
   );

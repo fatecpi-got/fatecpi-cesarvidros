@@ -9,7 +9,8 @@ $text-color: #343a40; // Cor do texto principal
 
 /* Mixin para sombreamento */
 @mixin card-shadow {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.075);
+  border: 0.2rem solid rgba(0, 0, 0, 0.075);
 }
 
 /* Mixin para transições suaves */
@@ -22,9 +23,11 @@ $text-color: #343a40; // Cor do texto principal
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; // Garante que a página ocupe a altura total da viewport
+  min-height: 100vh;
   background-color: $background-color;
-  padding: 1.5rem; // Padding geral para a página
+  padding: 1.5rem;
+  font-style: normal;
+  font-family: "Times New Roman", Times, serif;
 
   .welcome-budget {
     text-align: center;
@@ -114,6 +117,11 @@ $text-color: #343a40; // Cor do texto principal
           color: $error-color;
           font-size: 0.875rem;
           margin-top: 0.5rem;
+
+          p {
+            margin: .5rem;
+
+          }
         }
       }
     }
@@ -155,47 +163,61 @@ $text-color: #343a40; // Cor do texto principal
 
     .title-container-carrinho {
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      margin: 2.5rem;
+      font-size: 2rem;
     }
 
     .container-carrinho {
       width: 100%;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(600px, 1fr));
       gap: 1rem;
       place-items: center;
 
       .item-carrinho {
-        box-shadow: 0 0 1rem rgba(0, 0, 0, 0.075);
-        border: 0.2rem solid rgba(0, 0, 0, 0.075);
         border-radius: 1rem;
         width: 80%;
 
         .title-item-carrinho {
+          box-shadow: 0 0 0.4rem $primary-color;
           background-color: $primary-color;
-          padding: 0.5rem;
+          border: 0.2rem solid $primary-color;
+          padding: 1rem;
+          text-align: center;
           color: white;
-          border-radius: 1rem 1rem 0 0;
+          border-radius: 1rem;
+          margin-bottom: 0.5rem;
         }
 
         .body-item-carrinho {
           padding: 1rem;
+          border-radius: 1rem;
+          @include card-shadow();
 
           p {
             padding: 0.5rem;
-            border: 0.1rem solid black;
             border-radius: 0.5rem;
             margin: 0.5rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+
+            span {
+              &:nth-child(1) {
+                font-weight: 600;
+              }
+            }
           }
         }
       }
     }
 
-    .error-message {
-      font-size: 1.4rem;
+    .error-message {      
+      p {
+        margin: .5rem 0;
+        font-size: 1.2rem;
+        text-align: center;
+      }
     }
   }
   .button {
@@ -310,6 +332,8 @@ $text-color: #343a40; // Cor do texto principal
       .title-container-carrinho {
         text-transform: uppercase;
         margin-bottom: 1.5rem;
+        text-align: center;
+        font-size: 1.5rem;
 
         h1 {
           font-size: 1.7rem;

@@ -63,7 +63,7 @@ export default function PedidoDetailPage() {
 
   return (
     <section className="pedido-detail">
-      <h2>Pedido #{pedido_id}</h2>
+      <h2>Pedido #{pedido_id} detalhado</h2>
       <article className="pedido-info">
         <section className="dados-pedido">
           <h2 className="title-dado">Dados do Pedido</h2>
@@ -107,27 +107,29 @@ export default function PedidoDetailPage() {
               {pedido.servicos.map((servico) => (
                 <div key={servico.servico_id} className="servico-item">
                   <h3>Serviço #{servico.servico_id}</h3>
-                  <p>
-                    <span>Produto:</span> {servico.produto}
-                  </p>
-                  <p>
-                    <span>Cor do Vidro:</span> {servico.cor_vidro}
-                  </p>
-                  <p>
-                    <span>Cor do Alumínio:</span> {servico.cor_aluminio}
-                  </p>
-                  <p>
-                    <span>Largura:</span> {servico.largura} cm
-                  </p>
-                  <p>
-                    <span>Altura:</span> {servico.altura} cm
-                  </p>
-                  <p>
-                    <span>Fechadura:</span> {servico.fechadura}
-                  </p>
-                  <p>
-                    <span>Puxador:</span> {servico.puxador}
-                  </p>
+                  <div className="body-dados-servicos">
+                    <p>
+                      <span>Produto:</span> {servico.produto}
+                    </p>
+                    <p>
+                      <span>Cor do Vidro:</span> {servico.cor_vidro}
+                    </p>
+                    <p>
+                      <span>Cor do Alumínio:</span> {servico.cor_aluminio}
+                    </p>
+                    <p>
+                      <span>Largura:</span> {servico.largura} cm
+                    </p>
+                    <p>
+                      <span>Altura:</span> {servico.altura} cm
+                    </p>
+                    <p>
+                      <span>Fechadura:</span> {servico.fechadura}
+                    </p>
+                    <p>
+                      <span>Puxador:</span> {servico.puxador}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>

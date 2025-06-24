@@ -166,11 +166,9 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
       pontosNegativosSelecionados: selectedNegativePoints,
     };
 
-    console.log("Dados de feedback a serem enviados:", feedbackData);
-
     try {
       const response = await CreateFeedback(
-        "http://localhost:3001/api/feedback/create",
+        `${API_URL}/api/feedback/create`,
         feedbackData.pedido_id,
         feedbackData.entrega,
         feedbackData.atendimento,
@@ -237,7 +235,7 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
           {/* Pontos Positivos */}
           <div className="points-section positive-points-section">
             <h3 className="points-section-title">
-              O que você mais gostou? (Escolha até 3)
+              O que você mais gostou? <span>(Escolha até 3)</span>
             </h3>
             <div className="points-checkbox-group">
               {pontosPositivos.map((ponto) => (
@@ -257,7 +255,7 @@ export default function ModalFeedback({ pedido_id }: { pedido_id: number }) {
           {/* Pontos Negativos */}
           <div className="points-section negative-points-section">
             <h3 className="points-section-title">
-              O que poderia melhorar? (Escolha até 3)
+              O que poderia melhorar? <span>(Escolha até 3)</span>
             </h3>
             <div className="points-checkbox-group">
               {pontosNegativos.map((ponto) => (

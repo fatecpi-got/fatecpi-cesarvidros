@@ -377,7 +377,7 @@ export default function BudgetPage() {
       </form>
       <div className="servicos-container-carrinho">
         <div className="title-container-carrinho">
-          <h1>Serviços a requisitar</h1>
+          Serviços a requisitar
         </div>
         {servicos.length > 0 ? (
           <div className="container-carrinho">
@@ -422,7 +422,8 @@ export default function BudgetPage() {
           </div>
         ) : (
           <div className="error-message">
-            <p>Não há serviços a requisitar</p>
+            <p>Seu carrinho está vazio</p>
+            <p>Por gentileza, solicite algum serviço</p>
           </div>
         )}
       </div>

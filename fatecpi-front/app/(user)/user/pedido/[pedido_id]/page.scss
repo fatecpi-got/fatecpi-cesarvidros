@@ -1,12 +1,12 @@
 // Variáveis SCSS para tons de azul e branco
-$primary-blue: #007bff;     // Azul principal para botões, títulos
-$dark-blue: #0056b3;        // Azul mais escuro para hover
-$light-blue: #e0f2fe;       // Azul muito claro para fundos sutis
-$text-blue: #212529;        // Azul quase preto para texto principal
-$white: #ffffff;            // Branco para fundos de cards, texto em botões
-$off-white: #f8f9fa;        // Branco suave para fundo geral
-$border-color: #dee2e6;     // Cinza claro para bordas
-$light-grey-text: #6c757d;  // Cinza para texto secundário/informações
+$primary-blue: #007bff; // Azul principal para botões, títulos
+$dark-blue: #0056b3; // Azul mais escuro para hover
+$light-blue: #e0f2fe; // Azul muito claro para fundos sutis
+$text-blue: #212529; // Azul quase preto para texto principal
+$white: #ffffff; // Branco para fundos de cards, texto em botões
+$off-white: #f8f9fa; // Branco suave para fundo geral
+$border-color: #dee2e6; // Cinza claro para bordas
+$light-grey-text: #6c757d; // Cinza para texto secundário/informações
 $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
 
 // Mixins para reutilização de estilos
@@ -55,8 +55,34 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
 
 .pedido-detail {
   background-color: $off-white;
-  padding: 30px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
   min-height: 100vh; // Garante que o fundo cubra a altura da viewport
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .message-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    .text {
+      background-color: #007bff;
+      padding: 1rem;
+      border-radius: 1rem;
+
+      p {
+        color: white;
+        font-size: 1.8rem;
+        margin: 0.5rem 0;
+      }
+    }
+  }
 
   h2 {
     font-size: 2.5rem;
@@ -64,7 +90,7 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
     text-align: center;
     margin-bottom: 30px;
     font-weight: 800;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
 
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -74,19 +100,22 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
 }
 
 .pedido-info {
-  display: grid;
-  grid-template-columns: 1fr 2fr; // Dados do Pedido em 1 coluna, Serviços em 2
-  gap: 30px;
-  max-width: 1200px;
-  margin: 0 auto; // Centraliza o conteúdo
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr; // Uma única coluna em telas menores
+  @media (max-width: 768px) {
+    align-items: center;
   }
 }
 
 .dados-pedido {
   @include card-style;
+  height: min-content;
+
+  @media (max-width: 992px) {
+    width: 90vw;
+  }
 
   .title-dado {
     @include section-title;
@@ -105,6 +134,12 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
       line-height: 1.6;
       margin-bottom: 8px; // Espaçamento entre os parágrafos
 
+      @media (max-width: 768px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
       span {
         font-weight: 600;
         color: $primary-blue;
@@ -116,6 +151,11 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
 
 .dados-servicos {
   @include card-style;
+  height: 100%;
+
+  @media (max-width: 992px) {
+    width: 90vw;
+  }
 
   .title-dado {
     @include section-title;
@@ -132,13 +172,18 @@ $shadow-light: rgba(0, 0, 0, 0.08); // Sombra suave
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // Responsivo para serviços
     gap: 20px;
 
+    @media (max-width: 992px) {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
     .servico-item {
       background-color: $off-white;
       border: 1px solid $border-color;
       border-radius: 6px;
       padding: 15px;
       transition: all 0.2s ease-in-out;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
       &:hover {
         border-color: $primary-blue;
