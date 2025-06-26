@@ -1,5 +1,5 @@
 /* Variáveis para cores */
-$primary-color: #007bff; // Um azul padrão para botões e destaques
+$primary-color: #007BFF; // Um azul padrão para botões e destaques
 $secondary-color: #6c757d; // Cor secundária para texto ou bordas
 $background-color: #f8f9fa; // Cor de fundo suave para a página
 $card-background: #ffffff; // Fundo de cartões ou formulários
@@ -302,6 +302,7 @@ $text-color: #343a40; // Cor do texto principal
       padding: 1rem;
 
       .form-title {
+        margin-top: .5rem;
         margin-bottom: 1.5rem;
         .form-title-text {
           font-size: 1.75rem;
@@ -341,7 +342,7 @@ $text-color: #343a40; // Cor do texto principal
       }
 
       .container-carrinho {
-        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
         .item-carrinho {
           width: 100%;

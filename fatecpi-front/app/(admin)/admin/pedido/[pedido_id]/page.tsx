@@ -37,7 +37,7 @@ export default function PedidoDetailPage() {
   }, [fetchPedido, pedido_id]);
 
   if (!pedido) {
-    return <div className="loading">Carregando...</div>;
+    return <div className="loading-message">Carregando...</div>;
   }
 
   const updatePedido = async (pedido_id: number, status: string) => {

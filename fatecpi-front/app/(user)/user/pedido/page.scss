@@ -5,6 +5,10 @@
     width: 100%;
     background-color: #f8f9fa;
 
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+
     h1 {
         font-size: 2rem;
         color: #343a40;
@@ -66,7 +70,7 @@
                         margin-bottom: 0.5rem;
 
                         p {
-                            margin: .5rem 0;
+                            margin: 0.5rem 0;
                         }
                     }
                 }

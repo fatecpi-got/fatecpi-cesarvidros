@@ -33,9 +33,7 @@ export default function Servicos() {
 
   const fetchData = async () => {
     try {
-      const response = await getAllServicos(
-        `${API_URL}/api/servico/get-all`
-      );
+      const response = await getAllServicos(`${API_URL}/api/servico/get-all`);
       const data: Servico[] = await response.json();
 
       setServicosAndamento(data.filter((s) => s.estado === "em andamento"));
@@ -58,89 +56,117 @@ export default function Servicos() {
       {/* Ou seja, não permite valores duplicados */}
       <section className="andamento">
         <h1 className="title-servicos">Serviços para orçar</h1>
-        <div className="servicos">
-          {[
-            ...new Set(
-              servicosAndamento.map((servico) => servico.orcamento_id)
-            ),
-          ].map((orcamentoId) => (
-            <div key={orcamentoId} className="grupo-orcamento">
-              <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
-              <div className="lista-servicos">
-                {servicosAndamento
-                  .filter((servico) => servico.orcamento_id === orcamentoId)
-                  .map((servico) => (
-                    <ServiceCard
-                      key={servico.id}
-                      service={servico}
-                      onActionComplete={fetchData}
-                    />
-                  ))}
+
+        {servicosAndamento.length === 0 ? (
+          <div className="message">Não há nenhum serviço em andamento</div>
+        ) : (
+          <div className="servicos">
+            {[
+              ...new Set(
+                servicosAndamento.map((servico) => servico.orcamento_id)
+              ),
+            ].map((orcamentoId) => (
+              <div key={orcamentoId} className="grupo-orcamento">
+                <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
+                <div className="lista-servicos">
+                  {servicosAndamento
+                    .filter((servico) => servico.orcamento_id === orcamentoId)
+                    .map((servico) => (
+                      <ServiceCard
+                        key={servico.id}
+                        service={servico}
+                        onActionComplete={fetchData}
+                      />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
+
+      <div className="separator"></div>
+
       <section className="aceito">
         <h1 className="title-servicos">Serviços aceitos</h1>
-        <div className="servicos">
-          {[
-            ...new Set(servicosAceitos.map((servico) => servico.orcamento_id)),
-          ].map((orcamentoId) => (
-            <div key={orcamentoId} className="grupo-orcamento">
-              <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
-              <div className="lista-servicos">
-                {servicosAceitos
-                  .filter((servico) => servico.orcamento_id === orcamentoId)
-                  .map((servico) => (
-                    <ServiceCard key={servico.id} service={servico} />
-                  ))}
+        {servicosAceitos.length === 0 ? (
+          <div className="message">Não há nenhum serviço aceito</div>
+        ) : (
+          <div className="servicos">
+            {[
+              ...new Set(
+                servicosAceitos.map((servico) => servico.orcamento_id)
+              ),
+            ].map((orcamentoId) => (
+              <div key={orcamentoId} className="grupo-orcamento">
+                <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
+                <div className="lista-servicos">
+                  {servicosAceitos
+                    .filter((servico) => servico.orcamento_id === orcamentoId)
+                    .map((servico) => (
+                      <ServiceCard key={servico.id} service={servico} />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
+
+      <div className="separator"></div>
+
       <section className="rejeitado">
         <h1 className="title-servicos">Serviços rejeitados</h1>
-        <div className="servicos">
-          {[
-            ...new Set(
-              servicosRejeitados.map((servico) => servico.orcamento_id)
-            ),
-          ].map((orcamentoId) => (
-            <div key={orcamentoId} className="grupo-orcamento">
-              <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
-              <div className="lista-servicos">
-                {servicosRejeitados
-                  .filter((servico) => servico.orcamento_id === orcamentoId)
-                  .map((servico) => (
-                    <ServiceCard key={servico.id} service={servico} />
-                  ))}
+        {servicosRejeitados.length === 0 ? (
+          <div className="message">Não há nenhum serviço rejeitado</div>
+        ) : (
+          <div className="servicos">
+            {[
+              ...new Set(
+                servicosRejeitados.map((servico) => servico.orcamento_id)
+              ),
+            ].map((orcamentoId) => (
+              <div key={orcamentoId} className="grupo-orcamento">
+                <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
+                <div className="lista-servicos">
+                  {servicosRejeitados
+                    .filter((servico) => servico.orcamento_id === orcamentoId)
+                    .map((servico) => (
+                      <ServiceCard key={servico.id} service={servico} />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
+
+      <div className="separator"></div>
+
       <section className="devolvido">
         <h1 className="title-servicos">Serviços em haver</h1>
-        <div className="servicos">
-          {[
-            ...new Set(
-              servicosDevolvidos.map((servico) => servico.orcamento_id)
-            ),
-          ].map((orcamentoId) => (
-            <div key={orcamentoId} className="grupo-orcamento">
-              <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
-              <div className="lista-servicos">
-                {servicosDevolvidos
-                  .filter((servico) => servico.orcamento_id === orcamentoId)
-                  .map((servico) => (
-                    <ServiceCard key={servico.id} service={servico} />
-                  ))}
+        {servicosDevolvidos.length === 0 ? (
+          <div className="message">Não há nenhum serviço devolvido</div>
+        ) : (
+          <div className="servicos">
+            {[
+              ...new Set(
+                servicosDevolvidos.map((servico) => servico.orcamento_id)
+              ),
+            ].map((orcamentoId) => (
+              <div key={orcamentoId} className="grupo-orcamento">
+                <h2 className="orcamento-title">Orçamento ID: {orcamentoId}</h2>
+                <div className="lista-servicos">
+                  {servicosDevolvidos
+                    .filter((servico) => servico.orcamento_id === orcamentoId)
+                    .map((servico) => (
+                      <ServiceCard key={servico.id} service={servico} />
+                    ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );

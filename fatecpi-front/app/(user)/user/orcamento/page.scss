@@ -14,6 +14,10 @@ $red-danger: #dc3545; // Keeping this for consistency
   padding: 1rem 2rem;
   gap: 1rem;
   background-color: $light-gray; // Subtle background for the page
+
+  @media (max-width: 768px) {
+    grid-template-columns: none;
+  }
 }
 
 .orcamento-devolutiva-user {
@@ -130,7 +134,9 @@ $red-danger: #dc3545; // Keeping this for consistency
   border-radius: 5px;
   font-size: 1em;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease; /* Transições suaves */
 }
 
 .request-orcamento-button:hover {
